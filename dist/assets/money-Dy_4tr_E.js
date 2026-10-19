@@ -1,0 +1,1 @@
+var e=new Intl.NumberFormat(`es-BO`,{minimumFractionDigits:2,maximumFractionDigits:2});function t(t,n=`BOB`){if(t==null||t===``)return`No disponible`;let r=Number(t);return Number.isFinite(r)?`${e.format(r)} ${n}`:typeof t==`string`?t:String(t)}export{t};
