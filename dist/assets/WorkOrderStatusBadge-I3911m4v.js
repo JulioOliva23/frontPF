@@ -1,1 +1,0 @@
-import{j as e}from"./index-CJTKCW3z.js";import{a as t,i as n}from"./work-order-status-Dl4N9Dku.js";import{t as r}from"./Badge-BCMyWxyE.js";var i=e();function a({status:e,size:a=`md`}){return(0,i.jsx)(r,{variant:t[e],size:a,dot:!0,children:n[e]})}export{a as t};
