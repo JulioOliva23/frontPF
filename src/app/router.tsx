@@ -1,0 +1,48 @@
+import { createBrowserRouter, Navigate, type RouteObject } from 'react-router';
+
+import { ProtectedRoute } from '../features/auth/components/ProtectedRoute';
+import { FRONT_DESK_ROLES, LOGIN_ROUTE, STAFF_ROLES } from '../features/auth/config/role-routes';
+import { LoginPage } from '../features/auth/pages/LoginPage';
+import { AppLayout } from './app-layout';
+import { HomeRedirect } from './home-redirect';
+
+// FE-07: route map. Every staff route sits behind ProtectedRoute with the same
+// role groups used by the sidebar (navigation.tsx).
+export const routes: RouteObject[] = [
+  { path: LOGIN_ROUTE, element: <LoginPage /> },
+  { path: '/login', element: <Navigate to={LOGIN_ROUTE} replace /> },
+  {
+    // SUP-05: public (number + tracking code) and CUSTOMER session.
+    path: '/portal-cliente',
+    lazy: async () => ({ Component: (await import('../features/customer-portal/pages/CustomerPortalPage')).CustomerPortalPage }),
+  },
+  { path: '/tracking', element: <Navigate to="/portal-cliente" replace /> },
+  {
+    path: '/',
+    element: <AppLayout />,
+    children: [
+      { index: true, element: <HomeRedirect /> },
+      {
+        element: <ProtectedRoute allowedRoles={STAFF_ROLES} />,
+        children: [
+          { path: 'ordenes', lazy: async () => ({ Component: (await import('../features/work-orders/pages/WorkOrdersPage')).WorkOrdersPage }) },
+          { path: 'ordenes/:id', lazy: async () => ({ Component: (await import('../features/work-orders/pages/WorkOrderDetailPage')).WorkOrderDetailPage }) },
+        ],
+      },
+      {
+        // RN-07: technicians never reach budgets nor inventory.
+        element: <ProtectedRoute allowedRoles={FRONT_DESK_ROLES} />,
+        children: [
+          { path: 'ordenes/nueva', lazy: async () => ({ Component: (await import('../features/work-orders/pages/CheckInPage')).CheckInPage }) },
+          { path: 'presupuestos', lazy: async () => ({ Component: (await import('../features/budgets/pages/BudgetsPage')).BudgetsPage }) },
+          { path: 'presupuestos/:workOrderId', lazy: async () => ({ Component: (await import('../features/budgets/pages/BudgetEditorPage')).BudgetEditorPage }) },
+          { path: 'inventario', lazy: async () => ({ Component: (await import('../features/inventory/pages/InventoryPage')).InventoryPage }) },
+          { path: 'inventario/alertas', lazy: async () => ({ Component: (await import('../features/inventory/pages/LowStockPage')).LowStockPage }) },
+        ],
+      },
+      { path: '*', element: <HomeRedirect /> },
+    ],
+  },
+];
+
+export const router = createBrowserRouter(routes);

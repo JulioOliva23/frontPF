@@ -1,0 +1,21 @@
+import { type ClassValue, clsx } from 'clsx'
+import { twMerge } from 'tailwind-merge'
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+
+// Requirement codes (RN-xx, SUP-xx...) are for developers, never shown to users.
+const ERROR_CODE_LEADING = /^\s*(?:US|HU|RN|FE|BE|SUP)-\d+\s*:?\s*/i
+const ERROR_CODE_INLINE = /\s*\(?(?:US|HU|RN|FE|BE|SUP)-\d+\)?:?\s*/gi
+
+export function cleanServerMessage(message: unknown): string {
+  const text = typeof message === 'string' && message.trim() ? message.trim() : ''
+  if (!text) return ''
+  return text
+    .replace(ERROR_CODE_LEADING, '')
+    .replace(ERROR_CODE_INLINE, ' ')
+    .replace(/\s+([.,;:!?])/g, '$1')
+    .replace(/\s{2,}/g, ' ')
+    .trim()
+}
