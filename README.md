@@ -4,8 +4,8 @@ SPA del **Sistema de Gestión para Servicio Técnico de Celulares**. Recepción,
 
 | Parte | Repositorio | URL desplegada |
 | --- | --- | --- |
-| Frontend (React) | este repo | _pendiente_ |
-| Backend (NestJS) + base de datos | [JulioOliva23/ProyectoFinal](https://github.com/JulioOliva23/ProyectoFinal) | _pendiente_ |
+| Frontend (React) | este repo | https://front-pf-three.vercel.app |
+| Backend (NestJS) + base de datos | [JulioOliva23/backPF](https://github.com/JulioOliva23/backPF) | https://servicio-back.onrender.com/api/v1 · Swagger: https://servicio-back.onrender.com/api |
 
 ## Equipo
 
@@ -58,7 +58,7 @@ src/
 
 ## Ejecutar en local
 
-Requisitos: Node.js 24, npm 11 y el [backend](https://github.com/JulioOliva23/ProyectoFinal) corriendo en `http://localhost:3000`.
+Requisitos: Node.js 24, npm 11 y el [backend](https://github.com/JulioOliva23/backPF) corriendo en `http://localhost:3000`.
 
 ```bash
 cp .env.example .env.local
