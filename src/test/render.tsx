@@ -28,13 +28,15 @@ interface Options {
   route?: string;
   path?: string;
   extraRoutes?: ReactNode;
+  // Overrides for the fake session (e.g. a spy on login/logout).
+  auth?: Partial<AuthContextValue>;
 }
 
-export function renderWithProviders(ui: ReactElement, { role = 'RECEPTIONIST', userId, route = '/', path = '/', extraRoutes }: Options = {}) {
+export function renderWithProviders(ui: ReactElement, { role = 'RECEPTIONIST', userId, route = '/', path = '/', extraRoutes, auth }: Options = {}) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: 0 }, mutations: { retry: false } } });
   return render(
     <QueryClientProvider client={queryClient}>
-      <AuthContext.Provider value={fakeAuth(role, userId)}>
+      <AuthContext.Provider value={{ ...fakeAuth(role, userId), ...auth }}>
         <ToastProvider>
           <MemoryRouter initialEntries={[route]}>
             <Routes>
