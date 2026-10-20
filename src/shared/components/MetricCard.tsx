@@ -19,7 +19,7 @@ export function MetricCard({ title, value, subtitle, icon, variant = 'default', 
       ? 'bg-red-50 text-red-700 border border-red-200'
       : variant === 'warning'
         ? 'bg-amber-50 text-amber-700 border border-amber-200'
-        : 'bg-lime-50 text-lime-700 border border-lime-200'
+        : 'bg-cyan-50 text-cyan-700 border border-cyan-200'
     : 'bg-[#F9731615] text-[#F97316] border border-[#F9731630]';
 
   const valueStyle = isLight

@@ -5,7 +5,7 @@ const fieldBaseClasses = [
   'border border-slate-200 rounded-[11px]',
   'outline-none bg-white text-slate-900',
   'transition-[border-color,box-shadow] duration-150',
-  'focus:border-lime-600 focus:ring-[3px] focus:ring-lime-600/15',
+  'focus:border-cyan-600 focus:ring-[3px] focus:ring-cyan-600/15',
   'aria-[invalid=true]:border-red-500',
   'placeholder:text-slate-400',
 ].join(' ');

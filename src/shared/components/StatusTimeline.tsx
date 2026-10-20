@@ -41,7 +41,7 @@ export function StatusTimeline({ steps, currentKey, interruptedLabel, className 
                 state === 'done'
                   ? 'border-emerald-500 bg-emerald-500 text-white'
                   : state === 'current'
-                    ? 'border-lime-500 bg-lime-400 text-lime-950 ring-4 ring-lime-100'
+                    ? 'border-cyan-500 bg-cyan-400 text-cyan-950 ring-4 ring-cyan-100'
                     : 'border-slate-300 bg-white text-slate-400'
               }`}
             >

@@ -22,7 +22,7 @@ function Queue({ status, title, description }: { status: WorkOrderStatus; title:
       <ul className="grid gap-2 md:grid-cols-2">
         {data?.data.map((order) => (
           <li key={order.id}>
-            <Link to={`/presupuestos/${order.id}`} className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white p-3 hover:border-lime-400">
+            <Link to={`/presupuestos/${order.id}`} className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white p-3 hover:border-cyan-400">
               <span>
                 <span className="block text-sm font-extrabold">{formatWorkOrderNumber(order.number)}</span>
                 <span className="block text-xs text-slate-600">

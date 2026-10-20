@@ -15,7 +15,7 @@ export function CustomerOrderStatus({ order }: { order: CustomerWorkOrderStatus 
           <p className="text-xs font-bold uppercase tracking-widest text-slate-400">{formatWorkOrderNumber(order.number)}</p>
           <h2 className="text-lg font-extrabold">{order.device}</h2>
         </div>
-        <p className="rounded-full bg-lime-100 px-3 py-1 text-sm font-bold text-lime-900">{order.statusLabel}</p>
+        <p className="rounded-full bg-cyan-100 px-3 py-1 text-sm font-bold text-cyan-900">{order.statusLabel}</p>
       </header>
       <StatusTimeline steps={STEPS} currentKey={order.status} interruptedLabel={order.status === 'CANCELLED' ? 'La reparación fue cancelada. Puede retirar su equipo en el local.' : undefined} />
       <dl className="grid gap-3 text-sm sm:grid-cols-3">

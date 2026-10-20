@@ -30,6 +30,22 @@
 }
 
 ::selection {
-  background: #bef264;
-  color: #1a2e05;
+  background: #67e8f9;
+  color: #083344;
+}
+
+/* Faint circuit-style grid for the tech look; tones are slate-200 / slate-800. */
+@utility bg-tech-grid {
+  background-image:
+    linear-gradient(to right, rgb(226 232 240 / 0.6) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(226 232 240 / 0.6) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+@utility bg-tech-grid-dark {
+  background-image:
+    radial-gradient(circle at 50% 0%, rgb(34 211 238 / 0.18), transparent 60%),
+    linear-gradient(to right, rgb(30 41 59 / 0.7) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(30 41 59 / 0.7) 1px, transparent 1px);
+  background-size: 100% 100%, 32px 32px, 32px 32px;
 }
