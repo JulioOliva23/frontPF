@@ -79,7 +79,13 @@ Solo van variables públicas `VITE_*`; ningún secreto se incluye en el bundle. 
 
 ### Despliegue
 
-`npm run build` genera `dist/`, un sitio estático. Configura `VITE_API_URL` con la URL del backend en el proveedor y agrega la URL del frontend a `CORS_ORIGINS` del backend. Como es una SPA, el proveedor debe reescribir todas las rutas a `index.html`.
+Desplegado en [Vercel](https://vercel.com) con [`vercel.json`](vercel.json) (build de Vite y reescritura de todas las rutas a `index.html`, necesaria para la SPA).
+
+1. En Vercel: *Add New → Project*, importar este repo (Vercel detecta Vite).
+2. En *Environment Variables* agregar `VITE_API_URL=https://<backend>.onrender.com/api/v1` y desplegar. Si la cambias después, hay que redesplegar porque Vite la incrusta en el build.
+3. Agregar la URL de Vercel a `CORS_ORIGINS` del backend en Render.
+
+Cada push a `main` despliega a producción y cada PR obtiene una URL de preview.
 
 ## Scripts
 
