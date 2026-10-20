@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+# Delegates to the versioned hook so CI and local runs share one script.
+exec "$(git rev-parse --show-toplevel)/scripts/hooks/hook-pre-commit.sh"

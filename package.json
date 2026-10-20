@@ -5,6 +5,7 @@
   "type": "module",
   "description": "Servicio Técnico de Celulares · Frontend (React + Vite + TypeScript)",
   "scripts": {
+    "prepare": "git config core.hooksPath .githooks || true",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
