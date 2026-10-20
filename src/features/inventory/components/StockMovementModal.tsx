@@ -29,8 +29,12 @@ function EntryForm({ part, onClose }: { part: SparePart; onClose: () => void }) 
       noValidate
       className="grid gap-4"
       onSubmit={handleSubmit(async (values) => {
-        await entry.mutateAsync({ id: part.id, payload: { quantity: values.quantity, reason: values.reason || undefined } });
-        onClose();
+        try {
+          await entry.mutateAsync({ id: part.id, payload: { quantity: values.quantity, reason: values.reason || undefined } });
+          onClose();
+        } catch {
+          // Shown below from entry.error.
+        }
       })}
     >
       <FormField id="entry-quantity" label="Unidades recibidas" type="number" min={1} error={formState.errors.quantity?.message} {...register('quantity', { valueAsNumber: true })} />
@@ -56,8 +60,12 @@ function AdjustmentForm({ part, onClose }: { part: SparePart; onClose: () => voi
       noValidate
       className="grid gap-4"
       onSubmit={handleSubmit(async (values) => {
-        await adjust.mutateAsync({ id: part.id, payload: { delta: values.direction === 'OUT' ? -values.quantity : values.quantity, reason: values.reason } });
-        onClose();
+        try {
+          await adjust.mutateAsync({ id: part.id, payload: { delta: values.direction === 'OUT' ? -values.quantity : values.quantity, reason: values.reason } });
+          onClose();
+        } catch {
+          // Shown below from adjust.error.
+        }
       })}
     >
       <fieldset className="flex gap-2">

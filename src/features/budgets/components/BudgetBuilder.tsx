@@ -53,8 +53,12 @@ export function BudgetBuilder({ workOrderId, deviceModelId, deviceLabel, onCreat
   };
 
   const onSubmit = async (values: BudgetFormValues) => {
-    await create.mutateAsync(toCreateBudgetPayload(values));
-    onCreated();
+    try {
+      await create.mutateAsync(toCreateBudgetPayload(values));
+      onCreated();
+    } catch {
+      // Shown below from create.error; rethrowing would be an unhandled rejection.
+    }
   };
 
   return (

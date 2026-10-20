@@ -25,7 +25,7 @@ describe('cleanServerMessage', () => {
   });
 
   it('keeps plain user-facing messages unchanged', () => {
-    expect(cleanServerMessage('El vehículo fue entregado')).toBe('El vehículo fue entregado');
+    expect(cleanServerMessage('El equipo fue entregado')).toBe('El equipo fue entregado');
   });
 
   it('returns empty string for empty or non-string input', () => {
@@ -35,6 +35,6 @@ describe('cleanServerMessage', () => {
   });
 
   it('does not strip codes that are part of regular words', () => {
-    expect(cleanServerMessage('Uso de taller reservado')).toBe('Uso de taller reservado');
+    expect(cleanServerMessage('Uso de soldadura reservado')).toBe('Uso de soldadura reservado');
   });
 });

@@ -13,7 +13,7 @@ SPA del **Sistema de Gestión para Servicio Técnico de Celulares**. Recepción,
 | --- | --- |
 | Julio Oliva | [@JulioOliva23](https://github.com/JulioOliva23) |
 | Fabricio Pinto Lozada | [@fabriciopintolozada-11](https://github.com/fabriciopintolozada-11) |
-| Sergio Miguel Cisneros Salazar | [@sergiomiguelcisnerossalazar](https://github.com/sergiomiguelcisnerossalazar) |
+| Sergio Miguel Cisneros Salazar | [@sergioCisneros17](https://github.com/sergioCisneros17) |
 
 ## Stack
 

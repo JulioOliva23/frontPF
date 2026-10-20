@@ -114,7 +114,7 @@ export function InventoryPage() {
                 <th scope="col" className="px-4 py-3">Repuesto</th>
                 <th scope="col" className="px-4 py-3">Categoría</th>
                 {isAdmin && <th scope="col" className="px-4 py-3 text-right">Costo</th>}
-                <th scope="col" className="px-4 py-3 text-right">Precio taller</th>
+                <th scope="col" className="px-4 py-3 text-right">Precio al cliente</th>
                 <th scope="col" className="px-4 py-3 text-right">Disp. / Res. / Mín.</th>
                 <th scope="col" className="px-4 py-3">Estado</th>
                 <th scope="col" className="px-4 py-3">
