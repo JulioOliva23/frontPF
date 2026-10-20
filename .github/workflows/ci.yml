@@ -1,0 +1,57 @@
+# Continuous integration for frontPF: every push to main and every PR runs
+# lint, static types, the Vitest suite with coverage and the production build.
+# Vercel promotes a deployment to production only after these checks pass
+# (Project → Settings → Deployment Checks).
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Lint, types, tests & build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Tests
+        run: |
+          set -o pipefail
+          npx vitest run --coverage --coverage.reporter=text-summary 2>&1 | tee tests.log
+
+      - name: Build
+        env:
+          VITE_API_URL: https://servicio-back.onrender.com/api/v1
+        run: npm run build
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "## 🧪 Tests (Vitest)"
+            echo '```'
+            sed 's/\x1b\[[0-9;]*m//g' tests.log 2>/dev/null | grep -E 'Test Files|Tests |Statements|Branches|Functions|Lines' || echo "(no output)"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
