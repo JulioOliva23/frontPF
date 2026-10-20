@@ -20,7 +20,7 @@ export function AppSidebar({ items, onNavigate, onLogout }: AppSidebarProps) {
       <div className="flex-1 space-y-6 overflow-y-auto px-3 py-4">
         {groups.map(({ section, items: sectionItems }) => (
           <div key={section.id}>
-            <p className="mb-2 px-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">{section.label}</p>
+            <p className="mb-2 px-2 font-mono text-[10px] font-bold uppercase tracking-wider text-cyan-400/70">{section.label}</p>
             <ul className="space-y-1">
               {sectionItems.map((item) => {
                 const active = isItemActive(item, pathname, items);
@@ -32,7 +32,9 @@ export function AppSidebar({ items, onNavigate, onLogout }: AppSidebarProps) {
                       onClick={onNavigate}
                       aria-current={active ? 'page' : undefined}
                       className={`flex min-h-[44px] items-center gap-2.5 rounded-xl px-2.5 py-2 text-xs font-bold transition-all ${
-                        active ? 'bg-lime-400 text-lime-950 shadow-sm' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                        active
+                          ? 'bg-cyan-400 text-cyan-950 shadow-lg shadow-cyan-400/20'
+                          : 'text-slate-300 hover:bg-slate-800 hover:text-cyan-300'
                       }`}
                     >
                       {item.icon}
@@ -45,11 +47,11 @@ export function AppSidebar({ items, onNavigate, onLogout }: AppSidebarProps) {
           </div>
         ))}
       </div>
-      <div className="border-t border-slate-200 p-3">
+      <div className="border-t border-slate-800 p-3">
         <button
           type="button"
           onClick={onLogout}
-          className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-2.5 py-2 text-xs font-bold text-slate-500 transition-all hover:border-red-300 hover:text-red-600"
+          className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl border border-slate-700 bg-slate-900 px-2.5 py-2 text-xs font-bold text-slate-400 transition-all hover:border-red-400/60 hover:text-red-400"
         >
           <LogOut className="h-4 w-4" aria-hidden="true" />
           Cerrar sesión

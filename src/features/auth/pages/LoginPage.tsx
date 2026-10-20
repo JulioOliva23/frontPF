@@ -38,14 +38,14 @@ export function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-slate-950 bg-tech-grid-dark flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         <div className="flex flex-col items-center mb-8">
-          <div className="w-14 h-14 rounded-2xl bg-lime-400 flex items-center justify-center mb-4 shadow-lg shadow-lime-400/20">
-            <Smartphone className="w-7 h-7 text-lime-950" aria-hidden="true" />
+          <div className="w-14 h-14 rounded-2xl bg-cyan-400 flex items-center justify-center mb-4 shadow-lg shadow-cyan-400/40">
+            <Smartphone className="w-7 h-7 text-cyan-950" aria-hidden="true" />
           </div>
-          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Servicio Técnico</h1>
-          <p className="text-sm text-slate-500 mt-1">Gestión de reparación de celulares</p>
+          <h1 className="text-2xl font-extrabold text-white tracking-tight">Servicio Técnico</h1>
+          <p className="font-mono text-sm text-cyan-300/80 mt-1">Gestión de reparación de celulares</p>
         </div>
 
         <form
@@ -72,7 +72,7 @@ export function LoginPage() {
               type="text"
               autoComplete="username"
               {...register('username')}
-              className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-transparent transition-all"
+              className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all"
               placeholder="Ingrese su usuario"
             />
             {errors.username && (
@@ -89,7 +89,7 @@ export function LoginPage() {
               type="password"
               autoComplete="current-password"
               {...register('password')}
-              className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-transparent transition-all"
+              className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-300 text-slate-900 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all"
               placeholder="Ingrese su contraseña"
             />
             {errors.password && (
@@ -100,11 +100,11 @@ export function LoginPage() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-3 rounded-xl bg-lime-400 text-lime-950 font-bold text-sm hover:bg-lime-300 focus:outline-none focus:ring-2 focus:ring-lime-400 focus:ring-offset-2 focus:ring-offset-white transition-all disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
+            className="w-full py-3 rounded-xl bg-cyan-400 text-cyan-950 font-bold text-sm hover:bg-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-white transition-all disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
           >
             {isSubmitting ? (
               <span className="flex items-center justify-center gap-2">
-                <span className="w-4 h-4 border-2 border-lime-950 border-t-transparent rounded-full animate-spin" />
+                <span className="w-4 h-4 border-2 border-cyan-950 border-t-transparent rounded-full animate-spin" />
                 Ingresando...
               </span>
             ) : (
@@ -113,9 +113,9 @@ export function LoginPage() {
           </button>
         </form>
 
-        <p className="text-center text-xs text-slate-500 mt-6">
+        <p className="text-center text-xs text-slate-400 mt-6">
           ¿Dejaste tu equipo en reparación?{' '}
-          <Link to="/portal-cliente" className="font-bold text-lime-700 underline-offset-2 hover:underline">
+          <Link to="/portal-cliente" className="font-bold text-cyan-300 underline-offset-2 hover:underline">
             Consulta su estado con tu ticket
           </Link>
         </p>

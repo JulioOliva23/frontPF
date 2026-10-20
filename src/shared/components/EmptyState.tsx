@@ -23,7 +23,7 @@ export function EmptyState({ icon, title, description, actionLabel, onAction, to
     >
       <div
         className={`w-14 h-14 rounded-2xl border flex items-center justify-center mb-4 ${
-          isLight ? 'bg-lime-50 border-lime-200 text-lime-700' : 'bg-[#F9731615] border-[#F9731630] text-[#F97316]'
+          isLight ? 'bg-cyan-50 border-cyan-200 text-cyan-700' : 'bg-[#F9731615] border-[#F9731630] text-[#F97316]'
         }`}
       >
         {icon ?? <PackageOpen className="w-7 h-7" />}

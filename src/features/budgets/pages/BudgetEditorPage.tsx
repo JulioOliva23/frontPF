@@ -52,7 +52,7 @@ export function BudgetEditorPage() {
             {workOrder.device.brand} {workOrder.device.model} · {workOrder.customer.name}
           </p>
         </div>
-        <Link to={`/ordenes/${workOrder.id}`} className="text-xs font-bold text-lime-800 hover:underline">
+        <Link to={`/ordenes/${workOrder.id}`} className="text-xs font-bold text-cyan-800 hover:underline">
           Ver orden
         </Link>
       </header>
@@ -85,7 +85,7 @@ export function BudgetEditorPage() {
           <button
             type="button"
             onClick={() => setBuilding(true)}
-            className="min-h-[52px] rounded-2xl border-2 border-dashed border-slate-300 text-sm font-bold text-slate-600 hover:border-lime-500 hover:text-lime-800"
+            className="min-h-[52px] rounded-2xl border-2 border-dashed border-slate-300 text-sm font-bold text-slate-600 hover:border-cyan-500 hover:text-cyan-800"
           >
             + Nueva versión de presupuesto
           </button>

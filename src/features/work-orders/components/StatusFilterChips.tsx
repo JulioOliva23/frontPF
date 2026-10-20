@@ -23,7 +23,7 @@ export function StatusFilterChips({ value, onChange }: StatusFilterChipsProps) {
             aria-checked={selected}
             onClick={() => onChange(option.status)}
             className={`min-h-[40px] rounded-full border px-3 text-xs font-bold transition-all ${
-              selected ? 'border-lime-500 bg-lime-400 text-lime-950' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+              selected ? 'border-cyan-500 bg-cyan-400 text-cyan-950' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
             }`}
           >
             {option.label}

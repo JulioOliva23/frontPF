@@ -48,7 +48,7 @@ export function UnlockCodeField({ lockType, value, onChange, error }: UnlockCode
           aria-invalid={Boolean(error)}
           aria-describedby={error ? 'unlock-code-error' : 'unlock-code-hint'}
           maxLength={lockType === 'PIN' ? 16 : 64}
-          className="min-h-[44px] w-full rounded-[11px] border border-slate-200 bg-white px-[13px] text-sm outline-none focus:border-lime-600 focus:ring-[3px] focus:ring-lime-600/15 aria-[invalid=true]:border-red-500"
+          className="min-h-[44px] w-full rounded-[11px] border border-slate-200 bg-white px-[13px] text-sm outline-none focus:border-cyan-600 focus:ring-[3px] focus:ring-cyan-600/15 aria-[invalid=true]:border-red-500"
         />
       )}
       <span id="unlock-code-hint" className="text-[0.7rem] text-slate-500">

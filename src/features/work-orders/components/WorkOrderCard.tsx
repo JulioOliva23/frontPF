@@ -8,7 +8,7 @@ export function WorkOrderCard({ order, showStatus = true }: { order: WorkOrder; 
   return (
     <Link
       to={`/ordenes/${order.id}`}
-      className="block rounded-xl border border-slate-200 bg-white p-3 shadow-xs transition-all hover:border-lime-400 hover:shadow-sm"
+      className="block rounded-xl border border-slate-200 bg-white p-3 shadow-xs transition-all hover:border-cyan-400 hover:shadow-sm"
     >
       <div className="flex items-start justify-between gap-2">
         <span className="text-sm font-extrabold">{formatWorkOrderNumber(order.number)}</span>
