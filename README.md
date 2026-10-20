@@ -4,8 +4,8 @@ SPA del **Sistema de Gestión para Servicio Técnico de Celulares**. Recepción,
 
 | Parte | Repositorio | URL desplegada |
 | --- | --- | --- |
-| Frontend (React) | este repo | _pendiente_ |
-| Backend (NestJS) + base de datos | [JulioOliva23/ProyectoFinal](https://github.com/JulioOliva23/ProyectoFinal) | _pendiente_ |
+| Frontend (React) | este repo | https://front-pf-three.vercel.app |
+| Backend (NestJS) + base de datos | [JulioOliva23/backPF](https://github.com/JulioOliva23/backPF) | https://servicio-back.onrender.com/api/v1 · Swagger: https://servicio-back.onrender.com/api |
 
 ## Equipo
 
@@ -58,7 +58,7 @@ src/
 
 ## Ejecutar en local
 
-Requisitos: Node.js 24, npm 11 y el [backend](https://github.com/JulioOliva23/ProyectoFinal) corriendo en `http://localhost:3000`.
+Requisitos: Node.js 24, npm 11 y el [backend](https://github.com/JulioOliva23/backPF) corriendo en `http://localhost:3000`.
 
 ```bash
 cp .env.example .env.local
@@ -85,7 +85,7 @@ Desplegado en [Vercel](https://vercel.com) con [`vercel.json`](vercel.json) (bui
 2. En *Environment Variables* agregar `VITE_API_URL=https://<backend>.onrender.com/api/v1` y desplegar. Si la cambias después, hay que redesplegar porque Vite la incrusta en el build.
 3. Agregar la URL de Vercel a `CORS_ORIGINS` del backend en Render.
 
-Cada push a `main` despliega a producción y cada PR obtiene una URL de preview.
+Cada PR obtiene una URL de preview y `main` se despliega a producción cuando la CI pasa.
 
 ## Scripts
 
@@ -101,9 +101,26 @@ Cada push a `main` despliega a producción y cada PR obtiene una URL de preview.
 
 ## Calidad: hooks, CI y subagentes
 
-- **Hook pre-commit** ([`scripts/hooks/hook-pre-commit.sh`](scripts/hooks/hook-pre-commit.sh), activado por `npm install`): bloquea el commit si hay un `.env` en stage o si fallan lint, typecheck o tests.
-- **CI** ([`.github/workflows/hooks-and-agents.yml`](.github/workflows/hooks-and-agents.yml)), en cada push a `main` y en cada PR: corre el hook sobre el diff, los tests de Vitest y la validación de subagentes, y publica un reporte en el resumen del run.
-- **Subagentes** ([`.claude/agents/`](.claude/agents/)):
+### Hooks
+
+| Hook | Dónde | Qué hace |
+| --- | --- | --- |
+| Git `pre-commit` | [`scripts/hooks/hook-pre-commit.sh`](scripts/hooks/hook-pre-commit.sh) (se activa con `npm install`) | Bloquea el commit si hay un `.env` en stage o si fallan lint, typecheck o tests |
+| Claude Code `PreToolUse` | [`.claude/settings.json`](.claude/settings.json) → [`claude-guard.sh`](scripts/hooks/claude-guard.sh) | Impide que el agente lea o edite `.env` reales, corra comandos destructivos, `git push --force` o `git commit --no-verify` |
+| Claude Code `PostToolUse` | [`.claude/settings.json`](.claude/settings.json) → [`claude-post-edit.sh`](scripts/hooks/claude-post-edit.sh) | Tras cada edición en `src/` corre oxlint sobre el archivo y los tests de Vitest relacionados; si fallan, el agente recibe el error y lo corrige |
+
+### CI/CD
+
+| Workflow | Jobs | Cuándo |
+| --- | --- | --- |
+| [`ci.yml`](.github/workflows/ci.yml) | `quality`: lint, typecheck, Vitest con cobertura y build de producción | Push a `main` y cada PR |
+| [`hooks-and-agents.yml`](.github/workflows/hooks-and-agents.yml) | `git-hooks`: hook pre-commit sobre el diff · `claude-hooks`: prueba los casos permitidos/bloqueados de `claude-guard.sh` · `subagents`: valida el frontmatter de los subagentes | Push a `main` y cada PR |
+
+Cada job publica un reporte en el resumen del run (Actions → run → Summary). **Despliegue continuo:** Vercel despliega cada PR como *preview* y promueve `main` a producción solo cuando los checks de GitHub pasan (*Deployment Checks*).
+
+### Subagentes
+
+Definidos en [`.claude/agents/`](.claude/agents/):
 
 | Agente | Cuándo usarlo |
 | --- | --- |
@@ -113,4 +130,4 @@ Cada push a `main` despliega a producción y cada PR obtiene una URL de preview.
 
 ## Flujo de trabajo
 
-Ramas `feat/*` y `fix/*` desde `main`, integradas con Pull Request y la CI en verde. Commits con [Conventional Commits](https://www.conventionalcommits.org/).
+Ramas `feat/*`, `fix/*` y `docs/*` desde `main`, integradas con Pull Request revisado por otro integrante y con la CI en verde (`main` protegida). Commits con [Conventional Commits](https://www.conventionalcommits.org/).
