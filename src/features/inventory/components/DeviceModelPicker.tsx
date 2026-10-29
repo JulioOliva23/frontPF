@@ -33,10 +33,10 @@ export function DeviceModelPicker({ value, onChange, readOnly = false }: DeviceM
                 <label
                   key={model.id}
                   className={`flex min-h-[36px] items-center gap-2 rounded-lg border px-2.5 text-xs font-semibold ${
-                    checked ? 'border-lime-500 bg-lime-50 text-lime-900' : 'border-slate-200 bg-white text-slate-600'
+                    checked ? 'border-cyan-500 bg-cyan-50 text-cyan-900' : 'border-slate-200 bg-white text-slate-600'
                   } ${readOnly ? 'cursor-default' : 'cursor-pointer'}`}
                 >
-                  <input type="checkbox" checked={checked} disabled={readOnly} onChange={() => toggle(model.id)} className="h-4 w-4 accent-lime-600" />
+                  <input type="checkbox" checked={checked} disabled={readOnly} onChange={() => toggle(model.id)} className="h-4 w-4 accent-cyan-600" />
                   {model.model}
                 </label>
               );

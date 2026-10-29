@@ -18,7 +18,7 @@ export function AuditTimeline({ workOrderId }: { workOrderId: string }) {
       <ol className="mt-3 grid gap-3 border-l-2 border-slate-200 pl-4">
         {data?.map((entry) => (
           <li key={`${entry.createdAt}-${entry.newStatus}`} className="relative text-xs">
-            <span className="absolute -left-[22px] top-1 h-2.5 w-2.5 rounded-full bg-lime-500" aria-hidden="true" />
+            <span className="absolute -left-[22px] top-1 h-2.5 w-2.5 rounded-full bg-cyan-500" aria-hidden="true" />
             <p className="font-bold text-slate-800">
               {WORK_ORDER_STATUS_LABELS[entry.previousStatus]} → {WORK_ORDER_STATUS_LABELS[entry.newStatus]}
             </p>

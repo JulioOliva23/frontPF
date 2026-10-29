@@ -1,4 +1,4 @@
-import type { SparePart, UserResponse, WorkOrder } from '../shared/api/types';
+import type { Budget, CustomerWorkOrderStatus, SparePart, UserResponse, WorkOrder } from '../shared/api/types';
 
 export function workOrderFixture(overrides: Partial<WorkOrder> = {}): WorkOrder {
   return {
@@ -40,6 +40,47 @@ export function sparePartFixture(overrides: Partial<SparePart> = {}): SparePart 
   };
 }
 
+export function budgetFixture(overrides: Partial<Budget> = {}): Budget {
+  return {
+    id: 'b1',
+    workOrderId: '11111111-1111-4111-8111-111111111111',
+    version: 1,
+    status: 'DRAFT',
+    laborSubtotal: '150.00',
+    partsSubtotal: '980.00',
+    total: '1130.00',
+    currency: 'BOB',
+    expiresAt: '2999-01-01T00:00:00.000Z',
+    sentAt: null,
+    decidedAt: null,
+    decisionChannel: null,
+    rejectionReason: null,
+    items: [
+      { id: 'i1', itemType: 'LABOR', description: 'Cambio de módulo / pantalla', sparePartId: null, quantity: 1, unitPrice: '150.00', subtotal: '150.00', reservationStatus: 'NONE' },
+      { id: 'i2', itemType: 'PART', description: 'Pantalla OLED iPhone 13', sparePartId: 'p1', quantity: 1, unitPrice: '980.00', subtotal: '980.00', reservationStatus: 'NONE' },
+    ],
+    ...overrides,
+  };
+}
+
+export function customerStatusFixture(overrides: Partial<CustomerWorkOrderStatus> = {}): CustomerWorkOrderStatus {
+  return {
+    id: 'w1',
+    number: 123,
+    status: 'IN_REPAIR',
+    statusLabel: 'En Reparación',
+    device: 'Apple iPhone 13',
+    promisedAt: '2026-10-25T15:00:00.000Z',
+    budgetTotal: '1130.00',
+    updatedAt: '2026-10-20T12:00:00.000Z',
+    ...overrides,
+  };
+}
+
+export function pageOf<T>(data: T[], page = 1, pageSize = 20, total = data.length) {
+  return { data, page, pageSize, total };
+}
+
 export function technicianFixture(overrides: Partial<UserResponse> = {}): UserResponse {
   return {
     id: 'tech-1',
@@ -53,5 +94,5 @@ export function technicianFixture(overrides: Partial<UserResponse> = {}): UserRe
 }
 
 export function paginatedWorkOrders(orders: WorkOrder[], page = 1, pageSize = 20) {
-  return { data: orders, total: orders.length, page, pageSize };
+  return pageOf(orders, page, pageSize);
 }

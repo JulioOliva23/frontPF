@@ -75,7 +75,7 @@ export function InventoryPage() {
                 resetPage();
               }}
               placeholder="Nombre o SKU"
-              className="min-h-[44px] w-full rounded-[11px] border border-slate-200 pl-9 pr-3 text-sm outline-none focus:border-lime-600 focus:ring-[3px] focus:ring-lime-600/15"
+              className="min-h-[44px] w-full rounded-[11px] border border-slate-200 pl-9 pr-3 text-sm outline-none focus:border-cyan-600 focus:ring-[3px] focus:ring-cyan-600/15"
             />
           </div>
         </div>
@@ -114,7 +114,7 @@ export function InventoryPage() {
                 <th scope="col" className="px-4 py-3">Repuesto</th>
                 <th scope="col" className="px-4 py-3">Categoría</th>
                 {isAdmin && <th scope="col" className="px-4 py-3 text-right">Costo</th>}
-                <th scope="col" className="px-4 py-3 text-right">Precio taller</th>
+                <th scope="col" className="px-4 py-3 text-right">Precio al cliente</th>
                 <th scope="col" className="px-4 py-3 text-right">Disp. / Res. / Mín.</th>
                 <th scope="col" className="px-4 py-3">Estado</th>
                 <th scope="col" className="px-4 py-3">

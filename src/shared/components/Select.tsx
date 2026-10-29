@@ -19,7 +19,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(({ label, error
         ref={ref}
         aria-invalid={Boolean(error)}
         aria-describedby={errorId}
-        className={`min-h-[44px] w-full rounded-[11px] border border-slate-200 bg-white px-[13px] text-sm text-slate-900 outline-none focus:border-lime-600 focus:ring-[3px] focus:ring-lime-600/15 aria-[invalid=true]:border-red-500 ${className}`}
+        className={`min-h-[44px] w-full rounded-[11px] border border-slate-200 bg-white px-[13px] text-sm text-slate-900 outline-none focus:border-cyan-600 focus:ring-[3px] focus:ring-cyan-600/15 aria-[invalid=true]:border-red-500 ${className}`}
         {...props}
       >
         {placeholder !== undefined && <option value="">{placeholder}</option>}

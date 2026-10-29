@@ -29,7 +29,7 @@ export function PatternGrid({ value, onChange, revealed }: PatternGridProps) {
               aria-label={`Punto ${node}`}
               aria-pressed={selected}
               className={`flex h-11 w-11 items-center justify-center rounded-full border-2 text-xs font-bold ${
-                selected ? 'border-lime-600 bg-lime-400 text-lime-950' : 'border-slate-300 bg-white text-slate-400'
+                selected ? 'border-cyan-600 bg-cyan-400 text-cyan-950' : 'border-slate-300 bg-white text-slate-400'
               }`}
             >
               {selected ? (revealed ? position + 1 : '•') : ''}

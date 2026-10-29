@@ -39,7 +39,7 @@ export function CustomerPortalPage() {
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex h-16 max-w-3xl items-center justify-between px-4">
           <span className="flex items-center gap-2 font-extrabold">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-lime-400 text-lime-950">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-cyan-400 text-cyan-950">
               <Smartphone className="h-5 w-5" aria-hidden="true" />
             </span>
             Estado de su reparación
@@ -74,7 +74,7 @@ export function CustomerPortalPage() {
         ) : found ? (
           <>
             <CustomerOrderStatus order={found} />
-            <button type="button" onClick={() => setFound(null)} className="min-h-[44px] justify-self-start text-sm font-bold text-lime-800 hover:underline">
+            <button type="button" onClick={() => setFound(null)} className="min-h-[44px] justify-self-start text-sm font-bold text-cyan-800 hover:underline">
               Consultar otra orden
             </button>
           </>

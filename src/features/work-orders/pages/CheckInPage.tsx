@@ -63,7 +63,11 @@ export function CheckInPage() {
   const brandModels = useMemo(() => (models.data ?? []).filter((model) => model.brand === brand), [models.data, brand]);
 
   const onSubmit = async (values: CheckInFormValues) => {
-    setCreated(await createOrder.mutateAsync(toCreateWorkOrderPayload(values)));
+    try {
+      setCreated(await createOrder.mutateAsync(toCreateWorkOrderPayload(values)));
+    } catch {
+      // Shown from createOrder.error; rethrowing would be an unhandled rejection.
+    }
   };
 
   if (created) {

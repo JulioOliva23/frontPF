@@ -1,10 +1,12 @@
-import { screen, waitFor } from '@testing-library/react';
+import { screen, waitFor, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { http, HttpResponse } from 'msw';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { readLoginRedirectState } from '../features/auth/config/role-routes';
 import { request, setAuthToken, setRefreshHandler } from '../shared/api/httpClient';
 import { server } from '../test/msw-server';
+import { pageOf } from '../test/fixtures';
 import { api, renderRoutes } from '../test/render';
 import { isChunkLoadError } from './errors/chunk-load-error';
 import { RouteErrorBoundary } from './errors/RouteErrorBoundary';
@@ -173,5 +175,75 @@ describe('session expiry (FE-03)', () => {
     expect(readLoginRedirectState({ from: '//evil.example' })).toEqual({});
     expect(readLoginRedirectState({ from: '/auth/login', reason: 'other' })).toEqual({});
     expect(readLoginRedirectState(null)).toEqual({});
+  });
+});
+
+// From main (app routes suite), adapted to the 404 page (phase 1) and the
+// front desk dashboard at "/" (phase 2).
+describe('app routes (FE-07 / FE-08)', () => {
+  it('sends anonymous visitors from / to the login', async () => {
+    const router = renderRoutes(routes, { role: null, at: '/' });
+    expect(await screen.findByRole('heading', { name: 'Iniciar Sesión' })).toBeInTheDocument();
+    expect(router.state.location.pathname).toBe('/auth/login');
+  });
+
+  it('redirects legacy paths', async () => {
+    const router = renderRoutes(routes, { role: null, at: '/login' });
+    expect(await screen.findByRole('heading', { name: 'Iniciar Sesión' })).toBeInTheDocument();
+    expect(router.state.location.pathname).toBe('/auth/login');
+  });
+
+  it('lands technicians on their orders with a role-filtered menu, and logs out', async () => {
+    server.use(http.get(api('/work-orders'), () => HttpResponse.json(pageOf([]))));
+    const user = userEvent.setup();
+    const logout = vi.fn(async () => undefined);
+    const router = renderRoutes(routes, { role: 'TECHNICIAN', at: '/', auth: { logout } });
+
+    expect(await screen.findByRole('heading', { name: 'Órdenes de trabajo' })).toBeInTheDocument();
+    const [desktopMenu] = screen.getAllByRole('navigation', { name: 'Menú principal' });
+    expect(within(desktopMenu).getByRole('link', { name: 'Órdenes de trabajo' })).toHaveAttribute('aria-current', 'page');
+    // RN-07: technicians never see budgets nor inventory.
+    expect(within(desktopMenu).queryByRole('link', { name: 'Presupuestos' })).not.toBeInTheDocument();
+    expect(screen.getByText('Técnico')).toBeInTheDocument();
+
+    await user.click(within(desktopMenu).getByRole('button', { name: 'Cerrar sesión' }));
+    expect(logout).toHaveBeenCalledOnce();
+    expect(router.state.location.pathname).toBe('/auth/login');
+  });
+
+  it('keeps technicians out of front-desk routes', async () => {
+    server.use(http.get(api('/work-orders'), () => HttpResponse.json(pageOf([]))));
+    const router = renderRoutes(routes, { role: 'TECHNICIAN', at: '/inventario' });
+    expect(await screen.findByRole('heading', { name: 'Órdenes de trabajo' })).toBeInTheDocument();
+    expect(router.state.location.pathname).toBe('/ordenes');
+  });
+
+  it('opens the mobile drawer and highlights only the exact menu item', async () => {
+    server.use(http.get(api('/spare-parts/alerts/low-stock'), () => HttpResponse.json([])));
+    const user = userEvent.setup();
+    renderRoutes(routes, { role: 'ADMIN', at: '/inventario/alertas' });
+
+    expect(await screen.findByRole('heading', { name: /Stock bajo/ })).toBeInTheDocument();
+    const open = screen.getByRole('button', { name: 'Abrir menú' });
+    expect(open).toHaveAttribute('aria-expanded', 'false');
+    await user.click(open);
+    expect(open).toHaveAttribute('aria-expanded', 'true');
+
+    const [desktopMenu] = screen.getAllByRole('navigation', { name: 'Menú principal' });
+    expect(within(desktopMenu).getByRole('link', { name: 'Stock bajo' })).toHaveAttribute('aria-current', 'page');
+    expect(within(desktopMenu).getByRole('link', { name: 'Inventario' })).not.toHaveAttribute('aria-current');
+
+    await user.keyboard('{Escape}');
+    expect(open).toHaveAttribute('aria-expanded', 'false');
+    await user.click(open);
+    await user.click(screen.getByRole('button', { name: 'Cerrar menú' }));
+    expect(open).toHaveAttribute('aria-expanded', 'false');
+  });
+
+  it('shows the 404 page, linked to the role landing page, for unknown paths', async () => {
+    const router = renderRoutes(routes, { role: 'CUSTOMER', at: '/no-existe' });
+    expect(await screen.findByRole('heading', { name: 'Página no encontrada' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /ir a mi inicio/i })).toHaveAttribute('href', '/portal-cliente');
+    expect(router.state.location.pathname).toBe('/no-existe');
   });
 });

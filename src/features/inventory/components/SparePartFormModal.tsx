@@ -45,13 +45,17 @@ export function SparePartFormModal({ isOpen, part, onClose }: SparePartFormModal
   });
 
   const onSubmit = async (values: SparePartFormValues) => {
-    if (part) {
-      const { sku: _sku, ...changes } = toSparePartPayload(values);
-      await update.mutateAsync({ id: part.id, payload: changes });
-    } else {
-      await create.mutateAsync(toSparePartPayload(values));
+    try {
+      if (part) {
+        const { sku: _sku, ...changes } = toSparePartPayload(values);
+        await update.mutateAsync({ id: part.id, payload: changes });
+      } else {
+        await create.mutateAsync(toSparePartPayload(values));
+      }
+      onClose();
+    } catch {
+      // Shown below from mutation.error; rethrowing would be an unhandled rejection.
     }
-    onClose();
   };
 
   return (
@@ -64,7 +68,7 @@ export function SparePartFormModal({ isOpen, part, onClose }: SparePartFormModal
             <FormField id="part-name" label="Nombre" error={errors.name?.message} {...register('name')} />
           </div>
           <FormField id="part-cost" label="Costo unitario (BOB)" inputMode="decimal" error={errors.unitCost?.message} {...register('unitCost')} />
-          <FormField id="part-price" label="Precio taller (BOB)" inputMode="decimal" error={errors.workshopPrice?.message} {...register('workshopPrice')} />
+          <FormField id="part-price" label="Precio al cliente (BOB)" inputMode="decimal" error={errors.workshopPrice?.message} {...register('workshopPrice')} />
           <FormField id="part-min" label="Stock mínimo" type="number" min={0} error={errors.minStock?.message} {...register('minStock', { valueAsNumber: true })} />
         </div>
         <Controller

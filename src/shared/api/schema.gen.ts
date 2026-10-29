@@ -739,7 +739,7 @@ export interface components {
              */
             unitCost: string;
             /**
-             * @description Precio taller al cliente
+             * @description Precio de venta al cliente
              * @example 980.00
              */
             workshopPrice: string;
@@ -758,7 +758,7 @@ export interface components {
              */
             unitCost?: string;
             /**
-             * @description Precio taller al cliente
+             * @description Precio de venta al cliente
              * @example 980.00
              */
             workshopPrice?: string;

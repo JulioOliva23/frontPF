@@ -24,7 +24,7 @@ export function WorkOrdersTable({ orders }: { orders: WorkOrder[] }) {
           {orders.map((order) => (
             <tr key={order.id} className="hover:bg-slate-50">
               <td className="px-4 py-3 font-bold">
-                <Link to={`/ordenes/${order.id}`} className="text-lime-800 hover:underline">
+                <Link to={`/ordenes/${order.id}`} className="text-cyan-800 hover:underline">
                   {formatWorkOrderNumber(order.number)}
                 </Link>
               </td>

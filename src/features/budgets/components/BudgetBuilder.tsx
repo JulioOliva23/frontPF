@@ -20,7 +20,7 @@ interface BudgetBuilderProps {
 }
 
 const inputClass =
-  'min-h-[40px] w-full rounded-lg border border-slate-200 bg-white px-2.5 text-sm outline-none focus:border-lime-600 focus:ring-2 focus:ring-lime-600/15 aria-[invalid=true]:border-red-500';
+  'min-h-[40px] w-full rounded-lg border border-slate-200 bg-white px-2.5 text-sm outline-none focus:border-cyan-600 focus:ring-2 focus:ring-cyan-600/15 aria-[invalid=true]:border-red-500';
 
 // US-F05: labor lines priced by the front desk + compatible parts priced by
 // the catalog. The preview total is informative; the backend computes the
@@ -53,8 +53,12 @@ export function BudgetBuilder({ workOrderId, deviceModelId, deviceLabel, onCreat
   };
 
   const onSubmit = async (values: BudgetFormValues) => {
-    await create.mutateAsync(toCreateBudgetPayload(values));
-    onCreated();
+    try {
+      await create.mutateAsync(toCreateBudgetPayload(values));
+      onCreated();
+    } catch {
+      // Shown below from create.error; rethrowing would be an unhandled rejection.
+    }
   };
 
   return (
@@ -84,7 +88,7 @@ export function BudgetBuilder({ workOrderId, deviceModelId, deviceLabel, onCreat
             key={preset}
             type="button"
             onClick={() => append({ itemType: 'LABOR', description: preset, quantity: 1, unitPrice: '' })}
-            className="min-h-[36px] rounded-full border border-dashed border-slate-300 px-3 text-xs font-semibold text-slate-600 hover:border-lime-500 hover:text-lime-800"
+            className="min-h-[36px] rounded-full border border-dashed border-slate-300 px-3 text-xs font-semibold text-slate-600 hover:border-cyan-500 hover:text-cyan-800"
           >
             + {preset}
           </button>

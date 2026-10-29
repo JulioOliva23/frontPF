@@ -28,6 +28,8 @@ interface Options {
   route?: string;
   path?: string;
   extraRoutes?: ReactNode;
+  // Overrides for the fake session (e.g. a spy on login/logout).
+  auth?: Partial<AuthContextValue>;
 }
 
 function testQueryClient() {
@@ -38,12 +40,17 @@ function testQueryClient() {
 // (pathname, query params, state) after navigations.
 export function renderRoutes(
   routeObjects: RouteObject[],
-  { role = null, userId, at }: { role?: UserRole | null; userId?: string; at: string | { pathname: string; search?: string; state?: unknown } },
+  {
+    role = null,
+    userId,
+    at,
+    auth,
+  }: { role?: UserRole | null; userId?: string; at: string | { pathname: string; search?: string; state?: unknown }; auth?: Partial<AuthContextValue> },
 ) {
   const router = createMemoryRouter(routeObjects, { initialEntries: [at] });
   render(
     <QueryClientProvider client={testQueryClient()}>
-      <AuthContext.Provider value={fakeAuth(role, userId)}>
+      <AuthContext.Provider value={{ ...fakeAuth(role, userId), ...auth }}>
         <ToastProvider>
           <RouterProvider router={router} />
         </ToastProvider>
@@ -53,10 +60,10 @@ export function renderRoutes(
   return router;
 }
 
-export function renderWithProviders(ui: ReactElement, { role = 'RECEPTIONIST', userId, route = '/', path = '/', extraRoutes }: Options = {}) {
+export function renderWithProviders(ui: ReactElement, { role = 'RECEPTIONIST', userId, route = '/', path = '/', extraRoutes, auth }: Options = {}) {
   return render(
     <QueryClientProvider client={testQueryClient()}>
-      <AuthContext.Provider value={fakeAuth(role, userId)}>
+      <AuthContext.Provider value={{ ...fakeAuth(role, userId), ...auth }}>
         <ToastProvider>
           <MemoryRouter initialEntries={[route]}>
             <Routes>
