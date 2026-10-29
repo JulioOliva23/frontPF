@@ -1,17 +1,19 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Smartphone } from 'lucide-react';
 
 import { useAuth } from '../hooks/useAuth';
 import { loginSchema, type LoginFormData } from '../schemas/login-schema';
-import { ROLE_DEFAULT_ROUTE } from '../config/role-routes';
+import { readLoginRedirectState, ROLE_DEFAULT_ROUTE } from '../config/role-routes';
 import { toApiError } from '../../../shared/api/httpClient';
 
 export function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const redirect = readLoginRedirectState(location.state);
   const [serverError, setServerError] = useState<string | null>(null);
 
   const {
@@ -26,7 +28,8 @@ export function LoginPage() {
     setServerError(null);
     try {
       const userData = await login(data.username, data.password);
-      navigate(ROLE_DEFAULT_ROUTE[userData.role], { replace: true });
+      // A route the role cannot open is bounced again by RoleGuard.
+      navigate(redirect.from ?? ROLE_DEFAULT_ROUTE[userData.role], { replace: true });
     } catch (error: unknown) {
       const apiError = toApiError(error);
       setServerError(
@@ -53,6 +56,12 @@ export function LoginPage() {
           className="bg-white rounded-2xl p-6 sm:p-8 shadow-xl border border-slate-200"
         >
           <h2 className="text-lg font-bold text-slate-900 mb-6">Iniciar Sesión</h2>
+
+          {redirect.reason === 'session-expired' && !serverError && (
+            <div role="status" className="mb-4 p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-sm">
+              Tu sesión expiró. Vuelve a iniciar sesión para continuar.
+            </div>
+          )}
 
           {serverError && (
             <div

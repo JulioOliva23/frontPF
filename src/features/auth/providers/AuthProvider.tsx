@@ -76,7 +76,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       applySession(await refreshOnce(stored));
       return true;
     } catch {
-      // FE-03: a failed refresh ends the session; ProtectedRoute redirects.
+      // FE-03: a failed refresh ends the session; the HTTP client then fires
+      // the session-expired handler and RoleGuard keeps the routes closed.
       clearSession();
       return false;
     }
