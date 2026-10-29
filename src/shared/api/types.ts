@@ -7,6 +7,8 @@ type Schemas = components['schemas'];
 export type UserRole = Schemas['AuthResponseDto']['role'];
 export type AuthResponse = Schemas['AuthResponseDto'];
 export type UserResponse = Schemas['UserResponseDto'];
+export type CreateUserPayload = Schemas['CreateUserDto'];
+export type UpdateUserPayload = Schemas['UpdateUserDto'];
 
 export type WorkOrder = Schemas['WorkOrderResponseDto'];
 export type WorkOrderStatus = WorkOrder['status'];
@@ -24,6 +26,8 @@ export type PublicTrackingPayload = Schemas['PublicTrackingRequestDto'];
 export type WorkOrderSummary = Schemas['WorkOrderSummaryDto'];
 
 export type DeviceModel = Schemas['DeviceModelResponseDto'];
+export type CreateDeviceModelPayload = Schemas['CreateDeviceModelDto'];
+export type UpdateDeviceModelPayload = Schemas['UpdateDeviceModelDto'];
 export type DeviceHistory = Schemas['DeviceHistoryResponseDto'];
 
 export type Budget = Schemas['BudgetResponseDto'];

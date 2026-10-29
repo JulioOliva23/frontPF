@@ -12,10 +12,15 @@ export const queryKeys = {
   },
   devices: {
     history: (imei: string) => ['devices', 'history', imei] as const,
+    // Prefix of `catalog`: invalidating it refreshes intake pickers and the
+    // admin catalog together.
     models: ['device-models'] as const,
+    catalog: ['device-models', 'catalog'] as const,
   },
   users: {
+    root: ['users'] as const,
     technicians: ['users', 'technicians'] as const,
+    admin: ['users', 'admin'] as const,
   },
   budgets: {
     root: ['budgets'] as const,

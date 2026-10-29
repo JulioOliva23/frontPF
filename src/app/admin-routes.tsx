@@ -1,13 +1,14 @@
-import type { RouteObject } from 'react-router';
+import { Navigate, type RouteObject } from 'react-router';
 
 import { NotFoundPage } from './errors/NotFoundPage';
 
-// US-F14 (phase 3): admin screens live under /admin/* and only ADMIN reaches
-// them (the RoleGuard wrapping this list in router.tsx). Add each screen here
-// as a lazy route, e.g.
-//   { path: 'usuarios', lazy: async () => ({ Component: (await import('../features/admin/pages/UsersPage')).UsersPage }) },
-// Until then an admin sees the 404 for any /admin path.
+export const ADMIN_BASE_PATH = '/administracion';
+
+// US-F14: admin screens. Only ADMIN reaches them: router.tsx wraps this list
+// in RoleGuard(ADMIN_ONLY), so any other role is sent to its landing page.
 export const ADMIN_ROUTES: RouteObject[] = [
-  { index: true, element: <NotFoundPage /> },
+  { index: true, element: <Navigate to="usuarios" replace /> },
+  { path: 'usuarios', lazy: async () => ({ Component: (await import('../features/admin/pages/UsersPage')).UsersPage }) },
+  { path: 'modelos', lazy: async () => ({ Component: (await import('../features/admin/pages/DeviceModelsPage')).DeviceModelsPage }) },
   { path: '*', element: <NotFoundPage /> },
 ];

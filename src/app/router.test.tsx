@@ -41,10 +41,10 @@ describe('route tree', () => {
   it.each([
     ['TECHNICIAN', '/ordenes'],
     ['RECEPTIONIST', '/'],
-  ] as const)('keeps %s out of /admin/* (sent to %s)', async (role, landing) => {
+  ] as const)('keeps %s out of /administracion/* (sent to %s)', async (role, landing) => {
     emptyOrdersList();
     frontDeskShell();
-    const router = renderRoutes(routes, { role, at: '/admin/usuarios' });
+    const router = renderRoutes(routes, { role, at: '/administracion/usuarios' });
     await waitFor(() => expect(router.state.location.pathname).toBe(landing));
   });
 
@@ -65,16 +65,37 @@ describe('route tree', () => {
     await waitFor(() => expect(router.state.location.pathname).toBe(landing));
   });
 
-  it('sends anonymous visitors from /admin/* to the login', async () => {
-    const router = renderRoutes(routes, { role: null, at: '/admin/usuarios' });
+  it('sends anonymous visitors from /administracion/* to the login', async () => {
+    const router = renderRoutes(routes, { role: null, at: '/administracion/usuarios' });
     await waitFor(() => expect(router.state.location.pathname).toBe('/auth/login'));
   });
 
-  it('lets ADMIN into /admin/* (404 until the screens exist)', async () => {
+  it('lets ADMIN into the admin screens', async () => {
     frontDeskShell();
-    const router = renderRoutes(routes, { role: 'ADMIN', at: '/admin/usuarios' });
+    server.use(http.get(api('/users'), () => HttpResponse.json([])), http.get(api('/device-models'), () => HttpResponse.json([])));
+    const router = renderRoutes(routes, { role: 'ADMIN', at: '/administracion/usuarios' });
+    expect(await screen.findByRole('heading', { name: 'Usuarios', level: 1 })).toBeInTheDocument();
+    expect(router.state.location.pathname).toBe('/administracion/usuarios');
+  });
+
+  it('opens the users screen at /administracion', async () => {
+    frontDeskShell();
+    server.use(http.get(api('/users'), () => HttpResponse.json([])));
+    const router = renderRoutes(routes, { role: 'ADMIN', at: '/administracion' });
+    await waitFor(() => expect(router.state.location.pathname).toBe('/administracion/usuarios'));
+  });
+
+  it('shows a 404 for an unknown admin screen', async () => {
+    frontDeskShell();
+    renderRoutes(routes, { role: 'ADMIN', at: '/administracion/no-existe' });
     expect(await screen.findByRole('heading', { name: 'Página no encontrada' })).toBeInTheDocument();
-    expect(router.state.location.pathname).toBe('/admin/usuarios');
+  });
+
+  it.each(['TECHNICIAN', 'RECEPTIONIST'] as const)('keeps %s out of the models catalog', async (role) => {
+    emptyOrdersList();
+    frontDeskShell();
+    const router = renderRoutes(routes, { role, at: '/administracion/modelos' });
+    await waitFor(() => expect(router.state.location.pathname).not.toBe('/administracion/modelos'));
   });
 });
 

@@ -3,7 +3,7 @@ import { createBrowserRouter, Navigate, type RouteObject } from 'react-router';
 import { RoleGuard } from '../features/auth/components/RoleGuard';
 import { ADMIN_ONLY, FRONT_DESK_ROLES, LOGIN_ROUTE, STAFF_ROLES } from '../features/auth/config/role-routes';
 import { LoginPage } from '../features/auth/pages/LoginPage';
-import { ADMIN_ROUTES } from './admin-routes';
+import { ADMIN_BASE_PATH, ADMIN_ROUTES } from './admin-routes';
 import { AppLayout } from './app-layout';
 import { RouteErrorBoundary } from './errors/RouteErrorBoundary';
 import { NotFoundPage } from './errors/NotFoundPage';
@@ -56,9 +56,9 @@ export const routes: RouteObject[] = [
                 ],
               },
               {
-                // US-F14: the whole /admin/* subtree is ADMIN only; the guard
-                // runs before any admin route (or its 404) is resolved.
-                path: 'admin',
+                // US-F14: the whole /administracion/* subtree is ADMIN only;
+                // the guard runs before any admin route (or its 404) resolves.
+                path: ADMIN_BASE_PATH.slice(1),
                 element: <RoleGuard allowedRoles={ADMIN_ONLY} />,
                 children: ADMIN_ROUTES,
               },

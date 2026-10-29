@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react';
-import { BellRing, ClipboardList, ClipboardPlus, FileText, Globe, LayoutDashboard, Package } from 'lucide-react';
+import { BellRing, ClipboardList, ClipboardPlus, FileText, Globe, LayoutDashboard, Package, Smartphone, UsersRound } from 'lucide-react';
 
 import type { UserRole } from '../shared/api/types';
-import { FRONT_DESK_ROLES, STAFF_ROLES } from '../features/auth/config/role-routes';
+import { ADMIN_ONLY, FRONT_DESK_ROLES, STAFF_ROLES } from '../features/auth/config/role-routes';
 
-export type NavSection = 'operacion' | 'gestion' | 'cliente';
+export type NavSection = 'operacion' | 'gestion' | 'cliente' | 'administracion';
 
 export interface NavItem {
   to: string;
@@ -30,12 +30,16 @@ export const NAV_ITEMS: readonly NavItem[] = [
   { to: '/inventario/alertas', label: 'Stock bajo', icon: <BellRing className="h-4 w-4" />, roles: FRONT_DESK_ROLES, section: 'gestion' },
   // Staff can open the public portal to check what a customer sees.
   { to: '/portal-cliente', label: 'Portal del cliente', icon: <Globe className="h-4 w-4" />, roles: FRONT_DESK_ROLES, section: 'cliente' },
+  // US-F14: ADMIN only, same group as the /administracion RoleGuard.
+  { to: '/administracion/usuarios', label: 'Usuarios', icon: <UsersRound className="h-4 w-4" />, roles: ADMIN_ONLY, section: 'administracion' },
+  { to: '/administracion/modelos', label: 'Modelos de equipos', icon: <Smartphone className="h-4 w-4" />, roles: ADMIN_ONLY, section: 'administracion' },
 ];
 
 export const NAV_SECTIONS: ReadonlyArray<{ id: NavSection; label: string }> = [
   { id: 'operacion', label: 'Operación' },
   { id: 'gestion', label: 'Gestión' },
   { id: 'cliente', label: 'Clientes' },
+  { id: 'administracion', label: 'Administración' },
 ];
 
 export function navItemsForRole(role: UserRole): NavItem[] {
