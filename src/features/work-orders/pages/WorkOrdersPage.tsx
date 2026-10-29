@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { ClipboardPlus, Columns3, Rows3 } from 'lucide-react';
+import { ClipboardPlus, Columns3, Rows3, SearchX } from 'lucide-react';
 import { Link } from 'react-router';
 
-import type { WorkOrderStatus } from '../../../shared/api/types';
 import { EmptyState } from '../../../shared/components/EmptyState';
 import { ErrorState } from '../../../shared/components/ErrorState';
 import { LoadingSkeleton } from '../../../shared/components/LoadingSkeleton';
@@ -11,20 +10,44 @@ import { ALL_WORK_ORDER_STATUSES } from '../../../shared/lib/work-order-status';
 import { FRONT_DESK_ROLES } from '../../auth/config/role-routes';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { StatusFilterChips } from '../components/StatusFilterChips';
+import { TechnicianFilter } from '../components/TechnicianFilter';
+import { WorkOrderSearchInput } from '../components/WorkOrderSearchInput';
 import { WorkOrdersBoard } from '../components/WorkOrdersBoard';
 import { WorkOrdersTable } from '../components/WorkOrdersTable';
 import { useWorkOrders } from '../hooks/use-work-orders';
+import { useWorkOrderFilters, type WorkOrderListFilters } from '../hooks/use-work-order-filters';
 
 type View = 'table' | 'board';
 const PAGE_SIZE = 20;
 
-function TableView({ status }: { status: WorkOrderStatus | undefined }) {
+interface TableViewProps {
+  filters: WorkOrderListFilters;
+  hasActiveFilters: boolean;
+  onResetFilters: () => void;
+}
+
+// Keyed by the filters in the page, so any filter change starts at page 1.
+function TableView({ filters, hasActiveFilters, onResetFilters }: TableViewProps) {
   const [page, setPage] = useState(1);
-  const { data, isLoading, isError, refetch } = useWorkOrders({ status, page, pageSize: PAGE_SIZE });
+  const { data, isLoading, isError, refetch } = useWorkOrders({ ...filters, page, pageSize: PAGE_SIZE });
   if (isLoading) return <LoadingSkeleton />;
   if (isError) return <ErrorState message="No se pudieron cargar las órdenes." onRetry={() => void refetch()} />;
   if (!data || data.total === 0) {
-    return <EmptyState title="Sin órdenes" description={status ? 'No hay órdenes en este estado.' : 'Todavía no hay órdenes registradas.'} />;
+    return hasActiveFilters ? (
+      <EmptyState
+        icon={<SearchX className="h-7 w-7" aria-hidden="true" />}
+        title="Sin resultados"
+        description={
+          filters.search
+            ? `Ninguna orden coincide con “${filters.search}” y los filtros elegidos. Revisa el número de OT, el IMEI o el nombre del cliente.`
+            : 'Ninguna orden coincide con los filtros elegidos.'
+        }
+        actionLabel="Limpiar filtros"
+        onAction={onResetFilters}
+      />
+    ) : (
+      <EmptyState title="Sin órdenes" description="Todavía no hay órdenes registradas." />
+    );
   }
   return (
     <div className="grid gap-4">
@@ -35,11 +58,15 @@ function TableView({ status }: { status: WorkOrderStatus | undefined }) {
 }
 
 // US-F02: list of work orders. Technicians only receive their own (RN-06).
+// Status, technician and search live in the URL (?status=&technicianId=&search=).
 export function WorkOrdersPage() {
   const { user } = useAuth();
   const [view, setView] = useState<View>('table');
-  const [status, setStatus] = useState<WorkOrderStatus | undefined>(undefined);
-  const canCreate = user ? FRONT_DESK_ROLES.includes(user.role) : false;
+  const { filters, setStatus, setTechnicianId, setSearch, reset } = useWorkOrderFilters();
+  const isFrontDesk = user ? FRONT_DESK_ROLES.includes(user.role) : false;
+  // RN-06: the backend ignores technicianId for technicians; so does the UI.
+  const effectiveFilters: WorkOrderListFilters = isFrontDesk ? filters : { ...filters, technicianId: undefined };
+  const effectiveHasFilters = Boolean(effectiveFilters.status || effectiveFilters.technicianId || effectiveFilters.search);
 
   return (
     <div className="grid gap-6">
@@ -69,7 +96,7 @@ export function WorkOrdersPage() {
               </button>
             ))}
           </div>
-          {canCreate && (
+          {isFrontDesk && (
             <Link
               to="/ordenes/nueva"
               className="flex min-h-[44px] items-center gap-2 rounded-xl bg-lime-400 px-4 text-sm font-bold text-lime-950 shadow-sm hover:bg-lime-300"
@@ -80,9 +107,36 @@ export function WorkOrdersPage() {
         </div>
       </header>
 
-      <StatusFilterChips value={status} onChange={setStatus} />
+      <div role="search" aria-label="Filtros de órdenes" className="grid gap-3">
+        <div className="flex flex-wrap items-center gap-2">
+          <WorkOrderSearchInput value={effectiveFilters.search ?? ''} onChange={setSearch} />
+          {isFrontDesk && <TechnicianFilter value={effectiveFilters.technicianId} onChange={setTechnicianId} />}
+          {effectiveHasFilters && (
+            <button
+              type="button"
+              onClick={reset}
+              className="min-h-[44px] rounded-xl px-3 text-xs font-bold text-slate-500 hover:bg-slate-100 hover:text-slate-800"
+            >
+              Limpiar filtros
+            </button>
+          )}
+        </div>
+        <StatusFilterChips value={effectiveFilters.status} onChange={setStatus} />
+      </div>
 
-      {view === 'table' ? <TableView key={status ?? 'all'} status={status} /> : <WorkOrdersBoard statuses={status ? [status] : ALL_WORK_ORDER_STATUSES} />}
+      {view === 'table' ? (
+        <TableView
+          key={JSON.stringify(effectiveFilters)}
+          filters={effectiveFilters}
+          hasActiveFilters={effectiveHasFilters}
+          onResetFilters={reset}
+        />
+      ) : (
+        <WorkOrdersBoard
+          statuses={effectiveFilters.status ? [effectiveFilters.status] : ALL_WORK_ORDER_STATUSES}
+          filters={{ technicianId: effectiveFilters.technicianId, search: effectiveFilters.search }}
+        />
+      )}
     </div>
   );
 }

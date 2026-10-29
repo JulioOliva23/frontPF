@@ -1,6 +1,7 @@
 import { LogOut } from 'lucide-react';
 import { NavLink, useLocation } from 'react-router';
 
+import { NavBadge } from './nav-badge';
 import { NAV_SECTIONS, isItemActive, type NavItem } from './navigation';
 
 interface AppSidebarProps {
@@ -37,6 +38,7 @@ export function AppSidebar({ items, onNavigate, onLogout }: AppSidebarProps) {
                     >
                       {item.icon}
                       <span>{item.label}</span>
+                      {item.badge && <NavBadge kind={item.badge} />}
                     </NavLink>
                   </li>
                 );

@@ -1,45 +1,34 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { render, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
-import { createMemoryRouter, RouterProvider, type RouteObject } from 'react-router';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { AuthContext } from '../features/auth/providers/auth-context';
 import { readLoginRedirectState } from '../features/auth/config/role-routes';
 import { request, setAuthToken, setRefreshHandler } from '../shared/api/httpClient';
-import type { UserRole } from '../shared/api/types';
-import { ToastProvider } from '../shared/components/ToastContext';
 import { server } from '../test/msw-server';
-import { api, fakeAuth } from '../test/render';
+import { api, renderRoutes } from '../test/render';
 import { isChunkLoadError } from './errors/chunk-load-error';
 import { RouteErrorBoundary } from './errors/RouteErrorBoundary';
 import { routes } from './router';
 import { registerSessionExpiry } from './session-expiry';
 
-function renderRoutes(routeObjects: RouteObject[], { role = null, at }: { role?: UserRole | null; at: string | { pathname: string; state: unknown } }) {
-  const router = createMemoryRouter(routeObjects, { initialEntries: [at] });
-  const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: 0 } } });
-  render(
-    <QueryClientProvider client={queryClient}>
-      <AuthContext.Provider value={fakeAuth(role)}>
-        <ToastProvider>
-          <RouterProvider router={router} />
-        </ToastProvider>
-      </AuthContext.Provider>
-    </QueryClientProvider>,
-  );
-  return router;
-}
-
 function emptyOrdersList() {
   server.use(http.get(api('/work-orders'), () => HttpResponse.json({ data: [], total: 0, page: 1, pageSize: 20 })));
 }
 
+// What the front desk shell and dashboard load: sidebar badge + summary.
+function frontDeskShell() {
+  server.use(
+    http.get(api('/spare-parts/alerts/low-stock'), () => HttpResponse.json([])),
+    http.get(api('/work-orders/summary'), () => HttpResponse.json({ active: 0, overdue: 0, byStatus: [] })),
+  );
+}
+
 describe('route tree', () => {
   it('shows a 404 page with navigation for unknown paths', async () => {
+    frontDeskShell();
     renderRoutes(routes, { role: 'RECEPTIONIST', at: '/no-existe' });
     expect(await screen.findByRole('heading', { name: 'Página no encontrada' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /ir a mi inicio/i })).toHaveAttribute('href', '/ordenes');
+    expect(screen.getByRole('link', { name: /ir a mi inicio/i })).toHaveAttribute('href', '/');
     // Rendered inside AppLayout: the sidebar stays available.
     expect(screen.getAllByRole('navigation', { name: 'Menú principal' }).length).toBeGreaterThan(0);
   });
@@ -49,10 +38,31 @@ describe('route tree', () => {
     expect(await screen.findByRole('link', { name: /iniciar sesión/i })).toHaveAttribute('href', '/auth/login');
   });
 
-  it.each(['TECHNICIAN', 'RECEPTIONIST'] as const)('keeps %s out of /admin/*', async (role) => {
+  it.each([
+    ['TECHNICIAN', '/ordenes'],
+    ['RECEPTIONIST', '/'],
+  ] as const)('keeps %s out of /admin/* (sent to %s)', async (role, landing) => {
     emptyOrdersList();
+    frontDeskShell();
     const router = renderRoutes(routes, { role, at: '/admin/usuarios' });
-    await waitFor(() => expect(router.state.location.pathname).toBe('/ordenes'));
+    await waitFor(() => expect(router.state.location.pathname).toBe(landing));
+  });
+
+  it('opens the dashboard at "/" for the front desk', async () => {
+    frontDeskShell();
+    renderRoutes(routes, { role: 'RECEPTIONIST', at: '/' });
+    expect(await screen.findByRole('region', { name: 'Indicadores' })).toBeInTheDocument();
+  });
+
+  it.each([
+    ['TECHNICIAN', '/ordenes'],
+    ['CUSTOMER', '/portal-cliente'],
+    [null, '/auth/login'],
+  ] as const)('sends %s from "/" to %s', async (role, landing) => {
+    emptyOrdersList();
+    server.use(http.get(api('/work-orders/mine'), () => HttpResponse.json([])));
+    const router = renderRoutes(routes, { role, at: '/' });
+    await waitFor(() => expect(router.state.location.pathname).toBe(landing));
   });
 
   it('sends anonymous visitors from /admin/* to the login', async () => {
@@ -61,6 +71,7 @@ describe('route tree', () => {
   });
 
   it('lets ADMIN into /admin/* (404 until the screens exist)', async () => {
+    frontDeskShell();
     const router = renderRoutes(routes, { role: 'ADMIN', at: '/admin/usuarios' });
     expect(await screen.findByRole('heading', { name: 'Página no encontrada' })).toBeInTheDocument();
     expect(router.state.location.pathname).toBe('/admin/usuarios');
@@ -80,7 +91,7 @@ describe('RouteErrorBoundary', () => {
 
     expect(await screen.findByRole('heading', { name: 'Algo salió mal en esta pantalla' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /reintentar/i })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /volver al inicio/i })).toHaveAttribute('href', '/ordenes');
+    expect(screen.getByRole('link', { name: /volver al inicio/i })).toHaveAttribute('href', '/');
   });
 
   it('asks to reload when a lazy chunk cannot be fetched', async () => {
@@ -119,6 +130,8 @@ describe('session expiry (FE-03)', () => {
 
   it('takes the user to the login, remembering the page, when the refresh fails', async () => {
     emptyOrdersList();
+    frontDeskShell();
+    server.use(http.get(api('/users'), () => HttpResponse.json([])));
     const router = renderRoutes(routes, { role: 'RECEPTIONIST', at: '/ordenes' });
     await waitFor(() => expect(router.state.location.pathname).toBe('/ordenes'));
     unregister = registerSessionExpiry(router);

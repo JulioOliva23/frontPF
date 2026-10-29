@@ -21,6 +21,7 @@ export type UnlockCodeResponse = Schemas['UnlockCodeResponseDto'];
 export type TrackingCodeResponse = Schemas['TrackingCodeResponseDto'];
 export type CustomerWorkOrderStatus = Schemas['CustomerWorkOrderStatusDto'];
 export type PublicTrackingPayload = Schemas['PublicTrackingRequestDto'];
+export type WorkOrderSummary = Schemas['WorkOrderSummaryDto'];
 
 export type DeviceModel = Schemas['DeviceModelResponseDto'];
 export type DeviceHistory = Schemas['DeviceHistoryResponseDto'];

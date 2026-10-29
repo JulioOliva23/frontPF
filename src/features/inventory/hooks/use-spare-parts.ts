@@ -8,8 +8,23 @@ export function useSpareParts(filters: SparePartFilters) {
   return useQuery({ queryKey: queryKeys.spareParts.list(filters), queryFn: () => sparePartsApi.list(filters) });
 }
 
+export const LOW_STOCK_STALE_TIME = 60_000;
+
 export function useLowStock() {
-  return useQuery({ queryKey: queryKeys.spareParts.lowStock, queryFn: sparePartsApi.lowStock });
+  return useQuery({ queryKey: queryKeys.spareParts.lowStock, queryFn: sparePartsApi.lowStock, staleTime: LOW_STOCK_STALE_TIME });
+}
+
+// RN-11 / US-F13: number of parts at or below their minimum, for the sidebar
+// badge and the dashboard. Shares the cache entry of the low-stock list, so
+// any stock mutation (which invalidates spareParts.root) updates it too.
+export function useLowStockCount(enabled = true) {
+  return useQuery({
+    queryKey: queryKeys.spareParts.lowStock,
+    queryFn: sparePartsApi.lowStock,
+    staleTime: LOW_STOCK_STALE_TIME,
+    select: (parts) => parts.length,
+    enabled,
+  });
 }
 
 // FE-09: any catalog or stock change refreshes lists and alerts.

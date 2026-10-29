@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { BellRing, ClipboardList, ClipboardPlus, FileText, Globe, Package } from 'lucide-react';
+import { BellRing, ClipboardList, ClipboardPlus, FileText, Globe, LayoutDashboard, Package } from 'lucide-react';
 
 import type { UserRole } from '../shared/api/types';
 import { FRONT_DESK_ROLES, STAFF_ROLES } from '../features/auth/config/role-routes';
@@ -12,15 +12,21 @@ export interface NavItem {
   icon: ReactNode;
   roles: readonly UserRole[];
   section: NavSection;
+  // Live counter rendered next to the label (see app-sidebar.tsx).
+  badge?: NavBadge;
 }
+
+export type NavBadge = 'low-stock';
 
 // FE-07 / FE-08: same role groups as the router, so a link is visible only
 // when its route lets the role in.
 export const NAV_ITEMS: readonly NavItem[] = [
+  { to: '/', label: 'Panel', icon: <LayoutDashboard className="h-4 w-4" />, roles: FRONT_DESK_ROLES, section: 'operacion' },
   { to: '/ordenes', label: 'Órdenes de trabajo', icon: <ClipboardList className="h-4 w-4" />, roles: STAFF_ROLES, section: 'operacion' },
   { to: '/ordenes/nueva', label: 'Recepción de equipo', icon: <ClipboardPlus className="h-4 w-4" />, roles: FRONT_DESK_ROLES, section: 'operacion' },
   { to: '/presupuestos', label: 'Presupuestos', icon: <FileText className="h-4 w-4" />, roles: FRONT_DESK_ROLES, section: 'gestion' },
-  { to: '/inventario', label: 'Inventario', icon: <Package className="h-4 w-4" />, roles: FRONT_DESK_ROLES, section: 'gestion' },
+  // US-F13 / RN-11: parts at or below their minimum stock.
+  { to: '/inventario', label: 'Inventario', icon: <Package className="h-4 w-4" />, roles: FRONT_DESK_ROLES, section: 'gestion', badge: 'low-stock' },
   { to: '/inventario/alertas', label: 'Stock bajo', icon: <BellRing className="h-4 w-4" />, roles: FRONT_DESK_ROLES, section: 'gestion' },
   // Staff can open the public portal to check what a customer sees.
   { to: '/portal-cliente', label: 'Portal del cliente', icon: <Globe className="h-4 w-4" />, roles: FRONT_DESK_ROLES, section: 'cliente' },

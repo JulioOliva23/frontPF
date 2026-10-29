@@ -237,11 +237,28 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Listar OTs (técnico: solo asignadas, RN-06) */
+        /** Listar OTs con filtro por estado, técnico y búsqueda (técnico: solo asignadas, RN-06) */
         get: operations["WorkOrdersController_list"];
         put?: never;
         /** Recepción: registrar dispositivo y abrir OT (RN-01, RN-02, RN-03) */
         post: operations["WorkOrdersController_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/work-orders/summary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Resumen para el panel de recepción: OTs activas, retrasadas y conteo por estado */
+        get: operations["WorkOrdersController_summary"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -813,6 +830,19 @@ export interface components {
             total: number;
             page: number;
             pageSize: number;
+        };
+        WorkOrderStatusCountDto: {
+            /** @enum {string} */
+            status: "RECEIVED" | "IN_DIAGNOSIS" | "BUDGETED" | "APPROVED" | "IN_REPAIR" | "QUALITY_CONTROL" | "READY_FOR_DELIVERY" | "DELIVERED" | "CANCELLED";
+            count: number;
+        };
+        WorkOrderSummaryDto: {
+            /** @description OTs que siguen en el local (ni entregadas ni canceladas) */
+            active: number;
+            /** @description OTs activas con la fecha compromiso vencida (sin contar las listas para entrega) */
+            overdue: number;
+            /** @description Una entrada por cada estado, incluidos los que están en cero */
+            byStatus: components["schemas"]["WorkOrderStatusCountDto"][];
         };
         CustomerWorkOrderStatusDto: {
             id: string;
@@ -1449,6 +1479,8 @@ export interface operations {
                 pageSize?: number;
                 status?: "RECEIVED" | "IN_DIAGNOSIS" | "BUDGETED" | "APPROVED" | "IN_REPAIR" | "QUALITY_CONTROL" | "READY_FOR_DELIVERY" | "DELIVERED" | "CANCELLED";
                 technicianId?: string;
+                /** @description Número de OT (OT-000123 o 123), IMEI, nombre o teléfono del cliente */
+                search?: string;
             };
             header?: never;
             path?: never;
@@ -1501,6 +1533,25 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    WorkOrdersController_summary: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkOrderSummaryDto"];
+                };
             };
         };
     };

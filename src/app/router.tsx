@@ -7,7 +7,6 @@ import { ADMIN_ROUTES } from './admin-routes';
 import { AppLayout } from './app-layout';
 import { RouteErrorBoundary } from './errors/RouteErrorBoundary';
 import { NotFoundPage } from './errors/NotFoundPage';
-import { HomeRedirect } from './home-redirect';
 
 // FE-07: route map. Every staff route sits behind RoleGuard with the same
 // role groups used by the sidebar (navigation.tsx).
@@ -35,7 +34,6 @@ export const routes: RouteObject[] = [
           {
             errorElement: <RouteErrorBoundary />,
             children: [
-              { index: true, element: <HomeRedirect /> },
               {
                 element: <RoleGuard allowedRoles={STAFF_ROLES} />,
                 children: [
@@ -44,9 +42,12 @@ export const routes: RouteObject[] = [
                 ],
               },
               {
-                // RN-07: technicians never reach budgets nor inventory.
+                // RN-07: technicians never reach budgets nor inventory. The
+                // dashboard is the front desk home; other roles hitting "/"
+                // are sent by RoleGuard to their own landing page.
                 element: <RoleGuard allowedRoles={FRONT_DESK_ROLES} />,
                 children: [
+                  { index: true, lazy: async () => ({ Component: (await import('../features/dashboard/pages/DashboardPage')).DashboardPage }) },
                   { path: 'ordenes/nueva', lazy: async () => ({ Component: (await import('../features/work-orders/pages/CheckInPage')).CheckInPage }) },
                   { path: 'presupuestos', lazy: async () => ({ Component: (await import('../features/budgets/pages/BudgetsPage')).BudgetsPage }) },
                   { path: 'presupuestos/:workOrderId', lazy: async () => ({ Component: (await import('../features/budgets/pages/BudgetEditorPage')).BudgetEditorPage }) },

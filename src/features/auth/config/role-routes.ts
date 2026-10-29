@@ -22,8 +22,9 @@ export function readLoginRedirectState(state: unknown): LoginRedirectState {
 // FE-07: landing route of each role after login or when it hits a route it
 // cannot access.
 export const ROLE_DEFAULT_ROUTE: Readonly<Record<UserRole, string>> = {
-  ADMIN: '/ordenes',
-  RECEPTIONIST: '/ordenes',
+  // Dashboard (front desk home).
+  ADMIN: '/',
+  RECEPTIONIST: '/',
   TECHNICIAN: '/ordenes',
   CUSTOMER: '/portal-cliente',
 };

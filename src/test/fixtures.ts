@@ -1,4 +1,4 @@
-import type { SparePart, WorkOrder } from '../shared/api/types';
+import type { SparePart, UserResponse, WorkOrder } from '../shared/api/types';
 
 export function workOrderFixture(overrides: Partial<WorkOrder> = {}): WorkOrder {
   return {
@@ -38,4 +38,20 @@ export function sparePartFixture(overrides: Partial<SparePart> = {}): SparePart 
     compatibleDeviceModelIds: ['m1'],
     ...overrides,
   };
+}
+
+export function technicianFixture(overrides: Partial<UserResponse> = {}): UserResponse {
+  return {
+    id: 'tech-1',
+    username: 'tecnico1',
+    fullName: 'Técnico Uno',
+    role: 'TECHNICIAN',
+    customerId: null,
+    isActive: true,
+    ...overrides,
+  };
+}
+
+export function paginatedWorkOrders(orders: WorkOrder[], page = 1, pageSize = 20) {
+  return { data: orders, total: orders.length, page, pageSize };
 }
