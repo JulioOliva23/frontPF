@@ -7,13 +7,20 @@ export const queryKeys = {
     detail: (id: string) => ['work-orders', 'detail', id] as const,
     audit: (id: string) => ['work-orders', 'audit', id] as const,
     mine: ['work-orders', 'mine'] as const,
+    // Under the root key, so every work order mutation refreshes the dashboard.
+    summary: ['work-orders', 'summary'] as const,
   },
   devices: {
     history: (imei: string) => ['devices', 'history', imei] as const,
+    // Prefix of `catalog`: invalidating it refreshes intake pickers and the
+    // admin catalog together.
     models: ['device-models'] as const,
+    catalog: ['device-models', 'catalog'] as const,
   },
   users: {
+    root: ['users'] as const,
     technicians: ['users', 'technicians'] as const,
+    admin: ['users', 'admin'] as const,
   },
   budgets: {
     root: ['budgets'] as const,

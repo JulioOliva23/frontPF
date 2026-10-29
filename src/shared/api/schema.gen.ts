@@ -11,7 +11,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Listar usuarios activos (p. ej. técnicos para asignación) */
+        /** Listar usuarios (activos; ADMIN puede incluir desactivados) */
         get: operations["UsersController_list"];
         put?: never;
         /** Crear usuario interno o de cliente */
@@ -34,6 +34,41 @@ export interface paths {
         post?: never;
         /** Desactivar usuario (borrado lógico, BE-18) */
         delete: operations["UsersController_deactivate"];
+        options?: never;
+        head?: never;
+        /** Editar nombre o rol de un usuario (US-21) */
+        patch: operations["UsersController_update"];
+        trace?: never;
+    };
+    "/api/v1/users/{id}/password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Restablecer la contraseña; cierra las sesiones previas del usuario (US-21) */
+        post: operations["UsersController_resetPassword"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/users/{id}/activate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Reactivar un usuario desactivado (US-21) */
+        post: operations["UsersController_activate"];
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -131,7 +166,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Listar modelos comerciales activos */
+        /** Listar modelos comerciales activos (ADMIN puede incluir desactivados) */
         get: operations["DevicesController_listModels"];
         put?: never;
         /** Registrar un modelo comercial */
@@ -140,6 +175,23 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/api/v1/device-models/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Renombrar o activar/desactivar un modelo comercial (US-21) */
+        patch: operations["DevicesController_updateModel"];
         trace?: never;
     };
     "/api/v1/spare-parts": {
@@ -237,11 +289,28 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Listar OTs (técnico: solo asignadas, RN-06) */
+        /** Listar OTs con filtro por estado, técnico y búsqueda (técnico: solo asignadas, RN-06) */
         get: operations["WorkOrdersController_list"];
         put?: never;
         /** Recepción: registrar dispositivo y abrir OT (RN-01, RN-02, RN-03) */
         post: operations["WorkOrdersController_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/work-orders/summary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Resumen para el panel de recepción: OTs activas, retrasadas y conteo por estado */
+        get: operations["WorkOrdersController_summary"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -494,6 +563,7 @@ export interface components {
         CreateUserDto: {
             /** @example tecnico01 */
             username: string;
+            /** @description Al menos una minúscula, una mayúscula y un dígito */
             password: string;
             /** @example Ana Pérez */
             fullName: string;
@@ -510,6 +580,16 @@ export interface components {
             role: "ADMIN" | "RECEPTIONIST" | "TECHNICIAN" | "CUSTOMER";
             customerId: string | null;
             isActive: boolean;
+        };
+        UpdateUserDto: {
+            /** @example Ana Pérez */
+            fullName?: string;
+            /** @enum {string} */
+            role?: "ADMIN" | "RECEPTIONIST" | "TECHNICIAN" | "CUSTOMER";
+        };
+        ResetPasswordDto: {
+            /** @description Al menos una minúscula, una mayúscula y un dígito */
+            password: string;
         };
         LoginDto: {
             /**
@@ -589,6 +669,7 @@ export interface components {
             id: string;
             brand: string;
             model: string;
+            isActive: boolean;
         };
         DeviceRepairEntryDto: {
             workOrderId: string;
@@ -616,6 +697,13 @@ export interface components {
             brand: string;
             /** @example iPhone 13 */
             model: string;
+        };
+        UpdateDeviceModelDto: {
+            /** @example Apple */
+            brand?: string;
+            /** @example iPhone 13 */
+            model?: string;
+            isActive?: boolean;
         };
         SparePartResponseDto: {
             id: string;
@@ -814,6 +902,19 @@ export interface components {
             page: number;
             pageSize: number;
         };
+        WorkOrderStatusCountDto: {
+            /** @enum {string} */
+            status: "RECEIVED" | "IN_DIAGNOSIS" | "BUDGETED" | "APPROVED" | "IN_REPAIR" | "QUALITY_CONTROL" | "READY_FOR_DELIVERY" | "DELIVERED" | "CANCELLED";
+            count: number;
+        };
+        WorkOrderSummaryDto: {
+            /** @description OTs que siguen en el local (ni entregadas ni canceladas) */
+            active: number;
+            /** @description OTs activas con la fecha compromiso vencida (sin contar las listas para entrega) */
+            overdue: number;
+            /** @description Una entrada por cada estado, incluidos los que están en cero */
+            byStatus: components["schemas"]["WorkOrderStatusCountDto"][];
+        };
         CustomerWorkOrderStatusDto: {
             id: string;
             number: number;
@@ -945,6 +1046,8 @@ export interface operations {
         parameters: {
             query?: {
                 role?: "ADMIN" | "RECEPTIONIST" | "TECHNICIAN" | "CUSTOMER";
+                /** @description Incluir usuarios desactivados (solo ADMIN) */
+                includeInactive?: boolean;
             };
             header?: never;
             path?: never;
@@ -993,6 +1096,90 @@ export interface operations {
         };
     };
     UsersController_deactivate: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserResponseDto"];
+                };
+            };
+            /** @description No se puede desactivar la propia cuenta */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    UsersController_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateUserDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserResponseDto"];
+                };
+            };
+            /** @description Cambio de rol no permitido (cuenta de cliente o propia) */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    UsersController_resetPassword: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ResetPasswordDto"];
+            };
+        };
+        responses: {
+            /** @description Contraseña actualizada */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    UsersController_activate: {
         parameters: {
             query?: never;
             header?: never;
@@ -1196,7 +1383,10 @@ export interface operations {
     };
     DevicesController_listModels: {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Incluir modelos desactivados (solo ADMIN) */
+                includeInactive?: boolean;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -1227,6 +1417,38 @@ export interface operations {
         };
         responses: {
             201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DeviceModelResponseDto"];
+                };
+            };
+            /** @description Marca y modelo ya registrados */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    DevicesController_updateModel: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateDeviceModelDto"];
+            };
+        };
+        responses: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -1449,6 +1671,8 @@ export interface operations {
                 pageSize?: number;
                 status?: "RECEIVED" | "IN_DIAGNOSIS" | "BUDGETED" | "APPROVED" | "IN_REPAIR" | "QUALITY_CONTROL" | "READY_FOR_DELIVERY" | "DELIVERED" | "CANCELLED";
                 technicianId?: string;
+                /** @description Número de OT (OT-000123 o 123), IMEI, nombre o teléfono del cliente */
+                search?: string;
             };
             header?: never;
             path?: never;
@@ -1501,6 +1725,25 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    WorkOrdersController_summary: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["WorkOrderSummaryDto"];
+                };
             };
         };
     };

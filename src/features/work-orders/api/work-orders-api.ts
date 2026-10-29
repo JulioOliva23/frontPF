@@ -11,16 +11,21 @@ import type {
   WorkOrder,
   WorkOrderAuditEntry,
   WorkOrderStatus,
+  WorkOrderSummary,
 } from '../../../shared/api/types';
 
 export interface WorkOrderFilters {
   status?: WorkOrderStatus;
+  technicianId?: string;
+  // Work order number, IMEI, customer name or phone (matched by the backend).
+  search?: string;
   page?: number;
   pageSize?: number;
 }
 
 export const workOrdersApi = {
   list: (filters: WorkOrderFilters) => request<PaginatedWorkOrders>({ url: '/work-orders', params: filters }),
+  summary: () => request<WorkOrderSummary>({ url: '/work-orders/summary' }),
   get: (id: string) => request<WorkOrder>({ url: `/work-orders/${id}` }),
   create: (payload: CreateWorkOrderPayload) => request<CreatedWorkOrder>({ url: '/work-orders', method: 'POST', data: payload }),
   assignTechnician: (id: string, technicianId: string) =>

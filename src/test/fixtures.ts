@@ -1,4 +1,4 @@
-import type { Budget, CustomerWorkOrderStatus, SparePart, WorkOrder } from '../shared/api/types';
+import type { Budget, CustomerWorkOrderStatus, SparePart, UserResponse, WorkOrder } from '../shared/api/types';
 
 export function workOrderFixture(overrides: Partial<WorkOrder> = {}): WorkOrder {
   return {
@@ -79,4 +79,20 @@ export function customerStatusFixture(overrides: Partial<CustomerWorkOrderStatus
 
 export function pageOf<T>(data: T[], page = 1, pageSize = 20, total = data.length) {
   return { data, page, pageSize, total };
+}
+
+export function technicianFixture(overrides: Partial<UserResponse> = {}): UserResponse {
+  return {
+    id: 'tech-1',
+    username: 'tecnico1',
+    fullName: 'Técnico Uno',
+    role: 'TECHNICIAN',
+    customerId: null,
+    isActive: true,
+    ...overrides,
+  };
+}
+
+export function paginatedWorkOrders(orders: WorkOrder[], page = 1, pageSize = 20) {
+  return pageOf(orders, page, pageSize);
 }

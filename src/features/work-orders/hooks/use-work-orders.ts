@@ -10,6 +10,11 @@ export function useWorkOrders(filters: WorkOrderFilters) {
   return useQuery({ queryKey: queryKeys.workOrders.list(filters), queryFn: () => workOrdersApi.list(filters) });
 }
 
+// Front desk dashboard counters (ADMIN / RECEPTIONIST only).
+export function useWorkOrderSummary() {
+  return useQuery({ queryKey: queryKeys.workOrders.summary, queryFn: workOrdersApi.summary, staleTime: 30_000 });
+}
+
 export function useWorkOrder(id: string) {
   return useQuery({ queryKey: queryKeys.workOrders.detail(id), queryFn: () => workOrdersApi.get(id) });
 }

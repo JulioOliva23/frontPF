@@ -15,6 +15,8 @@ function renderLogin(login: (username: string, password: string) => Promise<Auth
     path: '/auth/login',
     auth: { login },
     extraRoutes: [
+      // Front desk lands on the dashboard (phase 2).
+      <Route key="d" path="/" element={<p>Panel de recepción</p>} />,
       <Route key="o" path="/ordenes" element={<p>Listado de órdenes</p>} />,
       <Route key="p" path="/portal-cliente" element={<p>Portal del cliente</p>} />,
     ],
@@ -39,7 +41,8 @@ describe('LoginPage', () => {
   });
 
   it.each([
-    ['RECEPTIONIST', 'Listado de órdenes'],
+    ['RECEPTIONIST', 'Panel de recepción'],
+    ['TECHNICIAN', 'Listado de órdenes'],
     ['CUSTOMER', 'Portal del cliente'],
   ] as const)('sends a %s to their default route', async (role, landing) => {
     const login = vi.fn(async () => ({ id: 'u1', fullName: 'Ana', username: 'ana', role }));
