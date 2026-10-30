@@ -30,6 +30,16 @@ if printf '%s\n' "$STAGED" | grep -E '(^|/)\.env(\..+)?$' | grep -vE '\.env\.exa
   exit 1
 fi
 
+# SDD (constitution C2.3 / C4.1): every requirement and acceptance criterion of an
+# implemented spec keeps a tagged test. Runs only when a spec or a test changes.
+if grep -qE '^(specs/|src/.*\.test\.tsx?$)' <<<"$STAGED"; then
+  step "SDD → spec to test traceability"
+  if ! node scripts/sdd/check-traceability.mjs src; then
+    red "✖ Commit blocked: a requirement has no tagged test, or a test cites a missing requirement (C2.3)."
+    exit 1
+  fi
+fi
+
 SOURCES='^(src/|public/|index\.html$|package(-lock)?\.json$|tsconfig.*\.json$|vite\.config\.ts$|vitest\.config\.ts$|\.oxlintrc\.json$)'
 if ! grep -qE "$SOURCES" <<<"$STAGED"; then
   green "✔ No sources staged, skipping checks."
