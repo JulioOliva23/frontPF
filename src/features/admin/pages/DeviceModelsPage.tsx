@@ -71,7 +71,7 @@ export function DeviceModelsPage() {
           />
         </div>
         <label className="flex min-h-[44px] items-center gap-2 text-sm text-muted">
-          <input type="checkbox" checked={showInactive} onChange={(event) => setShowInactive(event.target.checked)} className="h-4 w-4 accent-lime-600" />
+          <input type="checkbox" checked={showInactive} onChange={(event) => setShowInactive(event.target.checked)} className="h-4 w-4 accent-mint" />
           Mostrar desactivados
         </label>
       </div>

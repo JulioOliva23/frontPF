@@ -6,23 +6,25 @@ Cumple la [constitución](../../docs/constitution.md) (C1.1 solo Tailwind, sin k
 
 | Archivo (`src`) | Responsabilidad | RF |
 | --- | --- | --- |
-| `index.css` | Fuente base, selección de texto en cian, utilidades `bg-tech-grid` y `bg-tech-grid-dark` | RF-1.1, RF-2.2, RF-2.3 |
-| `app/app-layout.tsx` | Cabecera `slate-950`, logotipo cian, avatar, fondo con cuadrícula, `print:hidden` | RF-2.1, RF-2.2, RF-2.4 |
-| `app/app-sidebar.tsx` | Menú oscuro, ítem activo `cyan-400`, títulos de sección en cian | RF-2.1 |
-| `features/auth/pages/LoginPage.tsx` | Fondo oscuro con cuadrícula y resplandor | RF-2.3 |
-| `shared/components/Button.tsx` · `Card.tsx` · `Input.tsx` · `Badge.tsx` · `Modal.tsx` … | Componentes comunes con las variantes; botón primario cian | RF-3 |
-| Pantallas de `features/**` | Usan solo clases `cyan-*` para el acento | RF-1, RF-3.1 |
+| `index.css` | Paleta en `@theme` (`canvas`, `surface*`, `ink*`, `muted`, `line`, `mint`, `mint-deep`, `lavender`); fondo oscuro; selección y foco lavanda; `glass-card`, `primary-action`, `secondary-action`, `app-header`, `app-sidebar`, `mascot-halo`; impresión; movimiento reducido | RF-1, RF-2, RF-4.4 |
+| `app/app-layout.tsx` | Cabecera y menú translúcidos, cajón, barra de navegación inferior, `print:hidden` | RF-2.1, RF-2.4, RF-4.3 |
+| `app/app-sidebar.tsx` | Elemento activo en menta | RF-1.1, RF-2.1 |
+| `shared/components/Mascot.tsx` | Gato reparador (`/brand/repair-cat.png`) | RF-2.3 |
+| `features/auth/pages/LoginPage.tsx` | Marca, mascota con halo y formulario en tarjeta de vidrio | RF-2.3 |
+| `shared/components/Button.tsx` · `Card.tsx` · `Badge.tsx` · `MetricCard.tsx` · `ui/form-field.tsx` … | Variantes comunes; únicos lugares con colores propios | RF-1.3, RF-3 |
+| Pantallas de `features/**` | Solo tokens del tema (`text-mint`, `bg-surface`, `border-line`…) | RF-3.1 |
 
 ## 2. Modelo de datos
 
-Sin datos. La paleta se define por clases de Tailwind:
+Sin datos. La paleta vive en `@theme`:
 
 ```json
 {
-  "acento": { "fondo": "cyan-400", "texto-sobre-acento": "cyan-950", "hover": "cyan-300", "foco": "cyan-600" },
-  "estructura": { "cabecera-y-menu": "slate-950 / slate-900", "contenido": "slate-50 + cuadrícula", "borde-de-cabecera": "cyan-500/20" },
-  "estados": { "error": "red-*", "aviso": "amber-*", "ok": "emerald-*", "info": "sky-*" },
-  "utilidades": ["bg-tech-grid", "bg-tech-grid-dark"]
+  "fondo": { "canvas": "#120e20", "surface": "#231e33", "surface-soft": "#191624", "surface-raised": "#302a42" },
+  "texto": { "ink": "#f5f3fc", "ink-soft": "#d3cfe2", "muted": "#b5afc7" },
+  "acento": { "mint": "#9af2c7", "mint-deep (texto sobre menta)": "#102b22", "lavender": "#c4b5fd" },
+  "botón principal": "degradado mint → #b5e2e8 → lavender con texto #12231f",
+  "estados": { "error": "red-*", "aviso": "orange-* / amber-*", "ok": "emerald-*" }
 }
 ```
 
@@ -30,20 +32,18 @@ Sin datos. La paleta se define por clases de Tailwind:
 
 ```text
 reglas de estilo:                                                # RF-1, RF-3
-  acento = siempre una clase cyan-* ; prohibido lime-*
-  botón primario = bg-cyan-400 + text-cyan-950 ; hover cyan-300 ; foco ring cyan
-  error/aviso/ok = red/amber/emerald (nunca el acento)
-
-bg-tech-grid:       líneas de 1 px cada 32 px con slate-200 al 60 %          # fondo del contenido
-bg-tech-grid-dark:  resplandor radial cian arriba + líneas slate-800 al 70 % # login
+  acento = mint (acción, activo, foco de campo) + lavender (foco de teclado, selección)
+  prohibido: lime-*, cyan-*
+  menta sólida (bg-mint) ⇒ texto mint-deep ; decorativo (aria-hidden) exento
+  error/aviso/ok = red / orange-amber / emerald (nunca el acento)
 
 tamaños:                                                         # RF-4
-  baseStyles de Button: min-h-[44px] min-w-[44px]
-  inputs/selects/botones nativos: min-height 44 px en @layer base
-  excepción conocida (a corregir): 5 controles con min-h-[36px]
+  Button: min-h-[44px] min-w-[44px] ; nativos: min-height 44 px en @layer base
+  ningún min-h-[0..39px]
 
-responsive: menú lateral visible desde lg ; por debajo, cajón (aside fijo con overlay)   # RF-4.3
-impresión: la cabecera y el menú llevan print:hidden                                    # RF-2.4
+responsive: menú lateral desde lg ; por debajo, cajón + barra inferior fija   # RF-4.3
+impresión: cabecera, menú y barra inferior print:hidden ; body blanco         # RF-2.4
+prefers-reduced-motion: duración de animaciones y transiciones ≈ 0            # RF-4.4
 ```
 
 ## 4. Contrato de uso
@@ -52,10 +52,10 @@ No hay API. Contrato visual para quien agregue pantallas:
 
 | Necesito… | Uso |
 | --- | --- |
-| Acción principal | `<Button variant="primary">` (cian) |
+| Acción principal | `<Button variant="primary">` (degradado menta–lavanda) |
 | Acción de contorno / secundaria | `variant="outline-light"` / `ghost-light` |
 | Acción destructiva | `variant="danger"` |
-| Tarjeta | `<Card variant="public">` sobre fondo claro |
+| Tarjeta | `<Card>` (`glass-card`) |
 | Estado de la orden | `<WorkOrderStatusBadge>` |
 | Control pulsable propio | `min-h-[44px]` |
 
@@ -63,20 +63,17 @@ No hay API. Contrato visual para quien agregue pantallas:
 
 | Decisión | Justificación | Alternativa descartada |
 | --- | --- | --- |
-| Cian como único acento | Transmite "tecnología" y se distingue de rojo/ámbar/verde de estados (RF-1.3) | Verde lima (anterior): confundible con "ok"; azul puro: poco diferenciado de los enlaces |
-| Cabecera y menú oscuros, contenido claro | Marco con carácter técnico sin sacrificar la lectura de tablas y formularios | Todo oscuro: bajo contraste en tablas largas |
-| Cuadrícula con CSS (`@utility`) | Cero imágenes (RNF-1) y un único lugar para cambiarla | Imagen de fondo: peso y escalado |
-| Reemplazo masivo `lime-` → `cyan-` | Cambio uniforme y revisable en un solo commit | Editar pantalla por pantalla |
+| Diseño oscuro con mascota (PR #8) | El equipo lo eligió sobre el cian: transmite cercanía al cliente sin perder el tono técnico | Acento cian sobre azul (`diseño-nuevo`): frío para el portal del cliente |
+| Menta como acento, lavanda como apoyo | El menta se distingue del verde esmeralda de "ok" por saturación y contexto; el lavanda marca el foco sin competir con la acción | Un solo acento: el foco de teclado se confunde con lo activo |
+| Paleta en `@theme` | Un solo lugar para cambiarla (RNF-2) | Colores sueltos por pantalla |
+| Hexadecimales solo en `shared/components` e `index.css` | Las pantallas heredan cualquier ajuste de paleta | Permitirlos en pantallas |
 | Tailwind sin kit de componentes externo | Menos dependencias (C1.1) | Instalar un kit de UI |
-| Dejar el portal público con su cabecera clara por ahora | Es la cara hacia el cliente; la decisión de marca se consulta (duda abierta) | Aplicar el oscuro sin preguntar |
 
 ## 6. Estrategia de tests y verificación
 
 | Qué | Cómo | RF |
 | --- | --- | --- |
-| Sin clases lima | `grep -rn "lime-" src` debe devolver vacío (verificación manual hoy) | RF-1.2 |
-| La aplicación compila y los tests pasan con el aspecto nuevo | `npm run build` y `npm test` | todos |
-| Menú, cajón y resaltado exacto | `app-sidebar.test.tsx`, `router.test.tsx` ("opens the mobile drawer…") | RF-2.1, RF-4.3 |
-| `design-rules.test.ts` | falla si reaparece `lime-` o un color hexadecimal propio en una pantalla | RF-1.2, RF-3.1 |
-| `design-rules.test.ts` | ningún `min-h-[0..39px]`; base de botones y campos en 44 px | RF-4.1 |
+| Reglas de diseño | `src/test/design-rules.test.ts` lee las fuentes y falla ante lima o cian, un hexadecimal en una pantalla, un control menor de 44 px, menta sólida sin texto oscuro o falta de reglas de impresión y de movimiento reducido | RF-1 a RF-5.1 |
+| Menú, cajón y resaltado exacto | `router.test.tsx` ("opens the mobile drawer…") | RF-4.3 |
+| Error por más que el color | `form-field.test.tsx` | RF-5.2 |
 | Pendiente: revisión visual en celular | manual | RF-4.2 |

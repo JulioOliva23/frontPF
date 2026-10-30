@@ -1,6 +1,6 @@
 # Verificación de las specs del frontend
 
-**Fecha:** 2026-10-30 · **Rama:** `feat/sdd-closure` (`diseño-nuevo` + `main` actualizado + specs) · **Constitución:** [docs/constitution.md](../docs/constitution.md)
+**Fecha:** 2026-10-30 · **Rama:** `feat/sdd-closure-v2` (sobre `main` `f0bd95af`, con el diseño oscuro de la PR #8 y el agente IA de la PR #9) · **Constitución:** [docs/constitution.md](../docs/constitution.md)
 
 Este informe sustituye al de la primera versión. Cada requisito tiene ahora un test etiquetado; el detalle de **qué test prueba cada uno** se genera solo en [trazabilidad.md](trazabilidad.md).
 
@@ -10,15 +10,15 @@ Este informe sustituye al de la primera versión. Cada requisito tiene ahora un 
 | --- | --- | --- |
 | Tipos | `npm run typecheck` | ✅ sin errores |
 | Lint | `npm run lint` (`tsc -b` + oxlint) | ✅ sin avisos |
-| Tests (Vitest + Testing Library + MSW) | `npx vitest run` | ✅ **31 archivos · 256 tests** (52 más que antes), sin red real |
+| Tests (Vitest + Testing Library + MSW) | `npx vitest run` | ✅ **35 archivos · 275 tests**, sin red real; cobertura 92,8 % de sentencias (umbral 70 %) |
 | Build de producción | `npm run build` | ✅ |
-| Trazabilidad spec → test | `npm run sdd:check` | ✅ **71 de 71 requisitos** y **202 de 202 criterios de aceptación** con test etiquetado |
+| Trazabilidad spec → test | `npm run sdd:check` | ✅ **75 de 75 requisitos** y **216 de 216 criterios de aceptación** con test etiquetado |
 
 ## 2. Cómo se comprueba un requisito
 
 Cada título de test lleva la etiqueta del requisito que prueba, por ejemplo `[001/RF-5.4]`. `scripts/sdd/check-traceability.mjs` (hook pre-commit y job `sdd` de la CI) falla si un requisito (`RF-n`) o un criterio (`RF-n.m`) de una spec implementada no tiene test etiquetado, o si un test cita un requisito que no existe. La spec `011` es una propuesta y está exenta.
 
-**Reglas de diseño como tests.** La spec 010 se comprueba en [`src/test/design-rules.test.ts`](../src/test/design-rules.test.ts), que lee las fuentes: sin color lima, acento cian en botón, menú y foco, cabecera y menú oscuros, modo de impresión, ningún control menor de 44 px, ningún color hexadecimal propio en las pantallas y pares de color con contraste (texto oscuro sobre el cian).
+**Reglas de diseño como tests.** La spec 010 se comprueba en [`src/test/design-rules.test.ts`](../src/test/design-rules.test.ts), que lee las fuentes: sin acentos lima ni cian, menta y lavanda en botón, menú y foco, fondo oscuro con cabecera y menú translúcidos, tarjetas de vidrio, mascota en el inicio de sesión, modo de impresión, movimiento reducido, ningún control menor de 44 px, ningún color hexadecimal propio en las pantallas y texto oscuro sobre el menta sólido.
 
 **Límite de la herramienta:** comprueba que *existe* un test etiquetado, no que sea suficiente. Las partes puramente visuales (que se vea bien en un celular real, contraste medido) no se pueden verificar con tests de código.
 
@@ -37,6 +37,7 @@ Cada título de test lleva la etiqueta del requisito que prueba, por ejemplo `[0
 | 009 Panel de control | ✅ Cumplida | marcador y guion, alerta y aviso, saludo y fecha con reloj controlado |
 | 010 Identidad visual | ⚠️ Cumplida en código; falta lo que solo se ve | reglas de diseño en verde; **sin revisión en un celular real ni medición de contraste** |
 | 011 Cookie protegida | — Propuesta | solo `withCredentials` (RF-4.1) existe |
+| 012 Aprobaciones del agente IA | ✅ Cumplida | stream con caché e invalidación, veto y payloads malformados, decisión según el rol, confirmación escrita en irreversibles; prueba manual de punta a punta |
 
 ## 4. Hallazgos de la primera verificación
 
@@ -44,14 +45,15 @@ Cada título de test lleva la etiqueta del requisito que prueba, por ejemplo `[0
 | --- | --- | --- |
 | **H1** (media) | La interfaz mostraba tal cual los mensajes en inglés del servidor | ✅ **Resuelto en el origen**: el backend ahora responde todo en español ([backPF `feat/sdd-closure`](https://github.com/JulioOliva23/backPF/tree/feat/sdd-closure)). El frontend sigue mostrando el mensaje del servidor, así que **depende de desplegar ese cambio** |
 | **H2** (baja) | 5 controles medían 36 px | ✅ **Corregido**: ahora 44 px; lo impide `design-rules.test` |
+| **H5** (baja) | Al pasar al diseño oscuro (PR #8) quedaron dos casillas con los acentos anteriores (`accent-lime-600`, `accent-cyan-600`) y la spec 010 seguía describiendo el diseño cian | ✅ **Corregido**: casillas en `accent-mint` y spec 010 reescrita al diseño actual |
 | **H3** (baja) | Existía la baja de repuestos en la capa de datos pero ninguna pantalla la usa | ⏳ Pendiente (tarea T12 de la spec 006); no es un incumplimiento, es una función que falta |
-| **H4** (baja) | ~25 comportamientos sin test | ✅ **Cubiertos**: 71/71 requisitos y 202/202 criterios con test etiquetado |
+| **H4** (baja) | ~25 comportamientos sin test | ✅ **Cubiertos**: 75/75 requisitos y 216/216 criterios con test etiquetado |
 
 Además, al escribir los tests aparecieron dos errores **de las specs**, no del código, que se corrigieron: la tabla de inventario muestra disponible / reservado / **mínimo** (no el físico), y el aviso usa naranja además de ámbar.
 
 ### Límites conocidos
 
-- **Visual:** no se revisó en un celular real ni se midió el contraste (WCAG AA). Son las tareas T8 y T9 de la spec 010.
+- **Visual:** no se revisó en un celular real ni se midió el contraste (WCAG AA). Son las tareas T9 y T10 de la spec 010.
 - **Dependencia del backend:** los mensajes en español dependen de que se despliegue la rama `feat/sdd-closure` del backend.
 - **Dudas abiertas:** 7 tareas esperan una decisión del cliente (recuperar contraseña, columnas de la tabla, cancelación tras aprobar, aspecto del portal público, editar marca o modelo, indicador de retrasadas, indicador de presupuestos vencidos).
 

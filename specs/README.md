@@ -1,6 +1,6 @@
 # Specs del frontend (Spec-Driven Development)
 
-Documentación escrita **de forma retroactiva** el 2026-10-29 a partir del código y de los tests existentes, más una propuesta nueva. Rige la [constitución](../docs/constitution.md). El comportamiento del servidor se define en [backPF](https://github.com/JulioOliva23/backPF/tree/main/specs).
+Documentación escrita **de forma retroactiva** el 2026-10-29 a partir del código y de los tests existentes, más una propuesta nueva; la 012 se escribió junto con la funcionalidad (2026-10-30). Rige la [constitución](../docs/constitution.md). El comportamiento del servidor se define en [backPF](https://github.com/JulioOliva23/backPF/tree/main/specs).
 
 Cada carpeta tiene tres archivos:
 
@@ -21,16 +21,17 @@ Cada carpeta tiene tres archivos:
 | [007 · Portal del cliente](007-portal-del-cliente/spec.md) | ✅ Implementada | 12 | 1 (decisión del cliente) |
 | [008 · Administración](008-administracion/spec.md) | ✅ Implementada | 13 | 1 (decisión del cliente) |
 | [009 · Panel de control](009-panel-de-control/spec.md) | ✅ Implementada | 8 | 2 (decisión del cliente / backend) |
-| [010 · Identidad visual](010-identidad-visual/spec.md) | ✅ Implementada en código | 8 | 3 (revisión en celular, contraste, decisión del cliente) |
+| [010 · Identidad visual](010-identidad-visual/spec.md) | ✅ Implementada (actualizada al diseño oscuro con mascota) | 8 | 2 (revisión en celular, contraste) |
 | [011 · Cookie protegida](011-sesion-con-cookie-httponly/spec.md) | **Propuesta** (nueva) | 1 | 9 |
-| **Total** | | **116** | **21** |
+| [012 · Aprobaciones del agente IA](012-aprobaciones-del-agente-ia/spec.md) | ✅ Implementada (2026-10-30) | 7 | 1 (test del aviso emergente) |
+| **Total** | | **123** | **21** |
 
 ## Cómo se trabaja con SDD en este repositorio
 
 1. **Spec primero:** el cambio de comportamiento empieza en el `spec.md` (un `RF-x` con criterios EARS).
 2. **Test después, código al final:** cada test lleva en su título la etiqueta del requisito que prueba, por ejemplo `it('rejects … [001/RF-5.4]')`.
 3. **Verificación automática:** `npm run sdd:check` falla si un requisito o criterio de aceptación de una spec implementada no tiene test, o si un test cita un requisito inexistente. Lo ejecutan el hook pre-commit y el job `sdd` de la CI.
-4. **Reglas de diseño como tests:** `src/test/design-rules.test.ts` impide reintroducir el color lima, controles menores de 44 px o colores propios en las pantallas.
+4. **Reglas de diseño como tests:** `src/test/design-rules.test.ts` impide reintroducir los acentos lima o cian, controles menores de 44 px o colores propios en las pantallas.
 5. **Tareas con evidencia:** `[x]` en `tasks.md` solo cuando su "Hecho cuando" se cumple y se cita la evidencia.
 6. **Informes:** [verificacion.md](verificacion.md) (resultado de las pruebas y veredicto) y [trazabilidad.md](trazabilidad.md) (requisito → tests, generado con `npm run sdd:report`).
 

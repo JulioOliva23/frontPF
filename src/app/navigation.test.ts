@@ -5,7 +5,7 @@ import { NAV_ITEMS, isItemActive, navItemsForRole } from './navigation';
 const labels = (role: Parameters<typeof navItemsForRole>[0]) => navItemsForRole(role).map((item) => item.to);
 
 describe('navigation RBAC (FE-07 / FE-08)', () => {
-  it('hides budgets and inventory from technicians (RN-07) [001/RF-3.1]', () => {
+  it('hides budgets and inventory from technicians (RN-07) [001/RF-3.1] [012/RF-4.1]', () => {
     expect(labels('TECHNICIAN')).toEqual(['/ordenes', '/aprobaciones']);
   });
 

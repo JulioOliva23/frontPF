@@ -36,7 +36,7 @@ export function DeviceModelPicker({ value, onChange, readOnly = false }: DeviceM
                     checked ? 'border-mint bg-mint/10 text-mint' : 'border-line bg-surface text-muted'
                   } ${readOnly ? 'cursor-default' : 'cursor-pointer'}`}
                 >
-                  <input type="checkbox" checked={checked} disabled={readOnly} onChange={() => toggle(model.id)} className="h-4 w-4 accent-cyan-600" />
+                  <input type="checkbox" checked={checked} disabled={readOnly} onChange={() => toggle(model.id)} className="h-4 w-4 accent-mint" />
                   {model.model}
                 </label>
               );

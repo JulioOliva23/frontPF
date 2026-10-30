@@ -36,7 +36,7 @@ function setup(options: AgentActionStreamOptions, seed: AgentAction[] = []) {
 }
 
 describe('useAgentActionStream (AG-01 frontend hook)', () => {
-  it('writes created proposals into the cache and removes them once decided', async () => {
+  it('writes created proposals into the cache and removes them once decided [012/RF-1.1] [012/RF-1.2]', async () => {
     const created = agentActionFixture();
     const executed = { ...created, status: 'EXECUTED' as const };
     server.use(http.get(api('/agent-actions/stream'), () => sseResponse([frame('ping', {}), frame('created', created), frame('updated', executed)])));
@@ -52,7 +52,7 @@ describe('useAgentActionStream (AG-01 frontend hook)', () => {
     expect(invalidate).toHaveBeenCalledWith({ queryKey: queryKeys.spareParts.root });
   });
 
-  it('lets the interceptor veto an event and ignores malformed payloads', async () => {
+  it('lets the interceptor veto an event and ignores malformed payloads [012/RF-1.3]', async () => {
     server.use(
       http.get(api('/agent-actions/stream'), () =>
         sseResponse([frame('created', { nope: true }), 'event: created\ndata: {broken\n\n', frame('created', agentActionFixture())]),
@@ -66,7 +66,7 @@ describe('useAgentActionStream (AG-01 frontend hook)', () => {
     expect(client.getQueryData(queryKeys.agentActions.list('PENDING'))).toEqual([]);
   });
 
-  it('reports offline when the stream is unavailable and does nothing when disabled', async () => {
+  it('reports offline when the stream is unavailable and does nothing when disabled [012/RF-1.4]', async () => {
     server.use(http.get(api('/agent-actions/stream'), () => new HttpResponse(null, { status: 503 })));
     const { result } = setup({});
     await waitFor(() => expect(result.current).toBe('offline'));

@@ -13,9 +13,10 @@
 | 009-panel-de-control | 6 | 6 | ✅ |
 | 010-identidad-visual | 5 | 5 | ✅ |
 | 011-sesion-con-cookie-httponly | _propuesta_ | — | exenta hasta que se implemente |
+| 012-aprobaciones-del-agente-ia | 4 | 4 | ✅ |
 
-71 de 71 requisitos tienen al menos un test etiquetado.
-202 de 202 criterios de aceptación (RF-n.m) tienen su propio test etiquetado.
+75 de 75 requisitos tienen al menos un test etiquetado.
+216 de 216 criterios de aceptación (RF-n.m) tienen su propio test etiquetado.
 
 ## Requisito → tests
 
@@ -134,9 +135,18 @@
 
 | Requisito | Tests que lo prueban |
 | --- | --- |
-| RF-1 | `RF-1` describe('Accent colour', () => { _(design-rules.test.ts)_<br>`RF-1.2` never uses the old lime green anywhere _(design-rules.test.ts)_<br>`RF-1.1` uses cyan for the primary button, the active menu item, text selection and field focus _(design-rules.test.ts)_<br>`RF-1.3` keeps red, orange/amber and green for errors, warnings and confirmations _(design-rules.test.ts)_ |
-| RF-2 | `RF-2` describe('Page structure', () => { _(design-rules.test.ts)_<br>`RF-2.1` draws the header and the menu on dark navy, with the active item in cyan _(design-rules.test.ts)_<br>`RF-2.2` puts a faint grid behind the content and defines it as a reusable utility _(design-rules.test.ts)_<br>`RF-2.3` draws the sign-in page dark, with the grid and a cyan glow on top _(design-rules.test.ts)_<br>`RF-2.4` hides the header and the menu when printing _(design-rules.test.ts)_ |
-| RF-3 | `RF-3` describe('Consistency', () => { _(design-rules.test.ts)_<br>`RF-3.1` lets screens use only the shared tokens: no hard-coded hex colours outside shared components _(design-rules.test.ts)_<br>`RF-3.2` keeps every button variant in one component _(design-rules.test.ts)_ |
-| RF-4 | `RF-4.3` opens the mobile drawer and highlights only the exact menu item _(router.test.tsx)_<br>`RF-4` describe('Size and layout', () => { _(design-rules.test.ts)_<br>`RF-4.1` gives every pressable control at least 44 px of height _(design-rules.test.ts)_<br>`RF-4.2` works down to 320 px wide without horizontal scrolling _(design-rules.test.ts)_ |
+| RF-1 | `RF-1` describe('Accent colour', () => { _(design-rules.test.ts)_<br>`RF-1.1` uses mint for the main action, the active menu item and field focus, and lavender for keyboard focus and selection _(design-rules.test.ts)_<br>`RF-1.2` never uses the old lime or cyan accents anywhere _(design-rules.test.ts)_<br>`RF-1.3` keeps red, orange/amber and green for errors, warnings and confirmations _(design-rules.test.ts)_ |
+| RF-2 | `RF-2` describe('Page structure', () => { _(design-rules.test.ts)_<br>`RF-2.1` draws everything on a dark violet background with translucent header and menu _(design-rules.test.ts)_<br>`RF-2.2` presents content in glass cards with one border and radius _(design-rules.test.ts)_<br>`RF-2.3` shows the mascot with its halo on the sign-in page _(design-rules.test.ts)_<br>`RF-2.4` hides the header, the menu and the bottom bar when printing, on a white page _(design-rules.test.ts)_ |
+| RF-3 | `RF-3` describe('Consistency', () => { _(design-rules.test.ts)_<br>`RF-3.1` lets screens use only the theme tokens: no hard-coded hex colours outside shared components _(design-rules.test.ts)_<br>`RF-3.2` keeps every button variant in one component _(design-rules.test.ts)_ |
+| RF-4 | `RF-4.3` opens the mobile drawer and highlights only the exact menu item _(router.test.tsx)_<br>`RF-4` describe('Size and layout', () => { _(design-rules.test.ts)_<br>`RF-4.1` gives every pressable control at least 44 px of height _(design-rules.test.ts)_<br>`RF-4.2` works down to 320 px wide without horizontal scrolling _(design-rules.test.ts)_<br>`RF-4.3` swaps the side menu for a drawer and a bottom bar on narrow screens _(design-rules.test.ts)_<br>`RF-4.4` turns animations off when the person asks for reduced motion _(design-rules.test.ts)_ |
 | RF-5 | `RF-5.2` distinguishes a field with an error by more than colour: text, role and aria state _(form-field.test.tsx)_<br>`RF-5.2` shows no alert and no invalid state when the field is fine _(form-field.test.tsx)_<br>`RF-5` describe('Legibility', () => { _(design-rules.test.ts)_<br>`RF-5.1` pairs every solid accent background with dark text _(design-rules.test.ts)_ |
+
+### 012-aprobaciones-del-agente-ia
+
+| Requisito | Tests que lo prueban |
+| --- | --- |
+| RF-1 | `RF-1.1` writes created proposals into the cache and removes them once decided _(use-agent-action-stream.test.tsx)_<br>`RF-1.2` writes created proposals into the cache and removes them once decided _(use-agent-action-stream.test.tsx)_<br>`RF-1.3` lets the interceptor veto an event and ignores malformed payloads _(use-agent-action-stream.test.tsx)_<br>`RF-1.4` reports offline when the stream is unavailable and does nothing when disabled _(use-agent-action-stream.test.tsx)_<br>`RF-1.5` splits complete frames, keeps the partial tail and skips comments _(agent-actions-lib.test.ts)_<br>`RF-1.5` joins multi-line data and defaults the event name _(agent-actions-lib.test.ts)_<br>`RF-1.4` backs off exponentially up to 30 s _(agent-actions-lib.test.ts)_ |
+| RF-2 | `RF-2.1` only offers approval to a role the state machine accepts _(agent-actions-lib.test.ts)_<br>`RF-2.2` never lets the proposing account decide _(agent-actions-lib.test.ts)_<br>`RF-2.3` counts whole minutes left and upserts newest first _(agent-actions-lib.test.ts)_<br>`RF-2.1` renders decisions conditionally by role: reception can reject a repair start but not approve it _(AgentApprovalsPage.test.tsx)_ |
+| RF-3 | `RF-3.2` asks for typed confirmation only for irreversible targets _(agent-actions-lib.test.ts)_<br>`RF-3.1` approves only after the person confirms they reviewed the order _(AgentApprovalsPage.test.tsx)_<br>`RF-3.2` requires typing the order number to approve an irreversible change _(AgentApprovalsPage.test.tsx)_<br>`RF-3.3` shows why the execution failed and keeps the proposal open (RN-09) _(AgentApprovalsPage.test.tsx)_<br>`RF-3.4` says when nothing is waiting _(AgentApprovalsPage.test.tsx)_ |
+| RF-4 | `RF-4.1` hides budgets and inventory from technicians (RN-07) _(navigation.test.ts)_ |
 
