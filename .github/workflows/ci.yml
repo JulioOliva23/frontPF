@@ -55,3 +55,22 @@ jobs:
             sed 's/\x1b\[[0-9;]*m//g' tests.log 2>/dev/null | grep -E 'Test Files|Tests |Statements|Branches|Functions|Lines' || echo "(no output)"
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
+
+  sdd:
+    name: SDD traceability (spec to test)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Every requirement has a tagged test
+        run: |
+          set -o pipefail
+          node scripts/sdd/check-traceability.mjs src | tee sdd.md
+
+      - name: Summary
+        if: always()
+        run: cat sdd.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || true

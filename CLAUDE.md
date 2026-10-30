@@ -9,3 +9,13 @@ Claude Code hooks (`.claude/settings.json`):
 - `PostToolUse` → `scripts/hooks/claude-post-edit.sh`: after editing a file in `src/`, runs oxlint on it and its related Vitest tests; failures come back to you to fix.
 
 Never edit `src/shared/api/schema.gen.ts` by hand: regenerate it with `npm run gen:schema`.
+
+## Spec-Driven Development (obligatorio)
+
+Constitution: `docs/constitution.md`. Specs: `specs/NNN-nombre/{spec,plan,tasks}.md`. Index and verification report: `specs/README.md`, `specs/verificacion.md`. Server behaviour is specified in [backPF/specs](https://github.com/JulioOliva23/backPF/tree/main/specs) and wins on business rules.
+
+1. **Spec first.** Before changing behavior, read the spec. If the change is not covered, edit `spec.md` first (a numbered `RF-x` with EARS acceptance criteria). When the spec and the code disagree, the spec wins (C2.2); doubts stay as `[NECESITA ACLARACIÓN]`.
+2. **Test second, code third.** Write the failing test, then the code. Every test title carries the requirement it proves, e.g. `it('rejects … [001/RF-5.4]')`. A requirement or acceptance criterion without a tagged test fails `npm run sdd:check` (pre-commit and the `sdd` CI job).
+3. **Design rules are tests** (`src/test/design-rules.test.ts`): no `lime-` colours, controls of at least 44 px, no hard-coded hex colours in screens, dark header and print rules. Do not weaken them to make a change pass.
+4. **Tasks with evidence.** Mark `[x]` in `tasks.md` only when the "Hecho cuando" line is verifiably true.
+5. Everything a person reads is in Spanish (C6.2); the refresh token never goes to `localStorage` (C5.2).
