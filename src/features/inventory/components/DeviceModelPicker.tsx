@@ -32,7 +32,7 @@ export function DeviceModelPicker({ value, onChange, readOnly = false }: DeviceM
               return (
                 <label
                   key={model.id}
-                  className={`flex min-h-[36px] items-center gap-2 rounded-lg border px-2.5 text-xs font-semibold ${
+                  className={`flex min-h-[44px] items-center gap-2 rounded-lg border px-2.5 text-xs font-semibold ${
                     checked ? 'border-cyan-500 bg-cyan-50 text-cyan-900' : 'border-slate-200 bg-white text-slate-600'
                   } ${readOnly ? 'cursor-default' : 'cursor-pointer'}`}
                 >

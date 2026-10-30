@@ -44,7 +44,7 @@ export function LoginPage() {
     <div className="min-h-screen bg-slate-950 bg-tech-grid-dark flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         <div className="flex flex-col items-center mb-8">
-          <div className="w-14 h-14 rounded-2xl bg-cyan-400 flex items-center justify-center mb-4 shadow-lg shadow-cyan-400/40">
+          <div className="w-14 h-14 rounded-2xl bg-cyan-400 text-cyan-950 flex items-center justify-center mb-4 shadow-lg shadow-cyan-400/40">
             <Smartphone className="w-7 h-7 text-cyan-950" aria-hidden="true" />
           </div>
           <h1 className="text-2xl font-extrabold text-white tracking-tight">Servicio Técnico</h1>
