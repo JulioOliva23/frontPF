@@ -88,7 +88,7 @@ export function BudgetBuilder({ workOrderId, deviceModelId, deviceLabel, onCreat
             key={preset}
             type="button"
             onClick={() => append({ itemType: 'LABOR', description: preset, quantity: 1, unitPrice: '' })}
-            className="min-h-[36px] rounded-full border border-dashed border-line px-3 text-xs font-semibold text-muted hover:border-mint hover:text-mint"
+            className="min-h-[44px] rounded-full border border-dashed border-line px-3 text-xs font-semibold text-muted hover:border-mint hover:text-mint"
           >
             + {preset}
           </button>

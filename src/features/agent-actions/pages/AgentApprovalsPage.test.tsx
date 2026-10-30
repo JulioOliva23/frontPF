@@ -9,7 +9,7 @@ import { api, renderWithProviders } from '../../../test/render';
 import { AgentApprovalsPage } from './AgentApprovalsPage';
 
 describe('AgentApprovalsPage (AG-01 human in the loop)', () => {
-  it('approves only after the person confirms they reviewed the order', async () => {
+  it('approves only after the person confirms they reviewed the order [012/RF-3.1]', async () => {
     const action = agentActionFixture();
     let body: unknown;
     server.use(
@@ -36,7 +36,7 @@ describe('AgentApprovalsPage (AG-01 human in the loop)', () => {
     expect(await screen.findByText('OT-000123 pasó a En Reparación')).toBeInTheDocument();
   });
 
-  it('requires typing the order number to approve an irreversible change', async () => {
+  it('requires typing the order number to approve an irreversible change [012/RF-3.2]', async () => {
     const action = agentActionFixture({ from: 'READY_FOR_DELIVERY', to: 'DELIVERED', approverRoles: ['RECEPTIONIST', 'ADMIN'] });
     server.use(http.get(api('/agent-actions'), () => HttpResponse.json([action])));
     const user = userEvent.setup();
@@ -51,7 +51,7 @@ describe('AgentApprovalsPage (AG-01 human in the loop)', () => {
     expect(approve).toBeEnabled();
   });
 
-  it('shows why the execution failed and keeps the proposal open (RN-09)', async () => {
+  it('shows why the execution failed and keeps the proposal open (RN-09) [012/RF-3.3]', async () => {
     const action = agentActionFixture();
     server.use(
       http.get(api('/agent-actions'), () => HttpResponse.json([action])),
@@ -69,7 +69,7 @@ describe('AgentApprovalsPage (AG-01 human in the loop)', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent('Stock insuficiente para Pantalla OLED');
   });
 
-  it('renders decisions conditionally by role: reception can reject a repair start but not approve it', async () => {
+  it('renders decisions conditionally by role: reception can reject a repair start but not approve it [012/RF-2.1]', async () => {
     server.use(http.get(api('/agent-actions'), () => HttpResponse.json([agentActionFixture()])));
     renderWithProviders(<AgentApprovalsPage />, { role: 'RECEPTIONIST', userId: 'rec-1' });
 
@@ -78,7 +78,7 @@ describe('AgentApprovalsPage (AG-01 human in the loop)', () => {
     expect(screen.getByText('La aprueba: TECHNICIAN o ADMIN')).toBeInTheDocument();
   });
 
-  it('says when nothing is waiting', async () => {
+  it('says when nothing is waiting [012/RF-3.4]', async () => {
     renderWithProviders(<AgentApprovalsPage />);
     expect(await screen.findByText('Sin propuestas pendientes')).toBeInTheDocument();
   });

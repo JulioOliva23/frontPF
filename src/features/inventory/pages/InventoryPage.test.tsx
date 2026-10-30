@@ -30,7 +30,7 @@ function mockCatalog(parts: SparePart[] = [OLED, BATTERY], onList?: (url: URL) =
 }
 
 describe('InventoryPage (US-F11 / US-F12)', () => {
-  it('lists the catalog for reception without costs nor admin actions (RN-07)', async () => {
+  it('lists the catalog for reception without costs nor admin actions (RN-07) [006/RF-2.1]', async () => {
     mockCatalog();
     renderWithProviders(<InventoryPage />, { role: 'RECEPTIONIST' });
 
@@ -44,7 +44,7 @@ describe('InventoryPage (US-F11 / US-F12)', () => {
     expect(screen.queryByRole('button', { name: 'Ajuste' })).not.toBeInTheDocument();
   });
 
-  it('sends search, category and model filters to the API', async () => {
+  it('sends search, category and model filters to the API [006/RF-1.2]', async () => {
     const seen: URL[] = [];
     mockCatalog([OLED], (url) => seen.push(url));
     const user = userEvent.setup();
@@ -65,7 +65,7 @@ describe('InventoryPage (US-F11 / US-F12)', () => {
     });
   });
 
-  it('shows the empty and error states', async () => {
+  it('shows the empty and error states [006/RF-1.3]', async () => {
     mockCatalog([]);
     const { unmount } = renderWithProviders(<InventoryPage />);
     expect(await screen.findByText('Sin repuestos')).toBeInTheDocument();
@@ -76,7 +76,7 @@ describe('InventoryPage (US-F11 / US-F12)', () => {
     expect(await screen.findByText('No se pudo cargar el inventario.')).toBeInTheDocument();
   });
 
-  it('creates a part as admin, normalizing the SKU (FE-11)', async () => {
+  it('creates a part as admin, normalizing the SKU (FE-11) [006/RF-3.1] [006/RF-2.2]', async () => {
     mockCatalog([OLED]);
     let body: Record<string, unknown> = {};
     server.use(
@@ -117,7 +117,7 @@ describe('InventoryPage (US-F11 / US-F12)', () => {
     });
   });
 
-  it('explains a duplicated SKU', async () => {
+  it('explains a duplicated SKU [006/RF-3.2]', async () => {
     mockCatalog([OLED]);
     server.use(http.post(api('/spare-parts'), () => HttpResponse.json({ statusCode: 409, message: 'Conflict' }, { status: 409 })));
     const user = userEvent.setup();
@@ -136,7 +136,7 @@ describe('InventoryPage (US-F11 / US-F12)', () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
-  it('edits a part without sending the SKU', async () => {
+  it('edits a part without sending the SKU [006/RF-3.3]', async () => {
     mockCatalog([OLED]);
     let body: Record<string, unknown> = {};
     server.use(
@@ -159,7 +159,7 @@ describe('InventoryPage (US-F11 / US-F12)', () => {
     expect(body).not.toHaveProperty('sku');
   });
 
-  it('edits compatibility as admin and shows it read-only to reception (RN-10)', async () => {
+  it('edits compatibility as admin and shows it read-only to reception (RN-10) [006/RF-3.4]', async () => {
     mockCatalog([OLED]);
     let body: Record<string, unknown> = {};
     server.use(
@@ -188,7 +188,7 @@ describe('InventoryPage (US-F11 / US-F12)', () => {
     await user.click(within(dialog).getByRole('button', { name: 'Cerrar' }));
   });
 
-  it('registers a stock entry and shows backend errors', async () => {
+  it('registers a stock entry and shows backend errors [006/RF-4.1]', async () => {
     mockCatalog([OLED]);
     let calls = 0;
     let body: Record<string, unknown> = {};
@@ -217,7 +217,7 @@ describe('InventoryPage (US-F11 / US-F12)', () => {
     expect(body).toEqual({ quantity: 10, reason: 'Factura 991' });
   });
 
-  it('registers a negative adjustment and explains reserved units (RN-09)', async () => {
+  it('registers a negative adjustment and explains reserved units (RN-09) [006/RF-4.2]', async () => {
     mockCatalog([OLED]);
     let calls = 0;
     let body: Record<string, unknown> = {};
@@ -247,5 +247,35 @@ describe('InventoryPage (US-F11 / US-F12)', () => {
     await user.click(within(dialog).getByRole('button', { name: 'Registrar ajuste' }));
     await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
     expect(body).toEqual({ delta: 9, reason: 'Pantallas rotas en bodega' });
+  });
+});
+
+describe('InventoryPage details of the spec', () => {
+  it('shows SKU, name, category, available / reserved / minimum and the stock signal [006/RF-1.1]', async () => {
+    mockCatalog([sparePartFixture({ sku: 'OLED-IP13', name: 'Pantalla OLED iPhone 13', category: 'DISPLAY_OLED', physicalStock: 3, reservedStock: 1, availableStock: 2, minStock: 2, lowStock: true })]);
+    renderWithProviders(<InventoryPage />, { role: 'RECEPTIONIST' });
+
+    const row = (await screen.findByText('Pantalla OLED iPhone 13')).closest('tr')!;
+    expect(within(row).getByText('OLED-IP13')).toBeInTheDocument();
+    expect(within(row).getByText('2 / 1 / 2')).toBeInTheDocument();
+    expect(within(row).getByText('Stock bajo')).toBeInTheDocument();
+  });
+});
+
+describe('InventoryPage compatibility errors', () => {
+  it('shows the server reason when the compatible models cannot be saved [006/RF-3.4]', async () => {
+    mockCatalog([OLED]);
+    server.use(
+      http.patch(api('/spare-parts/p1'), () => HttpResponse.json({ statusCode: 422, message: 'Uno o más modelos de equipo no existen' }, { status: 422 })),
+    );
+    const user = userEvent.setup();
+    renderWithProviders(<InventoryPage />, { role: 'ADMIN' });
+
+    await user.click(await screen.findByRole('button', { name: 'Modelos (1)' }));
+    const dialog = await screen.findByRole('dialog', { name: 'Compatibilidad por modelo' });
+    await user.click(await within(dialog).findByLabelText('iPhone 14'));
+    await user.click(within(dialog).getByRole('button', { name: 'Guardar compatibilidad' }));
+
+    expect(await within(dialog).findByRole('alert')).toHaveTextContent('Uno o más modelos de equipo no existen');
   });
 });

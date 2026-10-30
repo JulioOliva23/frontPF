@@ -7,7 +7,7 @@ describe('useDebouncedCallback', () => {
   beforeEach(() => vi.useFakeTimers());
   afterEach(() => vi.useRealTimers());
 
-  it('calls once with the last arguments after the delay', () => {
+  it('calls once with the last arguments after the delay [003/RF-4.1]', () => {
     const callback = vi.fn();
     const { result } = renderHook(() => useDebouncedCallback(callback, 300));
 

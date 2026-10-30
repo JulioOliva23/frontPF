@@ -13,6 +13,8 @@
     "lint": "tsc -b && oxlint",
     "test": "vitest run",
     "test:watch": "vitest",
+    "sdd:check": "node scripts/sdd/check-traceability.mjs src",
+    "sdd:report": "node scripts/sdd/check-traceability.mjs --detail src > specs/trazabilidad.md",
     "gen:schema": "openapi-typescript http://localhost:3000/api-json -o src/shared/api/schema.gen.ts"
   },
   "dependencies": {

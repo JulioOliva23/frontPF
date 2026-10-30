@@ -54,7 +54,7 @@ const brandSection = (brand: string) => within(screen.getByRole('region', { name
 const modelsIn = (brand: string) => brandSection(brand).getAllByRole('listitem').map((item) => item.firstChild?.textContent);
 
 describe('DeviceModelsPage catalog', () => {
-  it('groups active models by brand, sorted by brand and model', async () => {
+  it('groups active models by brand, sorted by brand and model [008/RF-5.1]', async () => {
     const api = mockCatalog();
     renderCatalog();
 
@@ -67,7 +67,7 @@ describe('DeviceModelsPage catalog', () => {
     expect(screen.getByText('4 activos · 1 desactivados')).toBeInTheDocument();
   });
 
-  it('shows deactivated models on demand', async () => {
+  it('shows deactivated models on demand [008/RF-5.2]', async () => {
     mockCatalog();
     renderCatalog();
     await screen.findByRole('region', { name: 'Samsung' });
@@ -76,7 +76,7 @@ describe('DeviceModelsPage catalog', () => {
     expect(brandSection('Samsung').getByText('Desactivado')).toBeInTheDocument();
   });
 
-  it('filters the catalog in the browser by brand or model', async () => {
+  it('filters the catalog in the browser by brand or model [008/RF-5.3]', async () => {
     const api = mockCatalog();
     renderCatalog();
     await screen.findByRole('region', { name: 'Apple' });
@@ -98,7 +98,7 @@ describe('DeviceModelsPage catalog', () => {
     expect(api.listCalls).toHaveLength(1);
   });
 
-  it('deactivates a model and shows the feedback', async () => {
+  it('deactivates a model and shows the feedback [008/RF-6.7]', async () => {
     const api = mockCatalog();
     renderCatalog();
     await screen.findByRole('region', { name: 'Apple' });
@@ -113,7 +113,7 @@ describe('DeviceModelsPage catalog', () => {
 describe('DeviceModelsPage quick add', () => {
   const form = () => within(screen.getByRole('form', { name: 'Agregar modelo' }));
 
-  it('requires brand and model', async () => {
+  it('requires brand and model [008/RF-6.1]', async () => {
     const api = mockCatalog();
     renderCatalog();
     await screen.findByRole('region', { name: 'Apple' });
@@ -124,7 +124,7 @@ describe('DeviceModelsPage quick add', () => {
     expect(api.created).toHaveLength(0);
   });
 
-  it('rejects a duplicate of the same brand before sending, ignoring case and spaces', async () => {
+  it('rejects a duplicate of the same brand before sending, ignoring case and spaces [008/RF-6.2]', async () => {
     const api = mockCatalog();
     renderCatalog();
     await screen.findByRole('region', { name: 'Apple' });
@@ -138,7 +138,7 @@ describe('DeviceModelsPage quick add', () => {
     expect(api.created).toHaveLength(0);
   });
 
-  it('accepts the same model name under another brand', async () => {
+  it('accepts the same model name under another brand [008/RF-6.3]', async () => {
     const api = mockCatalog();
     renderCatalog();
     await screen.findByRole('region', { name: 'Apple' });
@@ -150,7 +150,7 @@ describe('DeviceModelsPage quick add', () => {
     await waitFor(() => expect(api.created).toEqual([{ brand: 'Motorola', model: 'iPhone 13' }]));
   });
 
-  it('adds a model to its brand, keeps the brand for the next one and refreshes the list', async () => {
+  it('adds a model to its brand, keeps the brand for the next one and refreshes the list [008/RF-6.4]', async () => {
     const api = mockCatalog();
     renderCatalog();
     await screen.findByRole('region', { name: 'Apple' });
@@ -167,7 +167,7 @@ describe('DeviceModelsPage quick add', () => {
     expect(form().getByLabelText('Modelo')).toHaveValue('');
   });
 
-  it('reuses the existing spelling of a known brand', async () => {
+  it('reuses the existing spelling of a known brand [008/RF-6.5]', async () => {
     const api = mockCatalog();
     renderCatalog();
     await screen.findByRole('region', { name: 'Apple' });
@@ -180,7 +180,7 @@ describe('DeviceModelsPage quick add', () => {
     await waitFor(() => expect(form().getByLabelText('Marca')).toHaveValue('Apple'));
   });
 
-  it('shows the server duplicate (409) on the model field', async () => {
+  it('shows the server duplicate (409) on the model field [008/RF-6.6]', async () => {
     mockCatalog(CATALOG, { conflictOnCreate: true });
     renderCatalog();
     await screen.findByRole('region', { name: 'Apple' });

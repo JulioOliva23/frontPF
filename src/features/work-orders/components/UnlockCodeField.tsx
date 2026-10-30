@@ -28,7 +28,7 @@ export function UnlockCodeField({ lockType, value, onChange, error }: UnlockCode
           type="button"
           onClick={() => setVisible((current) => !current)}
           aria-pressed={visible}
-          className="flex min-h-[36px] items-center gap-1.5 rounded-lg px-2 text-xs font-bold text-muted hover:bg-surface-raised"
+          className="flex min-h-[44px] items-center gap-1.5 rounded-lg px-2 text-xs font-bold text-muted hover:bg-surface-raised"
         >
           {visible ? <EyeOff className="h-4 w-4" aria-hidden="true" /> : <Eye className="h-4 w-4" aria-hidden="true" />}
           {visible ? 'Ocultar' : 'Ver'}

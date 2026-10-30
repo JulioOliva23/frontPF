@@ -70,7 +70,7 @@ const rowOf = (name: string) => {
 };
 
 describe('UsersPage listing', () => {
-  it('lists every account with its username, role and status', async () => {
+  it('lists every account with its username, role and status [008/RF-1.1]', async () => {
     const recorded = mockUsersApi();
     renderUsers();
 
@@ -83,7 +83,7 @@ describe('UsersPage listing', () => {
     expect(rowOf('Ana Admin').getByText('Tú')).toBeInTheDocument();
   });
 
-  it('filters by text, role and status in the browser', async () => {
+  it('filters by text, role and status in the browser [008/RF-1.2]', async () => {
     mockUsersApi();
     renderUsers();
     await screen.findByText('Rosa Recepción');
@@ -103,7 +103,7 @@ describe('UsersPage listing', () => {
     expect(screen.getByText('Rosa Recepción')).toBeInTheDocument();
   });
 
-  it('paginates long lists', async () => {
+  it('paginates long lists [008/RF-1.3]', async () => {
     const many = Array.from({ length: 13 }, (_, index) =>
       technicianFixture({ id: `t${index}`, username: `tecnico${index}`, fullName: `Técnico ${String(index).padStart(2, '0')}` }),
     );
@@ -124,7 +124,7 @@ describe('UsersPage create modal', () => {
     return { user, dialog: within(screen.getByRole('dialog', { name: 'Nuevo usuario' })) };
   };
 
-  it('validates required fields and the password rules before sending', async () => {
+  it('validates required fields and the password rules before sending [008/RF-2.1] [008/RF-2.3]', async () => {
     const recorded = mockUsersApi();
     renderUsers();
     const { user, dialog } = await openModal();
@@ -140,7 +140,7 @@ describe('UsersPage create modal', () => {
     expect(recorded.bodies).toHaveLength(0);
   });
 
-  it('creates the account, shows a toast and refreshes the list', async () => {
+  it('creates the account, shows a toast and refreshes the list [008/RF-2.5]', async () => {
     const recorded = mockUsersApi();
     renderUsers();
     const { user, dialog } = await openModal();
@@ -164,7 +164,7 @@ describe('UsersPage create modal', () => {
     expect(recorded.listCalls.length).toBeGreaterThanOrEqual(2);
   });
 
-  it('marks a taken username on the field (409)', async () => {
+  it('marks a taken username on the field (409) [008/RF-2.6]', async () => {
     mockUsersApi(USERS, { conflictOnCreate: true });
     renderUsers();
     const { user, dialog } = await openModal();
@@ -181,7 +181,7 @@ describe('UsersPage create modal', () => {
 });
 
 describe('UsersPage maintenance', () => {
-  it('deactivates another user after confirming', async () => {
+  it('deactivates another user after confirming [008/RF-4.1]', async () => {
     const recorded = mockUsersApi();
     renderUsers();
     await screen.findByText('Juan Técnico');
@@ -196,14 +196,14 @@ describe('UsersPage maintenance', () => {
     await waitFor(() => expect(rowOf('Juan Técnico').getByText('Desactivado')).toBeInTheDocument());
   });
 
-  it('never offers to deactivate the signed-in admin', async () => {
+  it('never offers to deactivate the signed-in admin [008/RF-4.2]', async () => {
     mockUsersApi();
     renderUsers();
     await screen.findByText('Ana Admin');
     expect(screen.getByRole('button', { name: 'No puedes desactivar tu propia cuenta' })).toBeDisabled();
   });
 
-  it('locks the role when the admin edits their own account', async () => {
+  it('locks the role when the admin edits their own account [008/RF-3.2]', async () => {
     mockUsersApi();
     renderUsers();
     await screen.findByText('Ana Admin');
@@ -213,7 +213,7 @@ describe('UsersPage maintenance', () => {
     expect(dialog.getByText('No puedes cambiar tu propio rol.')).toBeInTheDocument();
   });
 
-  it('resets a password with the same rules as creation', async () => {
+  it('resets a password with the same rules as creation [008/RF-3.3]', async () => {
     const recorded = mockUsersApi();
     renderUsers();
     await screen.findByText('Juan Técnico');
@@ -259,5 +259,53 @@ describe('UsersPage access (RoleGuard ADMIN_ONLY)', () => {
     await waitFor(() => expect(router.state.location.pathname).toBe(landing));
     expect(screen.queryByRole('heading', { name: 'Usuarios', level: 1 })).not.toBeInTheDocument();
     expect(recorded.listCalls).not.toContain('?includeInactive=true');
+  });
+});
+
+describe('UsersPage edit and reactivate', () => {
+  it('changes the name and the role of another staff member [008/RF-3.1]', async () => {
+    mockUsersApi();
+    const patches: Array<{ id: string; body: unknown }> = [];
+    server.use(
+      http.patch(api('/users/:id'), async ({ request, params }) => {
+        patches.push({ id: String(params.id), body: await request.json() });
+        return HttpResponse.json(technicianFixture({ id: String(params.id), fullName: 'Juan Nuevo', role: 'RECEPTIONIST' }));
+      }),
+    );
+    renderUsers();
+    await screen.findByText('Juan Técnico');
+    const user = userEvent.setup();
+
+    await user.click(screen.getByRole('button', { name: 'Editar Juan Técnico' }));
+    const dialog = within(await screen.findByRole('dialog', { name: 'Editar usuario' }));
+    const name = dialog.getByLabelText('Nombre completo');
+    await user.clear(name);
+    await user.type(name, 'Juan Nuevo');
+    await user.selectOptions(dialog.getByLabelText('Rol'), 'RECEPTIONIST');
+    await user.click(dialog.getByRole('button', { name: 'Guardar cambios' }));
+
+    await waitFor(() => expect(patches).toHaveLength(1));
+    expect(patches[0]).toMatchObject({ id: 'tech-1', body: { fullName: 'Juan Nuevo', role: 'RECEPTIONIST' } });
+  });
+
+  it('reactivates an inactive account after confirming [008/RF-4.3]', async () => {
+    mockUsersApi();
+    let activated = '';
+    server.use(
+      http.post(api('/users/:id/activate'), ({ params }) => {
+        activated = String(params.id);
+        return HttpResponse.json(technicianFixture({ id: 'tech-2', username: 'tecnico2', fullName: 'Luis Baja', isActive: true }));
+      }),
+    );
+    renderUsers();
+    await screen.findByText('Luis Baja');
+    const user = userEvent.setup();
+
+    await user.click(screen.getByRole('button', { name: 'Reactivar Luis Baja' }));
+    const dialog = within(screen.getByRole('dialog', { name: 'Reactivar usuario' }));
+    expect(activated).toBe('');
+    await user.click(dialog.getByRole('button', { name: 'Reactivar' }));
+
+    await waitFor(() => expect(activated).toBe('tech-2'));
   });
 });
