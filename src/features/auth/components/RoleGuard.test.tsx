@@ -25,17 +25,17 @@ function renderGuard(role: UserRole | null) {
 }
 
 describe('RoleGuard (FE-08)', () => {
-  it('sends technicians away from budgets to their orders (RN-07)', () => {
+  it('sends technicians away from budgets to their orders (RN-07) [001/RF-4.2]', () => {
     renderGuard('TECHNICIAN');
     expect(screen.getByText('orders page')).toBeInTheDocument();
   });
 
-  it('sends anonymous visitors to the login', () => {
+  it('sends anonymous visitors to the login [001/RF-4.1]', () => {
     renderGuard(null);
     expect(screen.getByText('login page')).toBeInTheDocument();
   });
 
-  it('sends customers to the portal', () => {
+  it('sends customers to the portal [001/RF-4.2]', () => {
     renderGuard('CUSTOMER');
     expect(screen.getByText('portal page')).toBeInTheDocument();
   });

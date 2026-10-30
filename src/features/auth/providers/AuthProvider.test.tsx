@@ -1,5 +1,6 @@
 import { StrictMode } from 'react';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { http, HttpResponse } from 'msw';
 import { afterEach, describe, expect, it } from 'vitest';
 
@@ -16,7 +17,7 @@ function WhoAmI() {
 afterEach(() => sessionStorage.clear());
 
 describe('AuthProvider (FE-16)', () => {
-  it('restores the session with a single refresh even under StrictMode double effects', async () => {
+  it('restores the session with a single refresh even under StrictMode double effects [001/RF-5.1]', async () => {
     sessionStorage.setItem('servicio_refresh_token', 'refresh-1');
     let refreshCalls = 0;
     server.use(
@@ -39,12 +40,55 @@ describe('AuthProvider (FE-16)', () => {
     expect(globalThis.localStorage?.getItem('servicio_refresh_token') ?? null).toBeNull();
   });
 
-  it('ends anonymous when there is no stored session', async () => {
+  it('ends anonymous when there is no stored session [001/RF-5.2]', async () => {
     render(
       <AuthProvider>
         <WhoAmI />
       </AuthProvider>,
     );
     expect(await screen.findByText('anonymous')).toBeInTheDocument();
+  });
+});
+
+function SessionControls() {
+  const { user, login, logout } = useAuth();
+  return (
+    <>
+      <p>{user?.role ?? 'anonymous'}</p>
+      <button onClick={() => void login('ana', 'Clave2026Segura')}>entrar</button>
+      <button onClick={() => void logout()}>salir</button>
+    </>
+  );
+}
+
+describe('AuthProvider sign out', () => {
+  it('closes the session on the server, clears the stored one and ends anonymous [001/RF-6.1]', async () => {
+    let logoutCalls = 0;
+    let logoutBody: unknown;
+    server.use(
+      http.post(api('/auth/login'), () => HttpResponse.json({ accessToken: 'a1', refreshToken: 'r1', id: 'u1', fullName: 'Ana', username: 'ana', role: 'RECEPTIONIST' })),
+      http.post(api('/auth/logout'), async ({ request }) => {
+        logoutCalls += 1;
+        logoutBody = await request.json();
+        return new HttpResponse(null, { status: 204 });
+      }),
+    );
+    const user = userEvent.setup();
+    render(
+      <AuthProvider>
+        <SessionControls />
+      </AuthProvider>,
+    );
+    await screen.findByText('anonymous');
+
+    await user.click(screen.getByText('entrar'));
+    expect(await screen.findByText('RECEPTIONIST')).toBeInTheDocument();
+    expect(sessionStorage.getItem('servicio_refresh_token')).toBe('r1');
+
+    await user.click(screen.getByText('salir'));
+    expect(await screen.findByText('anonymous')).toBeInTheDocument();
+    expect(logoutCalls).toBe(1);
+    expect(logoutBody).toEqual({ refreshToken: 'r1' });
+    expect(sessionStorage.getItem('servicio_refresh_token')).toBeNull();
   });
 });

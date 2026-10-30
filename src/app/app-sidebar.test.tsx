@@ -28,32 +28,32 @@ const parts = (count: number) => Array.from({ length: count }, (_, index) => spa
 const inventoryLink = () => screen.getByRole('link', { name: /^Inventario/ });
 
 describe('AppSidebar low-stock badge (US-F13)', () => {
-  it('shows the number of low-stock parts on the Inventario item', async () => {
+  it('shows the number of low-stock parts on the Inventario item [006/RF-6.1]', async () => {
     mockLowStock(parts(3));
     renderSidebar('RECEPTIONIST');
     expect(await within(inventoryLink()).findByLabelText('3 repuestos con stock bajo')).toHaveTextContent('3');
   });
 
-  it('uses the singular for one part', async () => {
+  it('uses the singular for one part [006/RF-6.1]', async () => {
     mockLowStock(parts(1));
     renderSidebar('ADMIN');
     expect(await within(inventoryLink()).findByLabelText('1 repuesto con stock bajo')).toHaveTextContent('1');
   });
 
-  it('caps long counts at 99+', async () => {
+  it('caps long counts at 99+ [006/RF-6.2]', async () => {
     mockLowStock(parts(120));
     renderSidebar('ADMIN');
     expect(await within(inventoryLink()).findByLabelText('120 repuestos con stock bajo')).toHaveTextContent('99+');
   });
 
-  it('renders no badge when nothing is low', async () => {
+  it('renders no badge when nothing is low [006/RF-6.3]', async () => {
     const lowStock = mockLowStock([]);
     renderSidebar('RECEPTIONIST');
     await waitFor(() => expect(lowStock.calls()).toBe(1));
     expect(within(inventoryLink()).queryByLabelText(/stock bajo/)).not.toBeInTheDocument();
   });
 
-  it('renders no badge when the alert list cannot be loaded', async () => {
+  it('renders no badge when the alert list cannot be loaded [006/RF-6.3]', async () => {
     let calls = 0;
     server.use(
       http.get(api('/spare-parts/alerts/low-stock'), () => {
@@ -66,7 +66,7 @@ describe('AppSidebar low-stock badge (US-F13)', () => {
     expect(within(inventoryLink()).queryByLabelText(/stock bajo/)).not.toBeInTheDocument();
   });
 
-  it('never asks technicians for stock alerts (RN-07)', async () => {
+  it('never asks technicians for stock alerts (RN-07) [006/RF-6.4]', async () => {
     const lowStock = mockLowStock(parts(3));
     renderSidebar('TECHNICIAN');
     expect(await screen.findByRole('link', { name: 'Órdenes de trabajo' })).toBeInTheDocument();

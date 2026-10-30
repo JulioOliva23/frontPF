@@ -13,7 +13,7 @@ describe('Pagination (BE-E13)', () => {
     expect(screen.getByRole('button', { name: /^Siguiente$/ })).toBeEnabled();
   });
 
-  it('computes the range of the last partial page', () => {
+  it('computes the range of the last partial page [003/RF-8.1]', () => {
     render(<Pagination page={3} pageSize={20} total={45} onPageChange={vi.fn()} />);
 
     expect(screen.getByText('Mostrando 41–45 de 45 resultados')).toBeInTheDocument();
@@ -21,7 +21,7 @@ describe('Pagination (BE-E13)', () => {
     expect(screen.getByRole('button', { name: /^Siguiente$/ })).toBeDisabled();
   });
 
-  it('notifies the requested page on Previous and Next', async () => {
+  it('notifies the requested page on Previous and Next [003/RF-8.1]', async () => {
     const onPageChange = vi.fn();
     const user = userEvent.setup();
     render(<Pagination page={2} pageSize={20} total={45} onPageChange={onPageChange} />);
@@ -33,7 +33,7 @@ describe('Pagination (BE-E13)', () => {
     expect(onPageChange).toHaveBeenCalledWith(3);
   });
 
-  it('does not render when the result fits on a single page', () => {
+  it('does not render when the result fits on a single page [003/RF-8.1]', () => {
     const { container } = render(
       <Pagination page={1} pageSize={20} total={5} onPageChange={vi.fn()} />,
     );

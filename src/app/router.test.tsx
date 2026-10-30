@@ -26,7 +26,7 @@ function frontDeskShell() {
 }
 
 describe('route tree', () => {
-  it('shows a 404 page with navigation for unknown paths', async () => {
+  it('shows a 404 page with navigation for unknown paths [001/RF-7.1]', async () => {
     frontDeskShell();
     renderRoutes(routes, { role: 'RECEPTIONIST', at: '/no-existe' });
     expect(await screen.findByRole('heading', { name: 'Página no encontrada' })).toBeInTheDocument();
@@ -35,7 +35,7 @@ describe('route tree', () => {
     expect(screen.getAllByRole('navigation', { name: 'Menú principal' }).length).toBeGreaterThan(0);
   });
 
-  it('offers the login on a 404 when nobody is signed in', async () => {
+  it('offers the login on a 404 when nobody is signed in [001/RF-7.1]', async () => {
     renderRoutes(routes, { role: null, at: '/no-existe' });
     expect(await screen.findByRole('link', { name: /iniciar sesión/i })).toHaveAttribute('href', '/auth/login');
   });
@@ -50,7 +50,7 @@ describe('route tree', () => {
     await waitFor(() => expect(router.state.location.pathname).toBe(landing));
   });
 
-  it('opens the dashboard at "/" for the front desk', async () => {
+  it('opens the dashboard at "/" for the front desk [009/RF-6.1] [001/RF-2.1]', async () => {
     frontDeskShell();
     renderRoutes(routes, { role: 'RECEPTIONIST', at: '/' });
     expect(await screen.findByRole('region', { name: 'Indicadores' })).toBeInTheDocument();
@@ -67,12 +67,12 @@ describe('route tree', () => {
     await waitFor(() => expect(router.state.location.pathname).toBe(landing));
   });
 
-  it('sends anonymous visitors from /administracion/* to the login', async () => {
+  it('sends anonymous visitors from /administracion/* to the login [008/RF-7.1]', async () => {
     const router = renderRoutes(routes, { role: null, at: '/administracion/usuarios' });
     await waitFor(() => expect(router.state.location.pathname).toBe('/auth/login'));
   });
 
-  it('lets ADMIN into the admin screens', async () => {
+  it('lets ADMIN into the admin screens [008/RF-7.1]', async () => {
     frontDeskShell();
     server.use(http.get(api('/users'), () => HttpResponse.json([])), http.get(api('/device-models'), () => HttpResponse.json([])));
     const router = renderRoutes(routes, { role: 'ADMIN', at: '/administracion/usuarios' });
@@ -80,14 +80,14 @@ describe('route tree', () => {
     expect(router.state.location.pathname).toBe('/administracion/usuarios');
   });
 
-  it('opens the users screen at /administracion', async () => {
+  it('opens the users screen at /administracion [008/RF-7.1]', async () => {
     frontDeskShell();
     server.use(http.get(api('/users'), () => HttpResponse.json([])));
     const router = renderRoutes(routes, { role: 'ADMIN', at: '/administracion' });
     await waitFor(() => expect(router.state.location.pathname).toBe('/administracion/usuarios'));
   });
 
-  it('shows a 404 for an unknown admin screen', async () => {
+  it('shows a 404 for an unknown admin screen [008/RF-7.1]', async () => {
     frontDeskShell();
     renderRoutes(routes, { role: 'ADMIN', at: '/administracion/no-existe' });
     expect(await screen.findByRole('heading', { name: 'Página no encontrada' })).toBeInTheDocument();
@@ -108,7 +108,7 @@ describe('RouteErrorBoundary', () => {
     throw new Error('boom');
   }
 
-  it('replaces a crashed page with a fallback instead of a blank screen', async () => {
+  it('replaces a crashed page with a fallback instead of a blank screen [001/RF-7.2]', async () => {
     vi.spyOn(console, 'error').mockImplementation(() => undefined);
     renderRoutes([{ path: '/', errorElement: <RouteErrorBoundary />, element: <Broken /> }], { role: 'ADMIN', at: '/' });
 
@@ -117,7 +117,7 @@ describe('RouteErrorBoundary', () => {
     expect(screen.getByRole('link', { name: /volver al inicio/i })).toHaveAttribute('href', '/');
   });
 
-  it('asks to reload when a lazy chunk cannot be fetched', async () => {
+  it('asks to reload when a lazy chunk cannot be fetched [001/RF-7.3]', async () => {
     vi.spyOn(console, 'error').mockImplementation(() => undefined);
     renderRoutes(
       [
@@ -134,7 +134,7 @@ describe('RouteErrorBoundary', () => {
     expect(await screen.findByRole('heading', { name: 'Hay una versión nueva del sistema' })).toBeInTheDocument();
   });
 
-  it('recognises chunk load errors only', () => {
+  it('recognises chunk load errors only [001/RF-7.3]', () => {
     expect(isChunkLoadError(new TypeError('Importing a module script failed.'))).toBe(true);
     expect(isChunkLoadError(new Error('Cannot read properties of undefined'))).toBe(false);
     expect(isChunkLoadError('Failed to fetch dynamically imported module')).toBe(false);
@@ -151,7 +151,7 @@ describe('session expiry (FE-03)', () => {
     setRefreshHandler(null);
   });
 
-  it('takes the user to the login, remembering the page, when the refresh fails', async () => {
+  it('takes the user to the login, remembering the page, when the refresh fails [001/RF-5.4]', async () => {
     emptyOrdersList();
     frontDeskShell();
     server.use(http.get(api('/users'), () => HttpResponse.json([])));
@@ -169,7 +169,7 @@ describe('session expiry (FE-03)', () => {
     expect(await screen.findByText(/tu sesión expiró/i)).toBeInTheDocument();
   });
 
-  it('only accepts in-app return paths', () => {
+  it('only accepts in-app return paths [001/RF-4.3]', () => {
     expect(readLoginRedirectState({ from: '/ordenes/1', reason: 'session-expired' })).toEqual({ from: '/ordenes/1', reason: 'session-expired' });
     expect(readLoginRedirectState({ from: 'https://evil.example' })).toEqual({});
     expect(readLoginRedirectState({ from: '//evil.example' })).toEqual({});
@@ -181,19 +181,19 @@ describe('session expiry (FE-03)', () => {
 // From main (app routes suite), adapted to the 404 page (phase 1) and the
 // front desk dashboard at "/" (phase 2).
 describe('app routes (FE-07 / FE-08)', () => {
-  it('sends anonymous visitors from / to the login', async () => {
+  it('sends anonymous visitors from / to the login [001/RF-4.1]', async () => {
     const router = renderRoutes(routes, { role: null, at: '/' });
     expect(await screen.findByRole('heading', { name: 'Iniciar Sesión' })).toBeInTheDocument();
     expect(router.state.location.pathname).toBe('/auth/login');
   });
 
-  it('redirects legacy paths', async () => {
+  it('redirects legacy paths [001/RF-7.4] [007/RF-7.1]', async () => {
     const router = renderRoutes(routes, { role: null, at: '/login' });
     expect(await screen.findByRole('heading', { name: 'Iniciar Sesión' })).toBeInTheDocument();
     expect(router.state.location.pathname).toBe('/auth/login');
   });
 
-  it('lands technicians on their orders with a role-filtered menu, and logs out', async () => {
+  it('lands technicians on their orders with a role-filtered menu, and logs out [001/RF-2.1] [001/RF-6.1]', async () => {
     server.use(http.get(api('/work-orders'), () => HttpResponse.json(pageOf([]))));
     const user = userEvent.setup();
     const logout = vi.fn(async () => undefined);
@@ -211,14 +211,14 @@ describe('app routes (FE-07 / FE-08)', () => {
     expect(router.state.location.pathname).toBe('/auth/login');
   });
 
-  it('keeps technicians out of front-desk routes', async () => {
+  it('keeps technicians out of front-desk routes [001/RF-4.2] [002/RF-7.1]', async () => {
     server.use(http.get(api('/work-orders'), () => HttpResponse.json(pageOf([]))));
     const router = renderRoutes(routes, { role: 'TECHNICIAN', at: '/inventario' });
     expect(await screen.findByRole('heading', { name: 'Órdenes de trabajo' })).toBeInTheDocument();
     expect(router.state.location.pathname).toBe('/ordenes');
   });
 
-  it('opens the mobile drawer and highlights only the exact menu item', async () => {
+  it('opens the mobile drawer and highlights only the exact menu item [001/RF-8.1] [010/RF-4.3]', async () => {
     server.use(http.get(api('/spare-parts/alerts/low-stock'), () => HttpResponse.json([])));
     const user = userEvent.setup();
     renderRoutes(routes, { role: 'ADMIN', at: '/inventario/alertas' });
@@ -240,10 +240,21 @@ describe('app routes (FE-07 / FE-08)', () => {
     expect(open).toHaveAttribute('aria-expanded', 'false');
   });
 
-  it('shows the 404 page, linked to the role landing page, for unknown paths', async () => {
+  it('shows the 404 page, linked to the role landing page, for unknown paths [001/RF-7.1]', async () => {
     const router = renderRoutes(routes, { role: 'CUSTOMER', at: '/no-existe' });
     expect(await screen.findByRole('heading', { name: 'Página no encontrada' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /ir a mi inicio/i })).toHaveAttribute('href', '/portal-cliente');
     expect(router.state.location.pathname).toBe('/no-existe');
+  });
+});
+
+describe('admin section access by role', () => {
+  it('keeps reception out of the admin section and sends it to its own landing page [008/RF-7.1]', async () => {
+    frontDeskShell();
+    server.use(http.get(api('/users'), () => HttpResponse.json([])));
+    const router = renderRoutes(routes, { role: 'RECEPTIONIST', at: '/administracion/usuarios' });
+
+    await waitFor(() => expect(router.state.location.pathname).toBe('/'));
+    expect(screen.queryByRole('heading', { name: 'Usuarios', level: 1 })).not.toBeInTheDocument();
   });
 });
