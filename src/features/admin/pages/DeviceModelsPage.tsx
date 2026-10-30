@@ -67,11 +67,11 @@ export function DeviceModelsPage() {
             value={search}
             placeholder="Buscar marca o modelo"
             onChange={(event) => setSearch(event.target.value)}
-            className="min-h-[44px] w-full rounded-xl border border-slate-200 bg-white pl-10 pr-3 text-sm outline-none focus:border-lime-600 focus:ring-[3px] focus:ring-lime-600/15"
+            className="min-h-[44px] w-full rounded-xl border border-slate-200 bg-white pl-10 pr-3 text-sm outline-none focus:border-cyan-600 focus:ring-[3px] focus:ring-cyan-600/15"
           />
         </div>
         <label className="flex min-h-[44px] items-center gap-2 text-sm text-slate-600">
-          <input type="checkbox" checked={showInactive} onChange={(event) => setShowInactive(event.target.checked)} className="h-4 w-4 accent-lime-600" />
+          <input type="checkbox" checked={showInactive} onChange={(event) => setShowInactive(event.target.checked)} className="h-4 w-4 accent-cyan-600" />
           Mostrar desactivados
         </label>
       </div>

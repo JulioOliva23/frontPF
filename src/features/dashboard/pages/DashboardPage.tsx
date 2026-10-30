@@ -22,7 +22,7 @@ function countOf(summary: WorkOrderSummary, status: WorkOrderStatus): number {
 function MetricLink({ to, label, children }: { to?: string; label: string; children: ReactNode }) {
   if (!to) return <div>{children}</div>;
   return (
-    <Link to={to} aria-label={label} className="block rounded-2xl transition-transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-lime-600">
+    <Link to={to} aria-label={label} className="block rounded-2xl transition-transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-600">
       {children}
     </Link>
   );
@@ -32,16 +32,16 @@ function QuickLink({ to, icon, title, description }: { to: string; icon: ReactNo
   return (
     <Link
       to={to}
-      className="group flex min-h-[64px] items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm hover:border-lime-400"
+      className="group flex min-h-[64px] items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm hover:border-cyan-400"
     >
-      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-600 group-hover:bg-lime-100 group-hover:text-lime-800">
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-600 group-hover:bg-cyan-100 group-hover:text-cyan-800">
         {icon}
       </span>
       <span className="min-w-0 flex-1">
         <span className="block text-sm font-bold text-slate-900">{title}</span>
         <span className="block text-xs text-slate-500">{description}</span>
       </span>
-      <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-lime-700" aria-hidden="true" />
+      <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-cyan-700" aria-hidden="true" />
     </Link>
   );
 }
@@ -73,7 +73,7 @@ export function DashboardPage() {
         </div>
         <Link
           to="/ordenes/nueva"
-          className="flex min-h-[44px] items-center gap-2 rounded-xl bg-lime-400 px-4 text-sm font-bold text-lime-950 shadow-sm hover:bg-lime-300"
+          className="flex min-h-[44px] items-center gap-2 rounded-xl bg-cyan-400 px-4 text-sm font-bold text-cyan-950 shadow-sm hover:bg-cyan-300"
         >
           <ClipboardPlus className="h-4 w-4" aria-hidden="true" /> Nuevo ingreso
         </Link>

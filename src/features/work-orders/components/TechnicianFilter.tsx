@@ -23,7 +23,7 @@ export function TechnicianFilter({ value, onChange }: TechnicianFilterProps) {
         value={value ?? ''}
         disabled={technicians.isLoading}
         onChange={(event) => onChange(event.target.value || undefined)}
-        className="min-h-[44px] w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-900 outline-none focus:border-lime-600 focus:ring-[3px] focus:ring-lime-600/15 disabled:text-slate-400"
+        className="min-h-[44px] w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-900 outline-none focus:border-cyan-600 focus:ring-[3px] focus:ring-cyan-600/15 disabled:text-slate-400"
       >
         <option value="">{technicians.isLoading ? 'Cargando técnicos…' : 'Todos los técnicos'}</option>
         {technicians.isError && (

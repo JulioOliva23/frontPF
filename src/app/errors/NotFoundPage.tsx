@@ -27,7 +27,7 @@ export function NotFoundPage() {
           <Link
             to={home}
             replace
-            className="flex min-h-[44px] items-center gap-2 rounded-xl bg-lime-400 px-4 text-sm font-bold text-lime-950 shadow-sm hover:bg-lime-300"
+            className="flex min-h-[44px] items-center gap-2 rounded-xl bg-cyan-400 px-4 text-sm font-bold text-cyan-950 shadow-sm hover:bg-cyan-300"
           >
             <Home className="h-4 w-4" aria-hidden="true" /> {homeLabel}
           </Link>

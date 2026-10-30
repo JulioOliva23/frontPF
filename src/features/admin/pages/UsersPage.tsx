@@ -113,7 +113,7 @@ export function UsersPage() {
             value={search}
             placeholder="Buscar por nombre o usuario"
             onChange={(event) => updateFilter(setSearch)(event.target.value)}
-            className="min-h-[44px] w-full rounded-xl border border-slate-200 bg-white pl-10 pr-3 text-sm outline-none focus:border-lime-600 focus:ring-[3px] focus:ring-lime-600/15"
+            className="min-h-[44px] w-full rounded-xl border border-slate-200 bg-white pl-10 pr-3 text-sm outline-none focus:border-cyan-600 focus:ring-[3px] focus:ring-cyan-600/15"
           />
         </div>
         <label htmlFor="users-role" className="sr-only">
@@ -123,7 +123,7 @@ export function UsersPage() {
           id="users-role"
           value={role}
           onChange={(event) => updateFilter(setRole)(event.target.value as UserRole | '')}
-          className="min-h-[44px] rounded-xl border border-slate-200 bg-white px-3 text-sm outline-none focus:border-lime-600"
+          className="min-h-[44px] rounded-xl border border-slate-200 bg-white px-3 text-sm outline-none focus:border-cyan-600"
         >
           {ROLE_FILTERS.map((option) => (
             <option key={option.value} value={option.value}>
@@ -138,7 +138,7 @@ export function UsersPage() {
           id="users-status"
           value={status}
           onChange={(event) => updateFilter(setStatus)(event.target.value as StatusFilter)}
-          className="min-h-[44px] rounded-xl border border-slate-200 bg-white px-3 text-sm outline-none focus:border-lime-600"
+          className="min-h-[44px] rounded-xl border border-slate-200 bg-white px-3 text-sm outline-none focus:border-cyan-600"
         >
           <option value="all">Activos y desactivados</option>
           <option value="active">Solo activos</option>
@@ -178,7 +178,7 @@ export function UsersPage() {
                     <tr key={entry.id} className={entry.isActive ? '' : 'bg-slate-50/60 text-slate-500'}>
                       <td className="px-4 py-3 font-semibold text-slate-900">
                         {entry.fullName}
-                        {isSelf && <span className="ml-2 rounded-full bg-lime-100 px-2 py-0.5 text-[10px] font-bold text-lime-800">Tú</span>}
+                        {isSelf && <span className="ml-2 rounded-full bg-cyan-100 px-2 py-0.5 text-[10px] font-bold text-cyan-800">Tú</span>}
                       </td>
                       <td className="px-4 py-3 font-mono text-xs">@{entry.username}</td>
                       <td className="px-4 py-3">

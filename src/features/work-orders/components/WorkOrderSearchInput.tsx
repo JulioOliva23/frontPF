@@ -62,7 +62,7 @@ export function WorkOrderSearchInput({ value, onChange }: WorkOrderSearchInputPr
           debounced.cancel();
           commit(text);
         }}
-        className="min-h-[44px] w-full rounded-xl border border-slate-200 bg-white pl-10 pr-10 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus:border-lime-600 focus:ring-[3px] focus:ring-lime-600/15 [&::-webkit-search-cancel-button]:hidden"
+        className="min-h-[44px] w-full rounded-xl border border-slate-200 bg-white pl-10 pr-10 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus:border-cyan-600 focus:ring-[3px] focus:ring-cyan-600/15 [&::-webkit-search-cancel-button]:hidden"
       />
       {text && (
         <button
