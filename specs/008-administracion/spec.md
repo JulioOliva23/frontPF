@@ -88,7 +88,7 @@ Crear cuentas de cliente, borrar definitivamente, importación masiva, roles per
 ## 8. Criterios de finalización
 
 - [x] RF-1 a RF-7 tienen tests que pasan (RF-6.7 solo parcialmente).
-- [ ] RF-3.1 (cambiar el nombre/rol de otra persona) tiene un test directo.
+- [x] RF-3.1 (cambiar el nombre/rol de otra persona) tiene un test directo.
 - [ ] RF-7.1: la sección de administración tiene un test de acceso por rol más allá del router.
 
 ## 9. Dudas abiertas

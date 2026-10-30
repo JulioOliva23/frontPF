@@ -77,6 +77,6 @@ No hay API. Contrato visual para quien agregue pantallas:
 | Sin clases lima | `grep -rn "lime-" src` debe devolver vacío (verificación manual hoy) | RF-1.2 |
 | La aplicación compila y los tests pasan con el aspecto nuevo | `npm run build` y `npm test` | todos |
 | Menú, cajón y resaltado exacto | `app-sidebar.test.tsx`, `router.test.tsx` ("opens the mobile drawer…") | RF-2.1, RF-4.3 |
-| Pendiente: test automático que falle si reaparece `lime-` | RF-3.1 | |
-| Pendiente: controles de 44 px | revisión de las 5 excepciones; prueba que busque `min-h-[3` | RF-4.1 |
+| `design-rules.test.ts` | falla si reaparece `lime-` o un color hexadecimal propio en una pantalla | RF-1.2, RF-3.1 |
+| `design-rules.test.ts` | ningún `min-h-[0..39px]`; base de botones y campos en 44 px | RF-4.1 |
 | Pendiente: revisión visual en celular | manual | RF-4.2 |

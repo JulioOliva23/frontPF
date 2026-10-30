@@ -27,7 +27,7 @@ Los repuestos son la parte cara del negocio y la que más se extravía. Recepci�
 ## 4. Requisitos funcionales
 
 **RF-1 · Catálogo** (HU-1)
-- RF-1.1 El sistema deberá listar los repuestos con SKU, nombre, categoría, existencias (disponible, reservado, físico) y una señal visual del nivel de stock.
+- RF-1.1 El sistema deberá listar los repuestos con SKU, nombre, categoría, existencias (disponible, reservado y mínimo; el físico es la suma de los dos primeros) y una señal visual del nivel de stock.
 - RF-1.2 Cuando la persona escribe un texto o elige categoría o modelo, el sistema deberá pedir al servidor solo los repuestos que cumplen esos filtros.
 - RF-1.3 El sistema deberá mostrar los estados de vacío y de error cuando corresponda.
 
@@ -80,7 +80,7 @@ Los repuestos son la parte cara del negocio y la que más se extravía. Recepci�
 ## 8. Criterios de finalización
 
 - [x] RF-1 a RF-6 tienen tests que pasan.
-- [ ] RF-1.1 muestra y comprueba los tres valores de existencias.
+- [x] RF-1.1 muestra y comprueba disponible, reservado, mínimo y la señal de stock.
 - [ ] Un administrador puede dar de baja un repuesto desde la interfaz (hoy no es posible).
 
 ## 9. Dudas abiertas

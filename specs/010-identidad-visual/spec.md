@@ -24,7 +24,7 @@ Todas las personas que usan la aplicación (personal y clientes).
 **RF-1 · Color de acento**
 - RF-1.1 El sistema deberá usar el cian como único color de acento en acciones principales, elementos activos, enlaces destacados, selección de texto y foco de los campos.
 - RF-1.2 El sistema no deberá usar el verde lima de la versión anterior en ninguna pantalla.
-- RF-1.3 El sistema deberá reservar rojo, ámbar y verde para errores, avisos y confirmaciones.
+- RF-1.3 El sistema deberá reservar rojo, ámbar o naranja, y verde para errores, avisos y confirmaciones.
 
 **RF-2 · Estructura visual**
 - RF-2.1 El sistema deberá mostrar la cabecera y el menú lateral sobre fondo azul oscuro, con el elemento activo resaltado en cian.
@@ -66,8 +66,8 @@ Modo claro/oscuro seleccionable, personalización por cliente, animaciones, un s
 
 - [x] No queda ninguna clase de color lima en el código (`grep` vacío).
 - [x] La aplicación compila y los 204 tests pasan con el nuevo aspecto.
-- [ ] RF-4.1: los 5 controles que miden 36 px llegan a 44 px.
-- [ ] RF-3.1: existe una verificación automática que impida reintroducir el color lima.
+- [x] RF-4.1: los 5 controles que medían 36 px llegan a 44 px.
+- [x] RF-3.1: existe una verificación automática que impide reintroducir el color lima.
 - [ ] Revisión visual en celular real de las pantallas principales.
 
 ## 9. Dudas abiertas

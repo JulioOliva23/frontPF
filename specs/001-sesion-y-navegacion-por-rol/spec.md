@@ -87,7 +87,7 @@ Recuperar contraseña, cambiar contraseña propia, recordar usuario, selector de
 
 - [x] RF-1 a RF-8 tienen al menos un test que pasa (RF-1.5 y RF-6.1 sin test específico).
 - [x] Ninguna pantalla interna se muestra a una persona sin sesión.
-- [ ] RF-1.5 y RF-6.1 tienen tests.
+- [x] RF-1.5 y RF-6.1 tienen tests.
 
 ## 9. Dudas abiertas
 

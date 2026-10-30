@@ -83,5 +83,5 @@ contador del menú:                                               # RF-6
 | `InventoryPage.test.tsx` | lista sin costos ni acciones de admin · envía búsqueda, categoría y modelo · vacío y error · crea (SKU normalizado) · SKU duplicado · edita sin enviar SKU · compatibilidad editable/solo lectura · entrada con errores · ajuste negativo y reservadas | RF-1 a RF-4 |
 | `LowStockPage.test.tsx` | lista en o bajo el mínimo · todo sobre el mínimo · error | RF-5 |
 | `app-sidebar.test.tsx` | muestra la cantidad · singular · tope 99+ · sin contador en cero · sin contador si falla · técnico no consulta | RF-6 |
-| Pendiente | Mostrar disponible/reservado/físico | RF-1.1 |
+| `InventoryPage.test.tsx` | SKU, nombre, categoría, `2 / 1 / 2` (disponible / reservado / mínimo) y "Stock bajo" | RF-1.1 |
 | Pendiente | Baja de un repuesto desde la interfaz | ver tarea T12 |

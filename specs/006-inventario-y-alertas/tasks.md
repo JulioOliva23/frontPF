@@ -20,12 +20,14 @@ Leyenda: `[x]` hecha · `[~]` parcial · `[ ]` pendiente.
   Hecho cuando: pasan los 3 tests de `LowStockPage.test.tsx`.
 - [x] **T9 · Contador en el menú** — RF-6
   Hecho cuando: pasan los 6 tests de `app-sidebar.test.tsx`.
-- [~] **T10 · Existencias disponible / reservado / físico** — RF-1.1
-  Hecho cuando: un test comprueba que los tres valores y la señal de stock aparecen en la fila.
-  *Parcial:* el componente `StockBadge` existe; sin test específico.
-- [ ] **T11 · Test de edición de compatibilidad con modelos inexistentes** — RF-3.4
+- [x] **T10 · Existencias disponible / reservado / mínimo** — RF-1.1
+  Hecho cuando: un test comprueba que SKU, nombre, categoría, disponible / reservado / mínimo y la señal de stock aparecen en la fila.
+  *Evidencia: `InventoryPage.test` "shows SKU, name, category, available / reserved / minimum and the stock signal [006/RF-1.1]". (La spec decía "físico"; la pantalla muestra disponible / reservado / mínimo y se corrigió la spec.)*
+- [x] **T11 · Test de edición de compatibilidad con modelos inexistentes** — RF-3.4
   Hecho cuando: un error 422 del servidor se muestra en el cuadro de compatibilidad.
+  *Evidencia: `InventoryPage.test` "shows the server reason when the compatible models cannot be saved [006/RF-3.4]".*
 - [ ] **T12 · Botón y confirmación para dar de baja un repuesto** — fuera de alcance actual
   Hecho cuando: el administrador ve "Dar de baja", confirma, y un repuesto con reservas muestra el motivo del rechazo; un test lo cubre.
-- [ ] **T13 · Altura mínima de 44 px en el selector de modelos compatibles** — constitución C7.2
+- [x] **T13 · Altura mínima de 44 px en el selector de modelos compatibles** — constitución C7.2
   Hecho cuando: los controles del selector de modelos (hoy 36 px) miden al menos 44 px; se coordina con la tarea T6 de la spec 010.
+  *Evidencia: regla de diseño [010/RF-4.1]: el selector de modelos ahora mide 44 px.*

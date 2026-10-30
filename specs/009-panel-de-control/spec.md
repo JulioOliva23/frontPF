@@ -64,8 +64,8 @@ Gráficos históricos, filtrar el panel por técnico o fechas, indicadores finan
 ## 8. Criterios de finalización
 
 - [x] RF-1 a RF-4 tienen tests que pasan.
-- [ ] RF-5 y RF-6 tienen tests (el acceso se prueba solo desde el router).
-- [ ] RF-1.3 (resaltado de alertas) tiene un test.
+- [x] RF-5 y RF-6 tienen tests (el acceso se prueba desde el router).
+- [x] RF-1.3 (resaltado de alertas) tiene un test.
 
 ## 9. Dudas abiertas
 

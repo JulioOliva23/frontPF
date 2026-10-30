@@ -18,13 +18,17 @@ Leyenda: `[x]` hecha · `[~]` parcial · `[ ]` pendiente.
   Hecho cuando: pasa "shows staff the public form without account links".
 - [x] **T8 · Ruta pública y redirección heredada** — RF-7
   Hecho cuando: `/portal-cliente` es accesible sin sesión y `/tracking` redirige (test de redirecciones del router).
-- [ ] **T9 · Test del mensaje de red caída** — RF-3.3
+- [x] **T9 · Test del mensaje de red caída** — RF-3.3
   Hecho cuando: un error de red muestra el mensaje de intento posterior y no el de "no encontrada".
-- [ ] **T10 · Test de la orden cancelada** — RF-4.2
+  *Evidencia: `TrackingForm.test` "asks to try again later when the server cannot be reached [007/RF-3.3]".*
+- [x] **T10 · Test de la orden cancelada** — RF-4.2
   Hecho cuando: una orden cancelada muestra el aviso de retiro en el local.
-- [ ] **T11 · Test del enlace "Ingresar con mi cuenta"** — RF-6.1
+  *Evidencia: `CustomerPortalPage.test` (etiquetado [007/RF-4.2]: la orden cancelada indica que puede retirarse).*
+- [x] **T11 · Test del enlace "Ingresar con mi cuenta"** — RF-6.1
   Hecho cuando: aparece solo para visitantes anónimos.
-- [ ] **T12 · Test de campos internos** — RF-4.3
+  *Evidencia: `CustomerPortalPage.test` "looks up one order anonymously… [007/RF-6.1]" (comprueba el enlace "Ingresar con mi cuenta").*
+- [x] **T12 · Test de campos internos** — RF-4.3
   Hecho cuando: aunque la respuesta traiga campos extra, solo se renderizan los de la spec.
+  *Evidencia: `CustomerPortalPage.test` "shows only the fields of the customer view, never internal data [007/RF-4.3]".*
 - [ ] **T13 · Definir el aspecto de la página pública** — duda abierta
   Hecho cuando: queda decidido y se refleja en la spec 010.

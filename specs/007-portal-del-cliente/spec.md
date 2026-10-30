@@ -79,8 +79,8 @@ Notificaciones, historial detallado de estados con fechas, chat con el taller, p
 ## 8. Criterios de finalización
 
 - [x] RF-1 a RF-6 tienen tests que pasan.
-- [ ] RF-3.3 (sin conexión) y RF-4.2 (orden cancelada) tienen tests.
-- [ ] RF-6.1 tiene un test del enlace "Ingresar con mi cuenta".
+- [x] RF-3.3 (sin conexión) y RF-4.2 (orden cancelada) tienen tests.
+- [x] RF-6.1 tiene un test del enlace "Ingresar con mi cuenta".
 
 ## 9. Dudas abiertas
 

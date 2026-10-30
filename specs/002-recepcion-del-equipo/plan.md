@@ -91,6 +91,6 @@ enviar():                                                       # RF-1.2, RF-6
 | `check-in-schema.test.ts` | IMEI con formato válido · dígito erróneo antes de enviar · patrón de 4 nodos y sin bloqueo · batería y fecha pasada · *payload* sin vacíos ni código para NONE | RF-1, RF-3, RF-4.3 |
 | `CheckInPage.test.tsx` | IMEI inválido en tiempo real sin llamar a la API · formato mientras se escribe · PIN enmascarado y ticket con código de seguimiento | RF-1, RF-4.1, RF-5 |
 | `use-debounced-callback.test.ts` | una sola llamada con los últimos argumentos · cancelación · no dispara tras desmontar · usa el *callback* más reciente | RF-2.1 |
-| Pendiente | Historial de reparaciones al ingresar un IMEI conocido; 404 sin error | RF-2 |
-| Pendiente | Error del servidor conserva el formulario; botón deshabilitado al enviar | RF-6 |
-| Pendiente | El técnico no accede a la pantalla | RF-7 |
+| `CheckInPage.test.tsx` | historial de un IMEI conocido; un IMEI nuevo no es un error | RF-2 |
+| `CheckInPage.test.tsx` | el error se muestra y lo escrito se conserva; una sola petición en vuelo | RF-6 |
+| `router.test.tsx` | "keeps technicians out of front-desk routes" | RF-7 |

@@ -101,5 +101,5 @@ API usada: `POST /auth/login`, `POST /auth/refresh`, `POST /auth/logout` (backen
 | `RoleGuard.test.tsx` | técnico fuera de presupuestos · anónimo al login · cliente al portal | RF-4 |
 | `navigation.test.ts` · `app-sidebar.test.tsx` | menú del técnico, de recepción/admin, sección de administración, cliente sin enlaces, ítem padre no resaltado | RF-3 |
 | `router.test.tsx` | 404 con y sin sesión · panel en `/` · administración protegida · fallo de pantalla · fallo de módulo · retorno con ruta interna · redirecciones heredadas · cajón móvil | RF-2, RF-4, RF-7, RF-8 |
-| Pendiente | Indicador y bloqueo de doble envío del login | RF-1.5 |
-| Pendiente | Cierre de sesión borra datos y navega al login | RF-6.1 |
+| `LoginPage.test.tsx` | indicador "Ingresando…" y una sola petición aunque se pulse otra vez | RF-1.5 |
+| `AuthProvider.test.tsx` + `router.test.tsx` | cierra en el servidor, borra el almacenamiento, queda anónimo y navega al login | RF-6.1 |

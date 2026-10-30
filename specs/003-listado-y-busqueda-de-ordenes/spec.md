@@ -82,8 +82,8 @@ Ordenar por columnas, exportar a hoja de cálculo, guardar filtros con nombre, r
 ## 8. Criterios de finalización
 
 - [x] RF-1 a RF-7 tienen tests que pasan.
-- [ ] RF-8 (paginación) está cubierto desde esta pantalla y no solo desde el componente suelto.
-- [ ] RF-5.3 tiene un test.
+- [x] RF-8 (paginación) está cubierto desde esta pantalla y no solo desde el componente suelto.
+- [x] RF-5.3 tiene un test.
 
 ## 9. Dudas abiertas
 

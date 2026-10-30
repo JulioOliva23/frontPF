@@ -77,8 +77,8 @@ Fotos del equipo, firma del cliente, lectura del IMEI con la cámara, guardado d
 ## 8. Criterios de finalización
 
 - [x] RF-1, RF-3 a RF-5 tienen tests que pasan.
-- [ ] RF-2 (historial) tiene un test.
-- [ ] RF-6 y RF-7 tienen tests específicos.
+- [x] RF-2 (historial) tiene un test.
+- [x] RF-6 y RF-7 tienen tests específicos.
 
 ## 9. Dudas abiertas
 

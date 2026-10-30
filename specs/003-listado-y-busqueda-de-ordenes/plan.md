@@ -92,5 +92,5 @@ estado de la pantalla:                                          # RF-7
 | "explains the empty search and resets every filter" · "keeps the plain empty state when there are no orders at all" | RF-7.1, RF-7.2 |
 | "shows an error state with retry" | RF-7.4 |
 | `Pagination.test.tsx` (rango, última página parcial, avance/retroceso, no se muestra si cabe) | RF-8 |
-| Pendiente: estado de carga | RF-7.3 |
-| Pendiente: el historial no crece al teclear | RF-5.3 |
+| `WorkOrdersPage.test.tsx` "shows a loading skeleton…" | RF-7.3 |
+| `WorkOrdersPage.test.tsx` "replaces the history entry…" | RF-5.3 |
