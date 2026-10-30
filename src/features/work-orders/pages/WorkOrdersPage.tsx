@@ -72,11 +72,12 @@ export function WorkOrdersPage() {
     <div className="grid gap-6">
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-extrabold">Órdenes de trabajo</h1>
-          <p className="text-sm text-slate-500">{user?.role === 'TECHNICIAN' ? 'Tus órdenes asignadas' : 'Todas las órdenes del servicio'}</p>
+          <p className="eyebrow mb-2">Tu taller, en movimiento</p>
+          <h1 className="text-3xl font-extrabold">Órdenes de trabajo</h1>
+          <p className="text-sm text-muted">{user?.role === 'TECHNICIAN' ? 'Tus órdenes asignadas' : 'Todas las órdenes del servicio'}</p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <div role="radiogroup" aria-label="Vista" className="flex rounded-xl border border-slate-200 bg-white p-1">
+          <div role="radiogroup" aria-label="Vista" className="flex rounded-xl border border-line bg-surface p-1">
             {(
               [
                 { id: 'table', label: 'Tabla', icon: <Rows3 className="h-4 w-4" aria-hidden="true" /> },
@@ -89,7 +90,7 @@ export function WorkOrdersPage() {
                 role="radio"
                 aria-checked={view === option.id}
                 onClick={() => setView(option.id)}
-                className={`flex min-h-[36px] items-center gap-1.5 rounded-lg px-3 text-xs font-bold ${view === option.id ? 'bg-slate-900 text-white' : 'text-slate-600'}`}
+                className={`flex min-h-[36px] items-center gap-1.5 rounded-lg px-3 text-xs font-bold ${view === option.id ? 'bg-surface-soft text-white' : 'text-muted'}`}
               >
                 {option.icon}
                 {option.label}
@@ -99,7 +100,7 @@ export function WorkOrdersPage() {
           {isFrontDesk && (
             <Link
               to="/ordenes/nueva"
-              className="flex min-h-[44px] items-center gap-2 rounded-xl bg-cyan-400 px-4 text-sm font-bold text-cyan-950 shadow-sm hover:bg-cyan-300"
+              className="primary-action"
             >
               <ClipboardPlus className="h-4 w-4" aria-hidden="true" /> Nuevo ingreso
             </Link>
@@ -107,7 +108,7 @@ export function WorkOrdersPage() {
         </div>
       </header>
 
-      <div role="search" aria-label="Filtros de órdenes" className="grid gap-3">
+      <div role="search" aria-label="Filtros de órdenes" className="glass-card grid gap-4 p-4 sm:p-5">
         <div className="flex flex-wrap items-center gap-2">
           <WorkOrderSearchInput value={effectiveFilters.search ?? ''} onChange={setSearch} />
           {isFrontDesk && <TechnicianFilter value={effectiveFilters.technicianId} onChange={setTechnicianId} />}
@@ -115,7 +116,7 @@ export function WorkOrdersPage() {
             <button
               type="button"
               onClick={reset}
-              className="min-h-[44px] rounded-xl px-3 text-xs font-bold text-slate-500 hover:bg-slate-100 hover:text-slate-800"
+              className="min-h-[44px] rounded-xl px-3 text-xs font-bold text-muted hover:bg-surface-raised hover:text-ink"
             >
               Limpiar filtros
             </button>

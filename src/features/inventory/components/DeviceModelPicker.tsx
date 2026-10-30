@@ -21,11 +21,11 @@ export function DeviceModelPicker({ value, onChange, readOnly = false }: DeviceM
 
   return (
     <fieldset className="grid gap-3">
-      <legend className="text-xs font-bold text-slate-700">Modelos compatibles ({value.length})</legend>
-      {models.isLoading && <p className="text-xs text-slate-500">Cargando modelos…</p>}
+      <legend className="text-xs font-bold text-ink-soft">Modelos compatibles ({value.length})</legend>
+      {models.isLoading && <p className="text-xs text-muted">Cargando modelos…</p>}
       {byBrand.map(([brand, list]) => (
         <div key={brand}>
-          <p className="mb-1.5 text-[11px] font-bold uppercase tracking-wide text-slate-400">{brand}</p>
+          <p className="mb-1.5 text-[11px] font-bold uppercase tracking-wide text-muted">{brand}</p>
           <div className="flex flex-wrap gap-1.5">
             {list.map((model) => {
               const checked = value.includes(model.id);
@@ -33,7 +33,7 @@ export function DeviceModelPicker({ value, onChange, readOnly = false }: DeviceM
                 <label
                   key={model.id}
                   className={`flex min-h-[36px] items-center gap-2 rounded-lg border px-2.5 text-xs font-semibold ${
-                    checked ? 'border-cyan-500 bg-cyan-50 text-cyan-900' : 'border-slate-200 bg-white text-slate-600'
+                    checked ? 'border-mint bg-mint/10 text-mint' : 'border-line bg-surface text-muted'
                   } ${readOnly ? 'cursor-default' : 'cursor-pointer'}`}
                 >
                   <input type="checkbox" checked={checked} disabled={readOnly} onChange={() => toggle(model.id)} className="h-4 w-4 accent-cyan-600" />

@@ -12,7 +12,7 @@ export function CosmeticChecklist({ value, onChange }: CosmeticChecklistProps) {
     <div className="grid gap-3">
       {COSMETIC_ZONES.map((zone) => (
         <fieldset key={zone.key} className="grid gap-2 sm:grid-cols-[140px_1fr] sm:items-center">
-          <legend className="text-xs font-bold text-slate-700 sm:float-left sm:pt-2">{zone.label}</legend>
+          <legend className="text-xs font-bold text-ink-soft sm:float-left sm:pt-2">{zone.label}</legend>
           <div className="flex flex-wrap gap-1.5">
             {COSMETIC_CONDITIONS.map((condition) => {
               const selected = value[zone.key] === condition.value;
@@ -23,9 +23,9 @@ export function CosmeticChecklist({ value, onChange }: CosmeticChecklistProps) {
                   className={`flex min-h-[40px] cursor-pointer items-center rounded-lg border px-3 text-xs font-semibold transition-all ${
                     selected
                       ? damaged
-                        ? 'border-orange-400 bg-orange-50 text-orange-800'
-                        : 'border-emerald-400 bg-emerald-50 text-emerald-800'
-                      : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+                        ? 'border-orange-400 bg-orange-400/10 text-orange-300'
+                        : 'border-emerald-400 bg-emerald-400/10 text-emerald-300'
+                      : 'border-line bg-surface text-muted hover:border-line'
                   }`}
                 >
                   <input

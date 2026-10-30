@@ -21,15 +21,15 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className={`mb-1.5 block text-xs font-semibold uppercase tracking-wider ${tone === 'light' ? 'text-slate-600' : 'text-[#8E949F]'}`}
+            className={`mb-1.5 block text-xs font-semibold uppercase tracking-wider ${tone === 'light' ? 'text-muted' : 'text-[#B6B0C7]'}`}
           >
             {label}
-            {props.required && <span className="text-[#EF4444] ml-1">*</span>}
+            {props.required && <span className="text-red-300 ml-1">*</span>}
           </label>
         )}
         <div className="relative rounded-xl shadow-xs">
           {leadingIcon && (
-            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8E949F]">
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#B6B0C7]">
               {leadingIcon}
             </div>
           )}
@@ -38,28 +38,28 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             className={`block min-h-[44px] w-full rounded-xl border px-3.5 py-2.5 text-sm transition-colors duration-150 focus:outline-none focus:ring-2 ${
               tone === 'light'
-                ? 'border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:border-cyan-500 focus:ring-cyan-200'
-                : 'border-[#2D3139] bg-[#0F1115] text-[#E0E2E6] placeholder:text-[#8E949F]/60 focus:border-[#F97316] focus:ring-[#F97316]'
+                ? 'border-line bg-surface text-ink placeholder:text-muted focus:border-mint focus:ring-lavender'
+                : 'border-[#453D59] bg-[#100D1D] text-[#F0EDF8] placeholder:text-[#B6B0C7]/80 focus:border-[#C4B5FD] focus:ring-[#C4B5FD]'
             } ${leadingIcon ? 'pl-11' : ''} ${rightIcon ? 'pr-11' : ''} ${
               error
                 ? tone === 'light'
                   ? 'border-red-400 focus:border-red-500 focus:ring-red-200'
                   : 'border-[#EF4444] bg-[#EF444410] focus:border-[#EF4444] focus:ring-[#EF4444]'
                 : tone === 'light'
-                  ? 'hover:border-slate-400'
-                  : 'border-[#2D3139] hover:border-[#3D4149]'
+                  ? 'hover:border-line'
+                  : 'border-[#453D59] hover:border-[#5B516F]'
             } ${className}`}
             {...props}
           />
           {rightIcon && (
-            <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-[#8E949F]">
+            <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-[#B6B0C7]">
               {rightIcon}
             </div>
           )}
         </div>
-        {error && <p role="alert" className="mt-1 text-xs font-medium text-[#EF4444]">{error}</p>}
+        {error && <p role="alert" className="mt-1 text-xs font-medium text-red-300">{error}</p>}
         {!error && helperText && (
-          <p className="mt-1 text-xs text-[#8E949F]">{helperText}</p>
+          <p className="mt-1 text-xs text-[#B6B0C7]">{helperText}</p>
         )}
       </div>
     );

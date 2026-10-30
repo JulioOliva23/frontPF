@@ -83,7 +83,7 @@ export function CreateUserModal({ isOpen, onClose }: CreateUserModalProps) {
           />
         </div>
         {serverError && (
-          <p role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+          <p role="alert" className="rounded-xl border border-red-400/25 bg-red-400/10 p-3 text-sm text-red-300">
             {serverError}
           </p>
         )}

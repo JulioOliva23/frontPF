@@ -17,7 +17,7 @@ export function PatternGrid({ value, onChange, revealed }: PatternGridProps) {
 
   return (
     <div className="flex flex-wrap items-start gap-4">
-      <div className="grid w-44 grid-cols-3 gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4" role="group" aria-label="Patrón de desbloqueo">
+      <div className="grid w-44 grid-cols-3 gap-3 rounded-2xl border border-line bg-surface-soft p-4" role="group" aria-label="Patrón de desbloqueo">
         {NODES.map((node) => {
           const position = sequence.indexOf(node);
           const selected = position >= 0;
@@ -29,7 +29,7 @@ export function PatternGrid({ value, onChange, revealed }: PatternGridProps) {
               aria-label={`Punto ${node}`}
               aria-pressed={selected}
               className={`flex h-11 w-11 items-center justify-center rounded-full border-2 text-xs font-bold ${
-                selected ? 'border-cyan-600 bg-cyan-400 text-cyan-950' : 'border-slate-300 bg-white text-slate-400'
+                selected ? 'border-mint bg-mint text-mint-deep' : 'border-line bg-surface text-muted'
               }`}
             >
               {selected ? (revealed ? position + 1 : '•') : ''}
@@ -37,12 +37,12 @@ export function PatternGrid({ value, onChange, revealed }: PatternGridProps) {
           );
         })}
       </div>
-      <div className="grid gap-2 text-xs text-slate-600">
+      <div className="grid gap-2 text-xs text-muted">
         <span>{sequence.length === 0 ? 'Toque los puntos en orden' : `${sequence.length} puntos seleccionados`}</span>
         <button
           type="button"
           onClick={() => onChange('')}
-          className="min-h-[40px] rounded-lg border border-slate-300 bg-white px-3 font-bold text-slate-700 hover:bg-slate-100"
+          className="min-h-[40px] rounded-lg border border-line bg-surface px-3 font-bold text-ink-soft hover:bg-surface-raised"
         >
           Borrar patrón
         </button>

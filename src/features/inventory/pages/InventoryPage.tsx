@@ -50,7 +50,7 @@ export function InventoryPage() {
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <h1 className="text-2xl font-extrabold">Inventario de repuestos</h1>
-          <p className="text-sm text-slate-500">Pantallas, baterías, flex, cámaras y componentes SMD/IC.</p>
+          <p className="text-sm text-muted">Pantallas, baterías, flex, cámaras y componentes SMD/IC.</p>
         </div>
         {isAdmin && (
           <Button leftIcon={<Plus className="h-4 w-4" />} onClick={() => setEditing({ part: null })}>
@@ -59,13 +59,13 @@ export function InventoryPage() {
         )}
       </header>
 
-      <div className="grid gap-3 rounded-2xl border border-slate-200 bg-white p-4 md:grid-cols-3">
+      <div className="grid gap-3 rounded-2xl border border-line bg-surface p-4 md:grid-cols-3">
         <div className="grid gap-[7px]">
-          <label htmlFor="parts-search" className="text-xs font-bold text-slate-700">
+          <label htmlFor="parts-search" className="text-xs font-bold text-ink-soft">
             Buscar
           </label>
           <div className="relative">
-            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" aria-hidden="true" />
             <input
               id="parts-search"
               value={search}
@@ -75,7 +75,7 @@ export function InventoryPage() {
                 resetPage();
               }}
               placeholder="Nombre o SKU"
-              className="min-h-[44px] w-full rounded-[11px] border border-slate-200 pl-9 pr-3 text-sm outline-none focus:border-cyan-600 focus:ring-[3px] focus:ring-cyan-600/15"
+              className="min-h-[44px] w-full rounded-[11px] border border-line pl-9 pr-3 text-sm outline-none focus:border-mint focus:ring-[3px] focus:ring-lavender/15"
             />
           </div>
         </div>
@@ -107,9 +107,9 @@ export function InventoryPage() {
       {isError && <ErrorState message="No se pudo cargar el inventario." onRetry={() => void refetch()} />}
       {data?.total === 0 && <EmptyState title="Sin repuestos" description="No hay repuestos que coincidan con los filtros." />}
       {data && data.total > 0 && (
-        <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+        <div className="overflow-x-auto rounded-2xl border border-line bg-surface">
           <table className="w-full min-w-[860px] text-left text-sm">
-            <thead className="bg-slate-50 text-[11px] uppercase tracking-wide text-slate-500">
+            <thead className="bg-surface-soft text-[11px] uppercase tracking-wide text-muted">
               <tr>
                 <th scope="col" className="px-4 py-3">Repuesto</th>
                 <th scope="col" className="px-4 py-3">Categoría</th>
@@ -122,14 +122,14 @@ export function InventoryPage() {
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-line">
               {data.data.map((part) => (
                 <tr key={part.id} className="align-top">
                   <td className="px-4 py-3">
                     <p className="font-semibold">{part.name}</p>
-                    <p className="font-mono text-[11px] text-slate-500">{part.sku}</p>
+                    <p className="font-mono text-[11px] text-muted">{part.sku}</p>
                   </td>
-                  <td className="px-4 py-3 text-slate-600">{SPARE_PART_CATEGORY_LABELS[part.category]}</td>
+                  <td className="px-4 py-3 text-muted">{SPARE_PART_CATEGORY_LABELS[part.category]}</td>
                   {isAdmin && <td className="px-4 py-3 text-right">{formatBoB(part.unitCost)}</td>}
                   <td className="px-4 py-3 text-right">{formatBoB(part.workshopPrice)}</td>
                   <td className="px-4 py-3 text-right font-mono">

@@ -14,7 +14,7 @@ export function DiagnosisForm({ order }: { order: WorkOrder }) {
   const tooShort = text.trim().length < 5;
 
   return (
-    <section aria-label="Diagnóstico" className="grid gap-3 rounded-2xl border border-slate-200 bg-white p-4">
+    <section aria-label="Diagnóstico" className="grid gap-3 rounded-2xl border border-line bg-surface p-4">
       <TextAreaField
         id="diagnosis"
         label="Diagnóstico preliminar"

@@ -27,13 +27,13 @@ import {
 
 function ImeiStatus({ imei }: { imei: string }) {
   const digits = normalizeImei(imei);
-  if (digits.length < 15) return <span className="text-[0.7rem] text-slate-500">{digits.length}/15 dígitos</span>;
+  if (digits.length < 15) return <span className="text-[0.7rem] text-muted">{digits.length}/15 dígitos</span>;
   return isValidImei(digits) ? (
-    <span className="flex items-center gap-1 text-[0.7rem] font-semibold text-emerald-700">
+    <span className="flex items-center gap-1 text-[0.7rem] font-semibold text-emerald-300">
       <CheckCircle2 className="h-3.5 w-3.5" aria-hidden="true" /> IMEI válido
     </span>
   ) : (
-    <span className="flex items-center gap-1 text-[0.7rem] font-semibold text-red-700">
+    <span className="flex items-center gap-1 text-[0.7rem] font-semibold text-red-300">
       <XCircle className="h-3.5 w-3.5" aria-hidden="true" /> Dígito verificador incorrecto
     </span>
   );
@@ -90,11 +90,11 @@ export function CheckInPage() {
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="grid gap-6">
       <header>
         <h1 className="text-2xl font-extrabold">Recepción de equipo</h1>
-        <p className="text-sm text-slate-500">Registra el equipo y abre la orden de trabajo.</p>
+        <p className="text-sm text-muted">Registra el equipo y abre la orden de trabajo.</p>
       </header>
 
       {serverError && (
-        <div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+        <div role="alert" className="rounded-xl border border-red-400/25 bg-red-400/10 p-3 text-sm text-red-300">
           <p className="font-bold">No se pudo registrar la orden</p>
           <ul className="mt-1 list-disc pl-5">
             {serverError.messages.map((message) => (
@@ -106,7 +106,7 @@ export function CheckInPage() {
 
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>
-          <h2 className="mb-4 text-sm font-bold uppercase tracking-wide text-slate-500">Cliente</h2>
+          <h2 className="mb-4 text-sm font-bold uppercase tracking-wide text-muted">Cliente</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             <FormField id="customer-identification" label="Documento de identidad" error={errors.customer?.identification?.message} {...register('customer.identification')} />
             <FormField id="customer-name" label="Nombre completo" error={errors.customer?.name?.message} {...register('customer.name')} />
@@ -116,7 +116,7 @@ export function CheckInPage() {
         </Card>
 
         <Card>
-          <h2 className="mb-4 text-sm font-bold uppercase tracking-wide text-slate-500">Equipo</h2>
+          <h2 className="mb-4 text-sm font-bold uppercase tracking-wide text-muted">Equipo</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             <Select
               id="device-brand"
@@ -165,7 +165,7 @@ export function CheckInPage() {
       </div>
 
       <Card>
-        <h2 className="mb-4 text-sm font-bold uppercase tracking-wide text-slate-500">Ingreso</h2>
+        <h2 className="mb-4 text-sm font-bold uppercase tracking-wide text-muted">Ingreso</h2>
         <div className="grid gap-4 lg:grid-cols-[2fr_1fr_1fr]">
           <TextAreaField id="reported-problem" label="Problema reportado por el cliente" error={errors.reportedProblem?.message} {...register('reportedProblem')} />
           <FormField
@@ -182,7 +182,7 @@ export function CheckInPage() {
 
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>
-          <h2 className="mb-4 text-sm font-bold uppercase tracking-wide text-slate-500">Estado cosmético</h2>
+          <h2 className="mb-4 text-sm font-bold uppercase tracking-wide text-muted">Estado cosmético</h2>
           <Controller
             control={control}
             name="cosmeticCheckIn"
@@ -196,7 +196,7 @@ export function CheckInPage() {
         </Card>
 
         <Card>
-          <h2 className="mb-4 text-sm font-bold uppercase tracking-wide text-slate-500">Bloqueo del equipo</h2>
+          <h2 className="mb-4 text-sm font-bold uppercase tracking-wide text-muted">Bloqueo del equipo</h2>
           <div className="grid gap-4">
             <Select
               id="lock-type"

@@ -13,14 +13,14 @@ const paddingStyles = {
 };
 
 const variantStyles = {
-  default: 'bg-[#16191F] border border-[#2D3139] rounded-2xl shadow-xs transition-all text-[#E0E2E6]',
-  flat: 'bg-[#1C2028] border border-[#2D3139] rounded-xl text-[#E0E2E6]',
-  bordered: 'bg-[#16191F] border-2 border-[#2D3139] rounded-2xl text-[#E0E2E6]',
-  accent: 'bg-[#16191F] border border-[#F97316]/50 shadow-xs shadow-orange-950/20 rounded-2xl text-[#E0E2E6]',
-  warning: 'bg-[#F59E0B10] border border-[#F59E0B30] rounded-2xl text-[#E0E2E6]',
-  danger: 'bg-[#EF444410] border border-[#EF444430] rounded-2xl text-[#E0E2E6]',
-  success: 'bg-[#22C55E10] border border-[#22C55E30] rounded-2xl text-[#E0E2E6]',
-  public: 'bg-white border border-slate-200 rounded-2xl shadow-sm text-slate-900',
+  default: 'glass-card transition-all text-ink',
+  flat: 'bg-[#252037] border border-[#453D59] rounded-xl text-[#F0EDF8]',
+  bordered: 'bg-[#201B30] border-2 border-[#453D59] rounded-2xl text-[#F0EDF8]',
+  accent: 'bg-[#201B30] border border-[#C4B5FD]/50 shadow-xs shadow-orange-950/20 rounded-2xl text-[#F0EDF8]',
+  warning: 'bg-[#F59E0B10] border border-[#F59E0B30] rounded-2xl text-[#F0EDF8]',
+  danger: 'bg-[#EF444410] border border-[#EF444430] rounded-2xl text-[#F0EDF8]',
+  success: 'bg-[#22C55E10] border border-[#22C55E30] rounded-2xl text-[#F0EDF8]',
+  public: 'glass-card text-ink',
 };
 
 export function Card({ children, variant = 'public', padding = 'md', className = '', ...props }: CardProps) {

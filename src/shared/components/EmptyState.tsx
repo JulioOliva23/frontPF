@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { PackageOpen } from 'lucide-react';
+import { Mascot } from './Mascot';
 
 export interface EmptyStateProps {
   icon?: ReactNode;
@@ -18,26 +18,26 @@ export function EmptyState({ icon, title, description, actionLabel, onAction, to
   return (
     <div
       className={`flex flex-col items-center justify-center p-8 sm:p-12 text-center rounded-2xl border border-dashed ${
-        isLight ? 'border-slate-300 bg-white' : 'border-[#2D3139] bg-[#16191F]/40'
+        isLight ? 'border-line bg-surface' : 'border-[#453D59] bg-[#201B30]/40'
       } ${className}`}
     >
       <div
-        className={`w-14 h-14 rounded-2xl border flex items-center justify-center mb-4 ${
-          isLight ? 'bg-cyan-50 border-cyan-200 text-cyan-700' : 'bg-[#F9731615] border-[#F9731630] text-[#F97316]'
+        className={`${icon ? 'h-14 w-14 rounded-2xl border' : 'mascot-halo h-28 w-28'} flex items-center justify-center mb-4 ${
+          !icon ? '' : isLight ? 'bg-mint/10 border-mint/20 text-mint' : 'bg-lavender/10 border-lavender/20 text-lavender'
         }`}
       >
-        {icon ?? <PackageOpen className="w-7 h-7" />}
+        {icon ?? <Mascot className="h-28 w-28" />}
       </div>
-      <h3 className={`text-base font-bold ${isLight ? 'text-slate-900' : 'text-white'}`}>{title}</h3>
-      <p className={`mt-1 text-sm max-w-sm ${isLight ? 'text-slate-500' : 'text-[#8E949F]'} ${descriptionClassName}`}>{description}</p>
+      <h3 className={`text-base font-bold ${isLight ? 'text-ink' : 'text-white'}`}>{title}</h3>
+      <p className={`mt-1 text-sm max-w-sm ${isLight ? 'text-muted' : 'text-[#B6B0C7]'} ${descriptionClassName}`}>{description}</p>
       {actionLabel && onAction && (
         <button
           type="button"
           onClick={onAction}
           className={`mt-5 min-h-[44px] px-3 py-2 text-xs font-bold rounded-xl border transition-all ${
             isLight
-              ? 'border-slate-300 bg-white text-slate-700 hover:bg-slate-100 hover:text-slate-950'
-              : 'border-[#2D3139] bg-[#1C2028] text-[#E0E2E6] hover:bg-[#2D3139] hover:text-white'
+              ? 'border-line bg-surface text-ink-soft hover:bg-surface-raised hover:text-ink'
+              : 'border-[#453D59] bg-[#252037] text-[#F0EDF8] hover:bg-[#453D59] hover:text-white'
           }`}
         >
           {actionLabel}

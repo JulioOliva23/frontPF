@@ -21,7 +21,7 @@ export function Button({
   ...props
 }: ButtonProps) {
   const baseStyles =
-    'inline-flex items-center justify-center font-bold rounded-xl transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed select-none active:scale-[0.98] min-h-[44px] min-w-[44px]';
+    'inline-flex items-center justify-center font-bold rounded-2xl transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed select-none active:scale-[0.98] min-h-[44px] min-w-[44px]';
 
   const sizeStyles = {
     sm: 'px-3 py-2 text-xs gap-1.5 min-h-[44px]',
@@ -31,17 +31,17 @@ export function Button({
 
   const variantStyles = {
     primary:
-      'bg-cyan-400 hover:bg-cyan-300 text-cyan-950 shadow-sm shadow-cyan-950/10 focus:ring-cyan-400 active:bg-cyan-500',
-    secondary: 'bg-[#2D3139] text-[#E0E2E6] hover:bg-[#3D4149] hover:text-white focus:ring-[#2D3139]',
+      'primary-action focus:ring-lavender focus:ring-offset-surface-soft',
+    secondary: 'bg-[#453D59] text-[#F0EDF8] hover:bg-[#5B516F] hover:text-white focus:ring-[#453D59]',
     outline:
-      'border border-[#2D3139] bg-[#1C2028] text-[#E0E2E6] hover:bg-[#2D3139] hover:text-white focus:ring-[#F97316]',
-    danger: 'bg-[#EF4444] text-white hover:bg-[#DC2626] focus:ring-[#EF4444]',
-    success: 'bg-[#22C55E] text-white hover:bg-[#16A34A] focus:ring-[#22C55E]',
+      'border border-[#453D59] bg-[#252037] text-[#F0EDF8] hover:bg-[#453D59] hover:text-white focus:ring-[#C4B5FD]',
+    danger: 'bg-red-700 text-white hover:bg-red-600 focus:ring-red-300',
+    success: 'bg-mint text-mint-deep hover:bg-mint/90 focus:ring-mint',
     warning: 'bg-[#F59E0B15] text-[#F59E0B] border border-[#F59E0B30] hover:bg-[#F59E0B25] focus:ring-[#F59E0B]',
-    ghost: 'text-[#8E949F] hover:text-[#E0E2E6] hover:bg-[#2D3139] focus:ring-[#2D3139]',
+    ghost: 'text-[#B6B0C7] hover:text-[#F0EDF8] hover:bg-[#453D59] focus:ring-[#453D59]',
     'outline-light':
-      'border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 hover:text-slate-950 focus:ring-slate-300',
-    'ghost-light': 'text-slate-700 hover:text-slate-950 hover:bg-slate-200 focus:ring-slate-300',
+      'border border-line bg-surface text-ink-soft hover:bg-surface-raised hover:text-ink focus:ring-lavender',
+    'ghost-light': 'text-ink-soft hover:text-ink hover:bg-surface-raised focus:ring-lavender',
   };
 
   return (

@@ -48,7 +48,7 @@ export function DeviceModelsPage() {
     <div className="grid gap-6">
       <header>
         <h1 className="text-2xl font-extrabold">Modelos de equipos</h1>
-        <p className="text-sm text-slate-500">
+        <p className="text-sm text-muted">
           {catalog.data ? `${activeCount} activos${inactiveCount ? ` · ${inactiveCount} desactivados` : ''}` : 'Catálogo de marcas y modelos'}
         </p>
       </header>
@@ -60,17 +60,17 @@ export function DeviceModelsPage() {
           <label htmlFor="models-search" className="sr-only">
             Buscar modelos
           </label>
-          <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+          <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" aria-hidden="true" />
           <input
             id="models-search"
             type="search"
             value={search}
             placeholder="Buscar marca o modelo"
             onChange={(event) => setSearch(event.target.value)}
-            className="min-h-[44px] w-full rounded-xl border border-slate-200 bg-white pl-10 pr-3 text-sm outline-none focus:border-lime-600 focus:ring-[3px] focus:ring-lime-600/15"
+            className="min-h-[44px] w-full rounded-xl border border-line bg-surface pl-10 pr-3 text-sm outline-none focus:border-mint focus:ring-[3px] focus:ring-lavender/15"
           />
         </div>
-        <label className="flex min-h-[44px] items-center gap-2 text-sm text-slate-600">
+        <label className="flex min-h-[44px] items-center gap-2 text-sm text-muted">
           <input type="checkbox" checked={showInactive} onChange={(event) => setShowInactive(event.target.checked)} className="h-4 w-4 accent-lime-600" />
           Mostrar desactivados
         </label>
@@ -90,15 +90,15 @@ export function DeviceModelsPage() {
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {groups.map((group) => (
-          <section key={group.brand} aria-label={group.brand} className="rounded-2xl border border-slate-200 bg-white shadow-sm">
-            <h2 className="flex items-center justify-between border-b border-slate-100 px-4 py-3 text-sm font-extrabold text-slate-900">
+          <section key={group.brand} aria-label={group.brand} className="rounded-2xl border border-line bg-surface shadow-sm">
+            <h2 className="flex items-center justify-between border-b border-line px-4 py-3 text-sm font-extrabold text-ink">
               {group.brand}
-              <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-bold text-slate-500">{group.models.length}</span>
+              <span className="rounded-full bg-surface-raised px-2 py-0.5 text-[11px] font-bold text-muted">{group.models.length}</span>
             </h2>
-            <ul className="divide-y divide-slate-100">
+            <ul className="divide-y divide-line">
               {group.models.map((entry) => (
                 <li key={entry.id} className="flex min-h-[48px] items-center justify-between gap-2 px-4 py-2">
-                  <span className={`text-sm ${entry.isActive ? 'text-slate-800' : 'text-slate-400 line-through'}`}>{entry.model}</span>
+                  <span className={`text-sm ${entry.isActive ? 'text-ink' : 'text-muted line-through'}`}>{entry.model}</span>
                   <span className="flex items-center gap-2">
                     {!entry.isActive && (
                       <Badge variant="slate" size="sm">
@@ -110,7 +110,7 @@ export function DeviceModelsPage() {
                       onClick={() => void toggle(entry)}
                       disabled={pendingId === entry.id}
                       aria-label={`${entry.isActive ? 'Desactivar' : 'Reactivar'} ${entry.brand} ${entry.model}`}
-                      className="min-h-[36px] rounded-lg px-2.5 text-xs font-bold text-slate-500 hover:bg-slate-100 hover:text-slate-900 disabled:opacity-40"
+                      className="min-h-[36px] rounded-lg px-2.5 text-xs font-bold text-muted hover:bg-surface-raised hover:text-ink disabled:opacity-40"
                     >
                       {entry.isActive ? 'Desactivar' : 'Reactivar'}
                     </button>

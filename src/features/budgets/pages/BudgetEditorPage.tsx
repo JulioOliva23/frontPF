@@ -40,7 +40,7 @@ export function BudgetEditorPage() {
 
   return (
     <div className="grid gap-6">
-      <Link to="/presupuestos" className="flex w-fit items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-900">
+      <Link to="/presupuestos" className="flex w-fit items-center gap-1.5 text-xs font-bold text-muted hover:text-ink">
         <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Volver a presupuestos
       </Link>
       <header className="flex flex-wrap items-center justify-between gap-3">
@@ -48,24 +48,24 @@ export function BudgetEditorPage() {
           <h1 className="flex flex-wrap items-center gap-3 text-2xl font-extrabold">
             Presupuesto · {formatWorkOrderNumber(workOrder.number)} <WorkOrderStatusBadge status={workOrder.status} />
           </h1>
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-muted">
             {workOrder.device.brand} {workOrder.device.model} · {workOrder.customer.name}
           </p>
         </div>
-        <Link to={`/ordenes/${workOrder.id}`} className="text-xs font-bold text-cyan-800 hover:underline">
+        <Link to={`/ordenes/${workOrder.id}`} className="text-xs font-bold text-mint hover:underline">
           Ver orden
         </Link>
       </header>
 
       {workOrder.preliminaryDiagnosis && (
-        <section aria-label="Diagnóstico" className="rounded-2xl border border-sky-200 bg-sky-50 p-4 text-sm">
-          <p className="text-xs font-bold uppercase tracking-wide text-sky-800">Diagnóstico del técnico</p>
+        <section aria-label="Diagnóstico" className="rounded-2xl border border-sky-400/25 bg-sky-400/10 p-4 text-sm">
+          <p className="text-xs font-bold uppercase tracking-wide text-mint">Diagnóstico del técnico</p>
           <p className="mt-1 text-sky-950">{workOrder.preliminaryDiagnosis}</p>
         </section>
       )}
 
       {actionError && (
-        <p role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+        <p role="alert" className="rounded-xl border border-red-400/25 bg-red-400/10 p-3 text-sm text-red-300">
           {actionError.message}
         </p>
       )}
@@ -85,15 +85,15 @@ export function BudgetEditorPage() {
           <button
             type="button"
             onClick={() => setBuilding(true)}
-            className="min-h-[52px] rounded-2xl border-2 border-dashed border-slate-300 text-sm font-bold text-slate-600 hover:border-cyan-500 hover:text-cyan-800"
+            className="min-h-[52px] rounded-2xl border-2 border-dashed border-line text-sm font-bold text-muted hover:border-mint hover:text-mint"
           >
             + Nueva versión de presupuesto
           </button>
         ))}
-      {!canBudget && <p className="text-xs text-slate-500">La orden ya no admite nuevos presupuestos.</p>}
+      {!canBudget && <p className="text-xs text-muted">La orden ya no admite nuevos presupuestos.</p>}
 
       <section aria-label="Versiones" className="grid gap-4 lg:grid-cols-2">
-        {budgets.data?.length === 0 && <p className="text-sm text-slate-500">Todavía no hay presupuestos para esta orden.</p>}
+        {budgets.data?.length === 0 && <p className="text-sm text-muted">Todavía no hay presupuestos para esta orden.</p>}
         {budgets.data?.map((budget) => (
           <BudgetVersionCard
             key={budget.id}

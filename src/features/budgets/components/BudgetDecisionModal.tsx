@@ -36,11 +36,11 @@ export function BudgetDecisionModal({ decision, isPending, error, onClose, onCon
         {rejecting && (
           <TextAreaField id="reject-reason" label="Motivo del rechazo" value={reason} maxLength={500} onChange={(event) => setReason(event.target.value)} />
         )}
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-muted">
           {rejecting ? 'La orden pasará a "Cancelado" y el equipo quedará listo para devolverse.' : 'La orden pasará a "Aprobado" y el técnico podrá iniciar la reparación.'}
         </p>
         {error && (
-          <p role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+          <p role="alert" className="rounded-xl border border-red-400/25 bg-red-400/10 p-3 text-sm text-red-300">
             {error}
           </p>
         )}

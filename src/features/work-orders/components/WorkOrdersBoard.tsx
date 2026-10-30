@@ -12,19 +12,19 @@ type ColumnFilters = Pick<WorkOrderFilters, 'technicianId' | 'search'>;
 function BoardColumn({ status, filters }: { status: WorkOrderStatus; filters: ColumnFilters }) {
   const { data, isLoading, isError } = useWorkOrders({ ...filters, status, page: 1, pageSize: COLUMN_PAGE_SIZE });
   return (
-    <section aria-label={WORK_ORDER_STATUS_LABELS[status]} className="flex w-72 shrink-0 flex-col rounded-2xl bg-slate-100 p-3">
-      <h2 className="mb-3 flex items-center justify-between text-xs font-bold uppercase tracking-wide text-slate-600">
+    <section aria-label={WORK_ORDER_STATUS_LABELS[status]} className="flex w-72 shrink-0 flex-col rounded-2xl bg-surface-raised p-3">
+      <h2 className="mb-3 flex items-center justify-between text-xs font-bold uppercase tracking-wide text-muted">
         {WORK_ORDER_STATUS_LABELS[status]}
-        <span className="rounded-full bg-white px-2 py-0.5 text-[11px] text-slate-500">{data?.total ?? '…'}</span>
+        <span className="rounded-full bg-surface px-2 py-0.5 text-[11px] text-muted">{data?.total ?? '…'}</span>
       </h2>
       <div className="grid gap-2">
-        {isLoading && <div className="h-20 animate-pulse rounded-xl bg-white" />}
-        {isError && <p className="text-xs text-red-700">No se pudo cargar</p>}
+        {isLoading && <div className="h-20 animate-pulse rounded-xl bg-surface" />}
+        {isError && <p className="text-xs text-red-300">No se pudo cargar</p>}
         {data?.data.map((order) => <WorkOrderCard key={order.id} order={order} showStatus={false} />)}
         {data && data.total > COLUMN_PAGE_SIZE && (
-          <p className="text-center text-[11px] text-slate-500">y {data.total - COLUMN_PAGE_SIZE} más (use la vista de tabla)</p>
+          <p className="text-center text-[11px] text-muted">y {data.total - COLUMN_PAGE_SIZE} más (use la vista de tabla)</p>
         )}
-        {data?.total === 0 && <p className="py-4 text-center text-[11px] text-slate-400">Sin órdenes</p>}
+        {data?.total === 0 && <p className="py-4 text-center text-[11px] text-muted">Sin órdenes</p>}
       </div>
     </section>
   );

@@ -12,20 +12,20 @@ function Queue({ status, title, description }: { status: WorkOrderStatus; title:
   return (
     <section aria-labelledby={`queue-${status}`} className="grid gap-3">
       <div>
-        <h2 id={`queue-${status}`} className="text-sm font-bold uppercase tracking-wide text-slate-600">
-          {title} {data && <span className="text-slate-400">({data.total})</span>}
+        <h2 id={`queue-${status}`} className="text-sm font-bold uppercase tracking-wide text-muted">
+          {title} {data && <span className="text-muted">({data.total})</span>}
         </h2>
-        <p className="text-xs text-slate-500">{description}</p>
+        <p className="text-xs text-muted">{description}</p>
       </div>
       {isLoading && <LoadingSkeleton rows={2} />}
       {data?.total === 0 && <EmptyState title="Nada pendiente" description="No hay órdenes en esta etapa." />}
       <ul className="grid gap-2 md:grid-cols-2">
         {data?.data.map((order) => (
           <li key={order.id}>
-            <Link to={`/presupuestos/${order.id}`} className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white p-3 hover:border-cyan-400">
+            <Link to={`/presupuestos/${order.id}`} className="flex items-center justify-between gap-3 rounded-xl border border-line bg-surface p-3 hover:border-mint">
               <span>
                 <span className="block text-sm font-extrabold">{formatWorkOrderNumber(order.number)}</span>
-                <span className="block text-xs text-slate-600">
+                <span className="block text-xs text-muted">
                   {order.device.brand} {order.device.model} · {order.customer.name}
                 </span>
               </span>
@@ -44,7 +44,7 @@ export function BudgetsPage() {
     <div className="grid gap-8">
       <header>
         <h1 className="text-2xl font-extrabold">Presupuestos</h1>
-        <p className="text-sm text-slate-500">Arme cotizaciones y registre la respuesta del cliente.</p>
+        <p className="text-sm text-muted">Arme cotizaciones y registre la respuesta del cliente.</p>
       </header>
       <Queue status="IN_DIAGNOSIS" title="Por presupuestar" description="Órdenes en diagnóstico, listas para cotizar." />
       <Queue status="BUDGETED" title="Esperando respuesta del cliente" description="Presupuestos enviados pendientes de aprobación." />

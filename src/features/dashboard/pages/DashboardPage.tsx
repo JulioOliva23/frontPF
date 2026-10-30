@@ -1,3 +1,4 @@
+import { Mascot } from '../../../shared/components/Mascot';
 import type { ReactNode } from 'react';
 import { AlarmClock, ArrowRight, BellRing, ClipboardList, ClipboardPlus, FileClock, FileText, Package } from 'lucide-react';
 import { Link } from 'react-router';
@@ -22,7 +23,7 @@ function countOf(summary: WorkOrderSummary, status: WorkOrderStatus): number {
 function MetricLink({ to, label, children }: { to?: string; label: string; children: ReactNode }) {
   if (!to) return <div>{children}</div>;
   return (
-    <Link to={to} aria-label={label} className="block rounded-2xl transition-transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-lime-600">
+    <Link to={to} aria-label={label} className="block rounded-2xl transition-transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-lavender">
       {children}
     </Link>
   );
@@ -32,16 +33,16 @@ function QuickLink({ to, icon, title, description }: { to: string; icon: ReactNo
   return (
     <Link
       to={to}
-      className="group flex min-h-[64px] items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm hover:border-lime-400"
+      className="glass-card group flex min-h-[76px] items-center gap-4 px-5 py-4 transition-colors hover:border-lavender/40"
     >
-      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-600 group-hover:bg-lime-100 group-hover:text-lime-800">
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-surface-raised text-muted group-hover:bg-mint/10 group-hover:text-mint">
         {icon}
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block text-sm font-bold text-slate-900">{title}</span>
-        <span className="block text-xs text-slate-500">{description}</span>
+        <span className="block text-sm font-bold text-ink">{title}</span>
+        <span className="block text-xs text-muted">{description}</span>
       </span>
-      <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-lime-700" aria-hidden="true" />
+      <ArrowRight className="h-4 w-4 text-muted group-hover:text-mint" aria-hidden="true" />
     </Link>
   );
 }
@@ -65,25 +66,22 @@ export function DashboardPage() {
 
   return (
     <div className="grid gap-6">
-      <header className="flex flex-wrap items-end justify-between gap-4">
+      <header className="glass-card relative flex flex-wrap items-center justify-between gap-5 overflow-hidden p-6 sm:p-8">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-slate-400 first-letter:uppercase">{formatToday()}</p>
-          <h1 className="text-2xl font-extrabold">Hola{user ? `, ${user.fullName.split(' ')[0]}` : ''}</h1>
-          <p className="text-sm text-slate-500">Resumen del servicio técnico</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-muted first-letter:uppercase">{formatToday()}</p>
+          <h1 className="mt-3 text-3xl font-extrabold sm:text-4xl">Hola{user ? `, ${user.fullName.split(' ')[0]}` : ''}</h1>
+          <p className="text-sm text-muted">Resumen del servicio técnico</p><p className="mt-4 max-w-xs text-xs leading-relaxed text-muted">Cada equipo tiene una historia.<br />Vamos a cuidar la siguiente.</p>
         </div>
-        <Link
-          to="/ordenes/nueva"
-          className="flex min-h-[44px] items-center gap-2 rounded-xl bg-lime-400 px-4 text-sm font-bold text-lime-950 shadow-sm hover:bg-lime-300"
-        >
+        <div className="flex items-center gap-6"><div className="mascot-halo hidden w-36 sm:block"><Mascot className="w-full" /></div><Link to="/ordenes/nueva" className="primary-action">
           <ClipboardPlus className="h-4 w-4" aria-hidden="true" /> Nuevo ingreso
-        </Link>
+        </Link></div>
       </header>
 
       {summary.isError && (
         <ErrorState message="No se pudo cargar el resumen de órdenes." onRetry={() => void summary.refetch()} />
       )}
 
-      <section aria-label="Indicadores" className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <section aria-label="Indicadores" className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
         <MetricLink to="/ordenes" label="Ver órdenes activas">
           <MetricCard
             theme="light"
@@ -127,7 +125,7 @@ export function DashboardPage() {
 
       <div className="grid gap-6 lg:grid-cols-[2fr_3fr]">
         <section aria-labelledby="quick-links-title" className="grid content-start gap-3">
-          <h2 id="quick-links-title" className="text-sm font-extrabold text-slate-700">
+          <h2 id="quick-links-title" className="text-sm font-extrabold text-ink-soft">
             Accesos rápidos
           </h2>
           <QuickLink
@@ -146,8 +144,8 @@ export function DashboardPage() {
         </section>
 
         {data && (
-          <section aria-labelledby="by-status-title" className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-            <h2 id="by-status-title" className="mb-3 text-sm font-extrabold text-slate-700">
+          <section aria-labelledby="by-status-title" className="glass-card p-5 sm:p-6">
+            <h2 id="by-status-title" className="mb-3 text-sm font-extrabold text-ink-soft">
               Órdenes por estado
             </h2>
             <ul className="grid gap-1 sm:grid-cols-2">
@@ -155,10 +153,10 @@ export function DashboardPage() {
                 <li key={entry.status}>
                   <Link
                     to={ordersWithStatus(entry.status)}
-                    className="flex min-h-[40px] items-center justify-between rounded-xl px-3 text-sm text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                    className="flex min-h-[40px] items-center justify-between rounded-xl px-3 text-sm text-muted hover:bg-surface-raised hover:text-ink"
                   >
                     <span>{WORK_ORDER_STATUS_LABELS[entry.status]}</span>
-                    <span className="font-mono font-bold text-slate-900">{entry.count}</span>
+                    <span className="font-mono font-bold text-ink">{entry.count}</span>
                   </Link>
                 </li>
               ))}

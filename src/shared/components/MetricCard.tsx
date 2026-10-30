@@ -16,29 +16,29 @@ export function MetricCard({ title, value, subtitle, icon, variant = 'default', 
 
   const iconStyle = isLight
     ? variant === 'danger'
-      ? 'bg-red-50 text-red-700 border border-red-200'
+      ? 'bg-red-400/10 text-red-300 border border-red-400/25'
       : variant === 'warning'
-        ? 'bg-amber-50 text-amber-700 border border-amber-200'
-        : 'bg-cyan-50 text-cyan-700 border border-cyan-200'
-    : 'bg-[#F9731615] text-[#F97316] border border-[#F9731630]';
+        ? 'bg-amber-400/10 text-amber-300 border border-amber-400/25'
+        : 'bg-lavender/10 text-lavender border border-lavender/20'
+    : 'bg-[#C4B5FD15] text-[#C4B5FD] border border-[#C4B5FD30]';
 
   const valueStyle = isLight
     ? variant === 'danger'
-      ? 'text-red-700'
+      ? 'text-red-300'
       : variant === 'warning'
-        ? 'text-amber-700'
-        : 'text-slate-950'
+        ? 'text-amber-300'
+        : 'text-ink'
     : 'text-white';
 
   return (
-    <Card variant={isLight ? 'public' : variant} className={`relative overflow-hidden ${className}`}>
-      <div className="flex items-start justify-between">
+    <Card variant={isLight ? 'public' : variant} className={`relative h-full overflow-hidden ${className}`}>
+      <div className="relative">
         <div>
-          <p className={`text-[10px] font-semibold uppercase tracking-wider ${isLight ? 'text-slate-600' : 'text-[#8E949F]'}`}>{title}</p>
-          <p className={`mt-2 text-2xl sm:text-3xl font-extrabold tracking-tight font-mono ${valueStyle}`}>{value}</p>
-          {subtitle && <p className={`mt-1 text-xs font-medium ${isLight ? 'text-slate-600' : 'text-[#8E949F]'}`}>{subtitle}</p>}
+          <p className={`min-h-7 pr-9 text-[9px] font-semibold uppercase tracking-wider ${isLight ? 'text-muted' : 'text-[#B6B0C7]'}`}>{title}</p>
+          <p className={`mt-3 text-3xl sm:text-4xl font-extrabold tracking-tight ${valueStyle}`}>{value}</p>
+          {subtitle && <p className={`mt-1 text-xs font-medium ${isLight ? 'text-muted' : 'text-[#B6B0C7]'}`}>{subtitle}</p>}
         </div>
-        <div className={`p-3 rounded-xl ${iconStyle}`}>{icon}</div>
+        <div className={`absolute right-0 top-0 flex h-8 w-8 items-center justify-center rounded-xl ${iconStyle}`}>{icon}</div>
       </div>
     </Card>
   );

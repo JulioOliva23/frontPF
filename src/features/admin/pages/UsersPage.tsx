@@ -51,7 +51,7 @@ function IconAction({ label, onClick, disabled, children }: { label: string; onC
       title={label}
       onClick={onClick}
       disabled={disabled}
-      className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-30"
+      className="flex h-9 w-9 items-center justify-center rounded-lg text-muted hover:bg-surface-raised hover:text-ink disabled:cursor-not-allowed disabled:opacity-30"
     >
       {children}
     </button>
@@ -94,7 +94,7 @@ export function UsersPage() {
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <h1 className="text-2xl font-extrabold">Usuarios</h1>
-          <p className="text-sm text-slate-500">Cuentas del personal y sus permisos</p>
+          <p className="text-sm text-muted">Cuentas del personal y sus permisos</p>
         </div>
         <Button onClick={() => setCreating(true)} leftIcon={<UserPlus className="h-4 w-4" aria-hidden="true" />}>
           Nuevo usuario
@@ -106,14 +106,14 @@ export function UsersPage() {
           <label htmlFor="users-search" className="sr-only">
             Buscar usuarios
           </label>
-          <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+          <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" aria-hidden="true" />
           <input
             id="users-search"
             type="search"
             value={search}
             placeholder="Buscar por nombre o usuario"
             onChange={(event) => updateFilter(setSearch)(event.target.value)}
-            className="min-h-[44px] w-full rounded-xl border border-slate-200 bg-white pl-10 pr-3 text-sm outline-none focus:border-lime-600 focus:ring-[3px] focus:ring-lime-600/15"
+            className="min-h-[44px] w-full rounded-xl border border-line bg-surface pl-10 pr-3 text-sm outline-none focus:border-mint focus:ring-[3px] focus:ring-lavender/15"
           />
         </div>
         <label htmlFor="users-role" className="sr-only">
@@ -123,7 +123,7 @@ export function UsersPage() {
           id="users-role"
           value={role}
           onChange={(event) => updateFilter(setRole)(event.target.value as UserRole | '')}
-          className="min-h-[44px] rounded-xl border border-slate-200 bg-white px-3 text-sm outline-none focus:border-lime-600"
+          className="min-h-[44px] rounded-xl border border-line bg-surface px-3 text-sm outline-none focus:border-mint"
         >
           {ROLE_FILTERS.map((option) => (
             <option key={option.value} value={option.value}>
@@ -138,7 +138,7 @@ export function UsersPage() {
           id="users-status"
           value={status}
           onChange={(event) => updateFilter(setStatus)(event.target.value as StatusFilter)}
-          className="min-h-[44px] rounded-xl border border-slate-200 bg-white px-3 text-sm outline-none focus:border-lime-600"
+          className="min-h-[44px] rounded-xl border border-line bg-surface px-3 text-sm outline-none focus:border-mint"
         >
           <option value="all">Activos y desactivados</option>
           <option value="active">Solo activos</option>
@@ -160,9 +160,9 @@ export function UsersPage() {
 
       {visible.length > 0 && (
         <div className="grid gap-4">
-          <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+          <div className="overflow-x-auto rounded-2xl border border-line bg-surface">
             <table className="w-full min-w-[640px] text-left text-sm">
-              <thead className="border-b border-slate-200 bg-slate-50 text-[11px] font-bold uppercase tracking-wide text-slate-500">
+              <thead className="border-b border-line bg-surface-soft text-[11px] font-bold uppercase tracking-wide text-muted">
                 <tr>
                   <th scope="col" className="px-4 py-3">Nombre</th>
                   <th scope="col" className="px-4 py-3">Usuario</th>
@@ -171,14 +171,14 @@ export function UsersPage() {
                   <th scope="col" className="px-4 py-3 text-right">Acciones</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-line">
                 {visible.map((entry) => {
                   const isSelf = entry.id === me?.id;
                   return (
-                    <tr key={entry.id} className={entry.isActive ? '' : 'bg-slate-50/60 text-slate-500'}>
-                      <td className="px-4 py-3 font-semibold text-slate-900">
+                    <tr key={entry.id} className={entry.isActive ? '' : 'bg-surface-soft/60 text-muted'}>
+                      <td className="px-4 py-3 font-semibold text-ink">
                         {entry.fullName}
-                        {isSelf && <span className="ml-2 rounded-full bg-lime-100 px-2 py-0.5 text-[10px] font-bold text-lime-800">Tú</span>}
+                        {isSelf && <span className="ml-2 rounded-full bg-mint/10 px-2 py-0.5 text-[10px] font-bold text-mint">Tú</span>}
                       </td>
                       <td className="px-4 py-3 font-mono text-xs">@{entry.username}</td>
                       <td className="px-4 py-3">
@@ -204,7 +204,7 @@ export function UsersPage() {
                             onClick={() => setToggling(entry)}
                             disabled={isSelf}
                           >
-                            <Power className={`h-4 w-4 ${entry.isActive ? '' : 'text-emerald-600'}`} aria-hidden="true" />
+                            <Power className={`h-4 w-4 ${entry.isActive ? '' : 'text-emerald-300'}`} aria-hidden="true" />
                           </IconAction>
                         </div>
                       </td>

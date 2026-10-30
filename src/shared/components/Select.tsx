@@ -11,7 +11,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(({ label, error
   const errorId = error && id ? `${id}-error` : undefined;
   return (
     <div className="grid gap-[7px]">
-      <label htmlFor={id} className="text-xs font-bold text-slate-700">
+      <label htmlFor={id} className="text-xs font-bold text-ink-soft">
         {label}
       </label>
       <select
@@ -19,7 +19,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(({ label, error
         ref={ref}
         aria-invalid={Boolean(error)}
         aria-describedby={errorId}
-        className={`min-h-[44px] w-full rounded-[11px] border border-slate-200 bg-white px-[13px] text-sm text-slate-900 outline-none focus:border-cyan-600 focus:ring-[3px] focus:ring-cyan-600/15 aria-[invalid=true]:border-red-500 ${className}`}
+        className={`min-h-[44px] w-full rounded-[11px] border border-line bg-surface px-[13px] text-sm text-ink outline-none focus:border-mint focus:ring-[3px] focus:ring-lavender/15 aria-[invalid=true]:border-red-500 ${className}`}
         {...props}
       >
         {placeholder !== undefined && <option value="">{placeholder}</option>}
@@ -30,7 +30,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(({ label, error
         ))}
       </select>
       {error && (
-        <span id={errorId} className="text-[0.7rem] text-red-700">
+        <span id={errorId} className="text-[0.7rem] text-red-300">
           {error}
         </span>
       )}

@@ -39,20 +39,20 @@ export function UserStatusModal({ user, onClose }: UserStatusModalProps) {
   return (
     <Modal isOpen={user !== null} onClose={close} title={deactivating ? 'Desactivar usuario' : 'Reactivar usuario'} maxWidth="sm">
       <div className="grid gap-4">
-        <p className="text-sm text-slate-600">
+        <p className="text-sm text-muted">
           {deactivating ? (
             <>
-              <strong className="text-slate-900">{user?.fullName}</strong> no podrá iniciar sesión. Sus órdenes, auditoría y movimientos se conservan, y
+              <strong className="text-ink">{user?.fullName}</strong> no podrá iniciar sesión. Sus órdenes, auditoría y movimientos se conservan, y
               puedes reactivarlo cuando quieras.
             </>
           ) : (
             <>
-              <strong className="text-slate-900">{user?.fullName}</strong> podrá volver a iniciar sesión con su contraseña actual.
+              <strong className="text-ink">{user?.fullName}</strong> podrá volver a iniciar sesión con su contraseña actual.
             </>
           )}
         </p>
         {mutation.error && (
-          <p role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+          <p role="alert" className="rounded-xl border border-red-400/25 bg-red-400/10 p-3 text-sm text-red-300">
             {toApiError(mutation.error)?.message ?? 'No se pudo completar la acción'}
           </p>
         )}

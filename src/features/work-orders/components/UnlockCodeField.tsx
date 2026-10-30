@@ -21,14 +21,14 @@ export function UnlockCodeField({ lockType, value, onChange, error }: UnlockCode
   return (
     <div className="grid gap-2">
       <div className="flex items-center justify-between">
-        <label htmlFor="unlock-code" className="text-xs font-bold text-slate-700">
+        <label htmlFor="unlock-code" className="text-xs font-bold text-ink-soft">
           {lockType === 'PATTERN' ? 'Patrón de desbloqueo' : lockType === 'PIN' ? 'PIN de desbloqueo' : 'Contraseña de desbloqueo'}
         </label>
         <button
           type="button"
           onClick={() => setVisible((current) => !current)}
           aria-pressed={visible}
-          className="flex min-h-[36px] items-center gap-1.5 rounded-lg px-2 text-xs font-bold text-slate-600 hover:bg-slate-100"
+          className="flex min-h-[36px] items-center gap-1.5 rounded-lg px-2 text-xs font-bold text-muted hover:bg-surface-raised"
         >
           {visible ? <EyeOff className="h-4 w-4" aria-hidden="true" /> : <Eye className="h-4 w-4" aria-hidden="true" />}
           {visible ? 'Ocultar' : 'Ver'}
@@ -48,14 +48,14 @@ export function UnlockCodeField({ lockType, value, onChange, error }: UnlockCode
           aria-invalid={Boolean(error)}
           aria-describedby={error ? 'unlock-code-error' : 'unlock-code-hint'}
           maxLength={lockType === 'PIN' ? 16 : 64}
-          className="min-h-[44px] w-full rounded-[11px] border border-slate-200 bg-white px-[13px] text-sm outline-none focus:border-cyan-600 focus:ring-[3px] focus:ring-cyan-600/15 aria-[invalid=true]:border-red-500"
+          className="min-h-[44px] w-full rounded-[11px] border border-line bg-surface px-[13px] text-sm outline-none focus:border-mint focus:ring-[3px] focus:ring-lavender/15 aria-[invalid=true]:border-red-500"
         />
       )}
-      <span id="unlock-code-hint" className="text-[0.7rem] text-slate-500">
+      <span id="unlock-code-hint" className="text-[0.7rem] text-muted">
         Se guarda cifrado. Solo el técnico asignado podrá revelarlo y cada acceso queda registrado.
       </span>
       {error && (
-        <span id="unlock-code-error" role="alert" className="text-[0.7rem] text-red-700">
+        <span id="unlock-code-error" role="alert" className="text-[0.7rem] text-red-300">
           {error}
         </span>
       )}

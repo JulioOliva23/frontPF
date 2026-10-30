@@ -77,7 +77,7 @@ export function SparePartFormModal({ isOpen, part, onClose }: SparePartFormModal
           render={({ field }) => <DeviceModelPicker value={field.value} onChange={field.onChange} />}
         />
         {mutation.error && (
-          <p role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+          <p role="alert" className="rounded-xl border border-red-400/25 bg-red-400/10 p-3 text-sm text-red-300">
             {toApiError(mutation.error)?.statusCode === 409 ? 'Ya existe un repuesto con ese SKU.' : toApiError(mutation.error)?.message}
           </p>
         )}
