@@ -31,7 +31,7 @@ async function submit(username: string, password: string) {
 }
 
 describe('LoginPage', () => {
-  it('validates required fields before calling the API', async () => {
+  it('validates required fields before calling the API [001/RF-1.1]', async () => {
     const login = vi.fn();
     renderLogin(login);
     await submit('', '');
@@ -52,7 +52,7 @@ describe('LoginPage', () => {
     expect(login).toHaveBeenCalledWith('recep01', 'secreto');
   });
 
-  it('shows the backend message on bad credentials', async () => {
+  it('shows the backend message on bad credentials [001/RF-1.2]', async () => {
     renderLogin(async () => {
       throw new ApiError(401, ['Credenciales de acceso incorrectas o usuario inactivo']);
     });
@@ -60,7 +60,7 @@ describe('LoginPage', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent('Credenciales de acceso incorrectas o usuario inactivo');
   });
 
-  it('asks to wait when rate limited', async () => {
+  it('asks to wait when rate limited [001/RF-1.3]', async () => {
     renderLogin(async () => {
       throw new ApiError(429, ['ThrottlerException: Too Many Requests']);
     });
@@ -68,11 +68,34 @@ describe('LoginPage', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent('Demasiados intentos');
   });
 
-  it('falls back to a generic message for unexpected errors', async () => {
+  it('falls back to a generic message for unexpected errors [001/RF-1.4]', async () => {
     renderLogin(async () => {
       throw new Error('network down');
     });
     await submit('admin01', 'mala');
     expect(await screen.findByRole('alert')).toHaveTextContent('Error inesperado al iniciar sesión');
+  });
+});
+
+describe('LoginPage while signing in', () => {
+  it('shows progress and sends a single request even if the button is pressed again [001/RF-1.5]', async () => {
+    let finish: (value: AuthUser) => void = () => undefined;
+    const login = vi.fn(
+      () =>
+        new Promise<AuthUser>((resolve) => {
+          finish = resolve;
+        }),
+    );
+    renderLogin(login);
+    const user = userEvent.setup();
+    await user.type(screen.getByLabelText('Usuario'), 'ana');
+    await user.type(screen.getByLabelText('Contraseña'), 'Clave2026Segura');
+    await user.click(screen.getByRole('button', { name: 'Ingresar' }));
+
+    const busy = await screen.findByRole('button', { name: /Ingresando/ });
+    expect(busy).toBeDisabled();
+    await user.click(busy);
+    expect(login).toHaveBeenCalledTimes(1);
+    finish({ id: 'u1', fullName: 'Ana', username: 'ana', role: 'RECEPTIONIST' } as AuthUser);
   });
 });

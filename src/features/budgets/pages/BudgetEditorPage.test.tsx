@@ -23,7 +23,7 @@ function renderPage() {
 }
 
 describe('BudgetEditorPage (US-F05 / US-F06)', () => {
-  it('shows an error state when the order cannot be loaded', async () => {
+  it('shows an error state when the order cannot be loaded [005/RF-6.2]', async () => {
     server.use(
       http.get(api(`/work-orders/${ORDER_ID}`), () => HttpResponse.json({ statusCode: 500, message: 'boom' }, { status: 500 })),
       http.get(api(`/work-orders/${ORDER_ID}/budgets`), () => HttpResponse.json([])),
@@ -33,7 +33,7 @@ describe('BudgetEditorPage (US-F05 / US-F06)', () => {
     expect(screen.getByRole('button', { name: 'Reintentar' })).toBeInTheDocument();
   });
 
-  it('tells the user when the order no longer accepts budgets and has none', async () => {
+  it('tells the user when the order no longer accepts budgets and has none [005/RF-2.1]', async () => {
     mockOrder(workOrderFixture({ status: 'IN_REPAIR' }), []);
     renderPage();
     expect(await screen.findByText('La orden ya no admite nuevos presupuestos.')).toBeInTheDocument();
@@ -41,7 +41,7 @@ describe('BudgetEditorPage (US-F05 / US-F06)', () => {
     expect(screen.queryByRole('button', { name: '+ Nueva versión de presupuesto' })).not.toBeInTheDocument();
   });
 
-  it('builds a draft with labor and a compatible part, and posts it without part prices (RN-10)', async () => {
+  it('builds a draft with labor and a compatible part, and posts it without part prices (RN-10) [005/RF-2.2] [005/RF-2.3] [005/RF-2.4]', async () => {
     mockOrder(workOrderFixture({ status: 'IN_DIAGNOSIS', preliminaryDiagnosis: 'Módulo de pantalla dañado' }), []);
     let body: { items?: Array<Record<string, unknown>> } = {};
     server.use(
@@ -75,7 +75,7 @@ describe('BudgetEditorPage (US-F05 / US-F06)', () => {
     ]);
   });
 
-  it('flags invalid labor lines, lets the user remove them and shows backend errors', async () => {
+  it('flags invalid labor lines, lets the user remove them and shows backend errors [005/RF-2.5] [005/RF-2.7]', async () => {
     mockOrder(workOrderFixture({ status: 'IN_DIAGNOSIS' }), []);
     server.use(
       http.get(api('/spare-parts'), () => HttpResponse.json(pageOf([], 1, 100))),
@@ -100,7 +100,7 @@ describe('BudgetEditorPage (US-F05 / US-F06)', () => {
     expect(await screen.findByText('La orden cambió de estado')).toBeInTheDocument();
   });
 
-  it('sends a draft to the customer', async () => {
+  it('sends a draft to the customer [005/RF-3.1]', async () => {
     mockOrder(workOrderFixture({ status: 'IN_DIAGNOSIS' }), [budgetFixture()]);
     let sent = false;
     server.use(http.post(api('/budgets/b1/send'), () => ((sent = true), HttpResponse.json(budgetFixture({ status: 'SENT' })))));
@@ -116,7 +116,7 @@ describe('BudgetEditorPage (US-F05 / US-F06)', () => {
     expect(sent).toBe(true);
   });
 
-  it('shows why sending failed', async () => {
+  it('shows why sending failed [005/RF-3.2]', async () => {
     mockOrder(workOrderFixture({ status: 'IN_DIAGNOSIS' }), [budgetFixture()]);
     server.use(http.post(api('/budgets/b1/send'), () => HttpResponse.json({ statusCode: 409, message: 'El presupuesto ya fue enviado' }, { status: 409 })));
     const user = userEvent.setup();
@@ -126,7 +126,7 @@ describe('BudgetEditorPage (US-F05 / US-F06)', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent('El presupuesto ya fue enviado');
   });
 
-  it('records the customer approval with the channel used (RN-05)', async () => {
+  it('records the customer approval with the channel used (RN-05) [005/RF-4.1] [005/RF-4.2]', async () => {
     const sent = budgetFixture({ status: 'SENT', sentAt: '2026-10-19T12:00:00.000Z' });
     mockOrder(workOrderFixture({ status: 'BUDGETED' }), [sent, budgetFixture({ id: 'b0', version: 0, status: 'SUPERSEDED' })]);
     let body: Record<string, unknown> = {};
@@ -155,7 +155,7 @@ describe('BudgetEditorPage (US-F05 / US-F06)', () => {
     await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
   });
 
-  it('records a rejection with its reason and shows backend errors in the modal', async () => {
+  it('records a rejection with its reason and shows backend errors in the modal [005/RF-4.4]', async () => {
     mockOrder(workOrderFixture({ status: 'BUDGETED' }), [budgetFixture({ status: 'SENT', sentAt: '2026-10-19T12:00:00.000Z' })]);
     let attempts = 0;
     let body: Record<string, unknown> = {};
@@ -183,7 +183,7 @@ describe('BudgetEditorPage (US-F05 / US-F06)', () => {
     expect(body).toEqual({ channel: 'PHONE', reason: 'Muy caro' });
   });
 
-  it('closes the decision modal without calling the API', async () => {
+  it('closes the decision modal without calling the API [005/RF-4.5]', async () => {
     mockOrder(workOrderFixture({ status: 'BUDGETED' }), [budgetFixture({ status: 'SENT', sentAt: '2026-10-19T12:00:00.000Z' })]);
     const user = userEvent.setup();
     renderPage();
@@ -193,7 +193,7 @@ describe('BudgetEditorPage (US-F05 / US-F06)', () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
-  it('marks expired and rejected versions (SUP-04)', async () => {
+  it('marks expired and rejected versions (SUP-04) [005/RF-5.1] [005/RF-5.4]', async () => {
     mockOrder(workOrderFixture({ status: 'BUDGETED' }), [
       budgetFixture({ id: 'b2', version: 2, status: 'SENT', sentAt: '2026-01-01T00:00:00.000Z', expiresAt: '2026-01-08T00:00:00.000Z' }),
       budgetFixture({ id: 'b1', version: 1, status: 'REJECTED', sentAt: '2025-12-01T00:00:00.000Z', decidedAt: '2025-12-02T00:00:00.000Z', rejectionReason: 'Muy caro' }),
@@ -204,5 +204,38 @@ describe('BudgetEditorPage (US-F05 / US-F06)', () => {
     expect(screen.getByText('Motivo: Muy caro')).toBeInTheDocument();
     expect(screen.getByText(/decidido/)).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Cliente aprobó' })).not.toBeInTheDocument();
+  });
+});
+
+describe('BudgetEditorPage details of the spec', () => {
+  it('asks for a reason of at least three characters before a rejection can be confirmed [005/RF-4.3]', async () => {
+    mockOrder(workOrderFixture({ status: 'BUDGETED' }), [budgetFixture({ status: 'SENT', sentAt: '2026-10-19T12:00:00.000Z' })]);
+    const user = userEvent.setup();
+    renderPage();
+
+    await user.click(await screen.findByRole('button', { name: 'Cliente rechazó' }));
+    const dialog = await screen.findByRole('dialog', { name: 'Registrar rechazo del cliente' });
+    await user.selectOptions(within(dialog).getByLabelText('¿Por qué medio respondió el cliente?'), 'PHONE');
+    await user.type(within(dialog).getByLabelText('Motivo del rechazo'), 'ab');
+    expect(within(dialog).getByRole('button', { name: 'Confirmar' })).toBeDisabled();
+
+    await user.type(within(dialog).getByLabelText('Motivo del rechazo'), 'c');
+    expect(within(dialog).getByRole('button', { name: 'Confirmar' })).toBeEnabled();
+  });
+
+  it('tells how many days a sent budget has left before it expires [005/RF-5.3]', async () => {
+    const inThreeDays = new Date(Date.now() + 2.5 * 86_400_000).toISOString();
+    mockOrder(workOrderFixture({ status: 'BUDGETED' }), [budgetFixture({ status: 'SENT', sentAt: '2026-10-19T12:00:00.000Z', expiresAt: inThreeDays })]);
+    renderPage();
+
+    expect(await screen.findByText(/Vence en 3 día\(s\)/)).toBeInTheDocument();
+  });
+
+  it('shows the technician diagnosis and a way back to the order [005/RF-6.1]', async () => {
+    mockOrder(workOrderFixture({ status: 'IN_DIAGNOSIS', preliminaryDiagnosis: 'Flex de carga oxidado' }), []);
+    renderPage();
+
+    expect(await screen.findByText('Flex de carga oxidado')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Ver orden' })).toHaveAttribute('href', `/ordenes/${ORDER_ID}`);
   });
 });

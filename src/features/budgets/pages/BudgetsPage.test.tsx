@@ -8,7 +8,7 @@ import { pageOf, workOrderFixture } from '../../../test/fixtures';
 import { BudgetsPage } from './BudgetsPage';
 
 describe('BudgetsPage', () => {
-  it('splits orders into "to budget" and "waiting for the customer" queues', async () => {
+  it('splits orders into "to budget" and "waiting for the customer" queues [005/RF-1.1] [005/RF-1.2] [005/RF-1.3]', async () => {
     server.use(
       http.get(api('/work-orders'), ({ request }) =>
         HttpResponse.json(

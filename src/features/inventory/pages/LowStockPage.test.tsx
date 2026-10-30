@@ -8,7 +8,7 @@ import { sparePartFixture } from '../../../test/fixtures';
 import { LowStockPage } from './LowStockPage';
 
 describe('LowStockPage (US-F13 / RN-11)', () => {
-  it('lists parts at or below their minimum', async () => {
+  it('lists parts at or below their minimum [006/RF-5.1]', async () => {
     server.use(
       http.get(api('/spare-parts/alerts/low-stock'), () =>
         HttpResponse.json([sparePartFixture(), sparePartFixture({ id: 'p2', sku: 'BAT-S23', name: 'Batería Galaxy S23', category: 'BATTERY', availableStock: 1, reservedStock: 2 })]),
@@ -22,13 +22,13 @@ describe('LowStockPage (US-F13 / RN-11)', () => {
     expect(screen.getByText('Stock bajo', { selector: 'span *, span' })).toBeInTheDocument();
   });
 
-  it('says when everything is above the minimum', async () => {
+  it('says when everything is above the minimum [006/RF-5.2]', async () => {
     server.use(http.get(api('/spare-parts/alerts/low-stock'), () => HttpResponse.json([])));
     renderWithProviders(<LowStockPage />);
     expect(await screen.findByText('Todo en orden')).toBeInTheDocument();
   });
 
-  it('shows an error state', async () => {
+  it('shows an error state [006/RF-5.3]', async () => {
     server.use(http.get(api('/spare-parts/alerts/low-stock'), () => HttpResponse.json({ statusCode: 500, message: 'boom' }, { status: 500 })));
     renderWithProviders(<LowStockPage />);
     expect(await screen.findByText('No se pudieron cargar las alertas.')).toBeInTheDocument();

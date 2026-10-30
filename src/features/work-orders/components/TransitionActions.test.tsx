@@ -10,7 +10,7 @@ import { visibleTransitions } from '../lib/visible-transitions';
 import { TransitionActions } from './TransitionActions';
 
 describe('TransitionActions (FE-08)', () => {
-  it('renders only the backend-allowed transitions, leaving budget steps to the budget flow', () => {
+  it('renders only the backend-allowed transitions, leaving budget steps to the budget flow [004/RF-2.1] [004/RF-2.2]', () => {
     expect(visibleTransitions(workOrderFixture({ status: 'BUDGETED', allowedTransitions: ['APPROVED', 'CANCELLED'] }))).toEqual([]);
     expect(visibleTransitions(workOrderFixture({ status: 'IN_DIAGNOSIS', allowedTransitions: ['BUDGETED', 'CANCELLED'] }))).toEqual(['CANCELLED']);
     expect(visibleTransitions(workOrderFixture({ status: 'QUALITY_CONTROL', allowedTransitions: ['READY_FOR_DELIVERY', 'IN_REPAIR'] }))).toEqual([
@@ -19,7 +19,7 @@ describe('TransitionActions (FE-08)', () => {
     ]);
   });
 
-  it('shows the missing parts when the Stock Guard blocks IN_REPAIR (RN-09)', async () => {
+  it('shows the missing parts when the Stock Guard blocks IN_REPAIR (RN-09) [004/RF-3.1]', async () => {
     const order = workOrderFixture();
     server.use(
       http.post(api(`/work-orders/${order.id}/transitions`), () =>
@@ -36,7 +36,7 @@ describe('TransitionActions (FE-08)', () => {
     expect(await screen.findByText(/Pantalla OLED iPhone 13 \(OLED-IP13\) · disponible: 0/)).toBeInTheDocument();
   });
 
-  it('renders nothing when the viewer has no transitions', () => {
+  it('renders nothing when the viewer has no transitions [004/RF-2.7]', () => {
     renderWithProviders(<TransitionActions order={workOrderFixture({ allowedTransitions: [] })} />);
     expect(screen.queryByRole('region', { name: 'Acciones de estado' })).not.toBeInTheDocument();
     expect(screen.queryByRole('button')).not.toBeInTheDocument();

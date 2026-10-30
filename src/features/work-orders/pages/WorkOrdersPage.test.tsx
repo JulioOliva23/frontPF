@@ -40,7 +40,7 @@ const searchBox = () => screen.getByRole('searchbox', { name: 'Buscar órdenes' 
 const technicianSelect = () => screen.getByRole('combobox', { name: 'Filtrar por técnico' });
 
 describe('WorkOrdersPage search (debounced, synced with ?search=)', () => {
-  it('sends a single request with the full text once typing stops', async () => {
+  it('sends a single request with the full text once typing stops [003/RF-4.1]', async () => {
     const list = mockList();
     const router = renderPage();
     await screen.findByText('María Quispe');
@@ -55,7 +55,7 @@ describe('WorkOrdersPage search (debounced, synced with ?search=)', () => {
     expect(new URLSearchParams(router.state.location.search).get('search')).toBe('Quispe');
   });
 
-  it('commits at once on Enter', async () => {
+  it('commits at once on Enter [003/RF-4.2]', async () => {
     const list = mockList();
     renderPage();
     await screen.findByText('María Quispe');
@@ -65,7 +65,7 @@ describe('WorkOrdersPage search (debounced, synced with ?search=)', () => {
     await waitFor(() => expect(list.last().get('search')).toBe('OT-000123'));
   });
 
-  it('restores the filters from the URL', async () => {
+  it('restores the filters from the URL [003/RF-5.1]', async () => {
     const list = mockList();
     renderPage({ at: '/ordenes?search=352099&technicianId=tech-2&status=BUDGETED' });
 
@@ -76,7 +76,7 @@ describe('WorkOrdersPage search (debounced, synced with ?search=)', () => {
     expect(screen.getByRole('radio', { name: 'Presupuestado' })).toBeChecked();
   });
 
-  it('ignores an unknown status in the URL', async () => {
+  it('ignores an unknown status in the URL [003/RF-5.2]', async () => {
     const list = mockList();
     renderPage({ at: '/ordenes?status=PENDING' });
     await waitFor(() => expect(list.calls.length).toBeGreaterThan(0));
@@ -86,7 +86,7 @@ describe('WorkOrdersPage search (debounced, synced with ?search=)', () => {
 });
 
 describe('WorkOrdersPage technician filter', () => {
-  it('lists the active technicians and filters by the chosen one', async () => {
+  it('lists the active technicians and filters by the chosen one [003/RF-3.1]', async () => {
     const list = mockList();
     const router = renderPage();
     await screen.findByText('María Quispe');
@@ -100,7 +100,7 @@ describe('WorkOrdersPage technician filter', () => {
     expect(new URLSearchParams(router.state.location.search).get('technicianId')).toBe('tech-2');
   });
 
-  it('combines the technician with the status chips', async () => {
+  it('combines the technician with the status chips [003/RF-3.2]', async () => {
     const list = mockList();
     renderPage({ at: '/ordenes?technicianId=tech-1' });
     await screen.findByText('María Quispe');
@@ -109,7 +109,7 @@ describe('WorkOrdersPage technician filter', () => {
     await waitFor(() => expect(Object.fromEntries(list.last())).toMatchObject({ technicianId: 'tech-1', status: 'IN_REPAIR' }));
   });
 
-  it('is not offered to technicians, who only see their queue (RN-06)', async () => {
+  it('is not offered to technicians, who only see their queue (RN-06) [003/RF-3.3]', async () => {
     const list = mockList();
     renderPage({ role: 'TECHNICIAN', at: '/ordenes?technicianId=tech-2' });
     await screen.findByText('María Quispe');
@@ -121,7 +121,7 @@ describe('WorkOrdersPage technician filter', () => {
 });
 
 describe('WorkOrdersPage empty results', () => {
-  it('explains the empty search and resets every filter', async () => {
+  it('explains the empty search and resets every filter [003/RF-7.1]', async () => {
     const list = mockList({ empty: true });
     const router = renderPage({ at: '/ordenes?search=zzz&technicianId=tech-1&status=IN_REPAIR' });
 
@@ -138,7 +138,7 @@ describe('WorkOrdersPage empty results', () => {
     expect(technicianSelect()).toHaveValue('');
   });
 
-  it('keeps the plain empty state when there are no orders at all', async () => {
+  it('keeps the plain empty state when there are no orders at all [003/RF-7.2]', async () => {
     server.use(http.get(api('/work-orders'), () => HttpResponse.json(paginatedWorkOrders([]))), http.get(api('/users'), () => HttpResponse.json([])));
     renderPage();
     expect(await screen.findByRole('heading', { name: 'Sin órdenes' })).toBeInTheDocument();
@@ -156,7 +156,7 @@ const ORDERS = [
 const noTechnicians = () => server.use(http.get(api('/users'), () => HttpResponse.json([])));
 
 describe('WorkOrdersPage (US-F02)', () => {
-  it('lists orders in a table and filters by status', async () => {
+  it('lists orders in a table and filters by status [003/RF-1.1] [003/RF-1.2] [003/RF-2.1]', async () => {
     const seen: Array<string | null> = [];
     noTechnicians();
     server.use(
@@ -180,7 +180,7 @@ describe('WorkOrdersPage (US-F02)', () => {
     expect(seen).toContain('CANCELLED');
   });
 
-  it('shows technicians only their orders and hides the intake button (RN-06)', async () => {
+  it('shows technicians only their orders and hides the intake button (RN-06) [003/RF-6.1]', async () => {
     server.use(http.get(api('/work-orders'), () => HttpResponse.json(pageOf([]))));
     renderWithProviders(<WorkOrdersPage />, { role: 'TECHNICIAN' });
 
@@ -189,7 +189,7 @@ describe('WorkOrdersPage (US-F02)', () => {
     expect(await screen.findByText('Todavía no hay órdenes registradas.')).toBeInTheDocument();
   });
 
-  it('shows an error state with retry', async () => {
+  it('shows an error state with retry [003/RF-7.4]', async () => {
     let calls = 0;
     noTechnicians();
     server.use(
@@ -205,7 +205,7 @@ describe('WorkOrdersPage (US-F02)', () => {
     expect(await screen.findByRole('link', { name: 'OT-000123' })).toBeInTheDocument();
   });
 
-  it('switches to the board with one column per status', async () => {
+  it('switches to the board with one column per status [003/RF-1.1]', async () => {
     noTechnicians();
     server.use(
       http.get(api('/work-orders'), ({ request }) => {
@@ -231,5 +231,77 @@ describe('WorkOrdersPage (US-F02)', () => {
 
     await user.click(screen.getByRole('radio', { name: 'Ingresado' }));
     await waitFor(() => expect(screen.getAllByRole('region')).toHaveLength(1));
+  });
+});
+
+describe('WorkOrdersPage details of the spec', () => {
+  it('goes back to every order with the "Todos" chip [003/RF-2.2]', async () => {
+    const list = mockList();
+    renderPage({ at: '/ordenes?status=BUDGETED' });
+    await screen.findByText('María Quispe');
+    expect(list.calls[0].get('status')).toBe('BUDGETED');
+
+    await userEvent.setup().click(screen.getByRole('radio', { name: 'Todos' }));
+
+    await waitFor(() => expect(list.last().has('status')).toBe(false));
+  });
+
+  it('ignores the spaces around the search text [003/RF-4.3]', async () => {
+    const list = mockList();
+    renderPage();
+    await screen.findByText('María Quispe');
+
+    await userEvent.setup().type(searchBox(), '  maria  ');
+
+    await waitFor(() => expect(list.last().get('search')).toBe('maria'), { timeout: SEARCH_DEBOUNCE_MS + 2000 });
+  });
+
+  it('replaces the history entry instead of adding one per keystroke [003/RF-5.3]', async () => {
+    mockList();
+    const router = renderPage();
+    await screen.findByText('María Quispe');
+
+    await userEvent.setup().type(searchBox(), 'mar');
+
+    await waitFor(() => expect(new URLSearchParams(router.state.location.search).get('search')).toBe('mar'));
+    expect(router.state.historyAction).toBe('REPLACE');
+  });
+
+  it('shows a loading skeleton while the list is on its way [003/RF-7.3]', async () => {
+    let release: () => void = () => undefined;
+    const gate = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    server.use(
+      http.get(api('/work-orders'), async () => {
+        await gate;
+        return HttpResponse.json(paginatedWorkOrders([workOrderFixture()]));
+      }),
+      http.get(api('/users'), () => HttpResponse.json(TECHNICIANS)),
+    );
+    renderPage();
+
+    await waitFor(() => expect(document.querySelector('.animate-pulse')).not.toBeNull());
+    release();
+    expect(await screen.findByText('María Quispe')).toBeInTheDocument();
+  });
+});
+
+describe('WorkOrdersPage pagination inside the list', () => {
+  it('asks the server for the next page when the person presses "Siguiente" [003/RF-8.1]', async () => {
+    const pages: string[] = [];
+    server.use(
+      http.get(api('/work-orders'), ({ request }) => {
+        const page = Number(new URL(request.url).searchParams.get('page') ?? 1);
+        pages.push(String(page));
+        return HttpResponse.json(pageOf([workOrderFixture({ id: `o${page}`, number: page })], page, 20, 45));
+      }),
+      http.get(api('/users'), () => HttpResponse.json(TECHNICIANS)),
+    );
+    renderPage();
+
+    await userEvent.setup().click(await screen.findByRole('button', { name: 'Siguiente' }));
+
+    await waitFor(() => expect(pages).toContain('2'));
   });
 });

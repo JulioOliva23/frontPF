@@ -31,11 +31,11 @@ function deferred<T>() {
 }
 
 describe('httpClient session handling (FE-03 / SUP-07)', () => {
-  it('sends credentials so the httpOnly refresh cookie can travel', () => {
+  it('sends credentials so the httpOnly refresh cookie can travel [011/RF-4.1]', () => {
     expect(httpClient.defaults.withCredentials).toBe(true);
   });
 
-  it('shares one refresh among concurrent 401s and retries all of them', async () => {
+  it('shares one refresh among concurrent 401s and retries all of them [001/RF-5.3]', async () => {
     server.use(http.get(api('/work-orders'), onlyAccepts('fresh')), http.get(api('/spare-parts'), onlyAccepts('fresh')));
     setAuthToken('expired');
     const refresh = vi.fn(async () => {
@@ -48,7 +48,7 @@ describe('httpClient session handling (FE-03 / SUP-07)', () => {
     expect(refresh).toHaveBeenCalledTimes(1);
   });
 
-  it('queues a request issued while a refresh is running instead of sending the old token', async () => {
+  it('queues a request issued while a refresh is running instead of sending the old token [001/RF-5.6]', async () => {
     const seen: Array<string | null> = [];
     server.use(
       http.get(api('/work-orders'), onlyAccepts('fresh')),
@@ -73,7 +73,7 @@ describe('httpClient session handling (FE-03 / SUP-07)', () => {
     expect(seen).toEqual(['Bearer fresh']);
   });
 
-  it('reports the expired session once when the refresh fails', async () => {
+  it('reports the expired session once when the refresh fails [001/RF-5.4]', async () => {
     server.use(http.get(api('/work-orders'), onlyAccepts('never')), http.get(api('/spare-parts'), onlyAccepts('never')));
     setAuthToken('expired');
     setRefreshHandler(async () => {
@@ -89,7 +89,7 @@ describe('httpClient session handling (FE-03 / SUP-07)', () => {
     expect(expired).toHaveBeenCalledTimes(1);
   });
 
-  it('does not report an expired session for anonymous 401s', async () => {
+  it('does not report an expired session for anonymous 401s [001/RF-5.5]', async () => {
     server.use(http.get(api('/work-orders/mine'), () => HttpResponse.json({ statusCode: 401, message: 'Unauthorized' }, { status: 401 })));
     const refresh = vi.fn(async () => true);
     const expired = vi.fn();
@@ -169,7 +169,7 @@ describe('httpClient (FE-03 / FE-04)', () => {
     expect(error.sparePartIds).toEqual(['p1']);
   });
 
-  it('refreshes once on 401 and retries the request', async () => {
+  it('refreshes once on 401 and retries the request [001/RF-5.3]', async () => {
     let calls = 0;
     server.use(
       http.get(api('/work-orders'), ({ request: incoming }) => {
@@ -190,7 +190,7 @@ describe('httpClient (FE-03 / FE-04)', () => {
     expect(calls).toBe(2);
   });
 
-  it('never tries to refresh a failed login', async () => {
+  it('never tries to refresh a failed login [001/RF-5.5]', async () => {
     server.use(http.post(api('/auth/login'), () => HttpResponse.json({ statusCode: 401, message: 'Credenciales incorrectas' }, { status: 401 })));
     setAuthToken('something');
     const refresh = vi.fn(async () => true);
