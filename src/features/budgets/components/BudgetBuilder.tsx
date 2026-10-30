@@ -20,7 +20,7 @@ interface BudgetBuilderProps {
 }
 
 const inputClass =
-  'min-h-[40px] w-full rounded-lg border border-slate-200 bg-white px-2.5 text-sm outline-none focus:border-cyan-600 focus:ring-2 focus:ring-cyan-600/15 aria-[invalid=true]:border-red-500';
+  'min-h-[40px] w-full rounded-lg border border-line bg-surface px-2.5 text-sm outline-none focus:border-mint focus:ring-2 focus:ring-lavender/15 aria-[invalid=true]:border-red-500';
 
 // US-F05: labor lines priced by the front desk + compatible parts priced by
 // the catalog. The preview total is informative; the backend computes the
@@ -62,8 +62,8 @@ export function BudgetBuilder({ workOrderId, deviceModelId, deviceLabel, onCreat
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className="grid gap-4 rounded-2xl border border-slate-200 bg-white p-4">
-      <h2 className="text-sm font-bold uppercase tracking-wide text-slate-500">Nueva versión de presupuesto</h2>
+    <form onSubmit={handleSubmit(onSubmit)} noValidate className="grid gap-4 rounded-2xl border border-line bg-surface p-4">
+      <h2 className="text-sm font-bold uppercase tracking-wide text-muted">Nueva versión de presupuesto</h2>
 
       <div className="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-end">
         <Select
@@ -88,7 +88,7 @@ export function BudgetBuilder({ workOrderId, deviceModelId, deviceLabel, onCreat
             key={preset}
             type="button"
             onClick={() => append({ itemType: 'LABOR', description: preset, quantity: 1, unitPrice: '' })}
-            className="min-h-[36px] rounded-full border border-dashed border-slate-300 px-3 text-xs font-semibold text-slate-600 hover:border-cyan-500 hover:text-cyan-800"
+            className="min-h-[36px] rounded-full border border-dashed border-line px-3 text-xs font-semibold text-muted hover:border-mint hover:text-mint"
           >
             + {preset}
           </button>
@@ -98,7 +98,7 @@ export function BudgetBuilder({ workOrderId, deviceModelId, deviceLabel, onCreat
       {fields.length > 0 && (
         <div className="overflow-x-auto">
           <table className="w-full min-w-[620px] text-sm">
-            <thead className="text-left text-[11px] uppercase tracking-wide text-slate-500">
+            <thead className="text-left text-[11px] uppercase tracking-wide text-muted">
               <tr>
                 <th scope="col" className="py-2">Tipo</th>
                 <th scope="col" className="py-2">Descripción</th>
@@ -109,13 +109,13 @@ export function BudgetBuilder({ workOrderId, deviceModelId, deviceLabel, onCreat
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-line">
               {fields.map((field, index) => {
                 const itemErrors = errors.items?.[index];
                 const isLabor = field.itemType === 'LABOR';
                 return (
                   <tr key={field.id}>
-                    <td className="py-2 pr-2 text-xs font-bold text-slate-500">{isLabor ? 'Mano de obra' : 'Repuesto'}</td>
+                    <td className="py-2 pr-2 text-xs font-bold text-muted">{isLabor ? 'Mano de obra' : 'Repuesto'}</td>
                     <td className="py-2 pr-2">
                       <input
                         aria-label={`Descripción del ítem ${index + 1}`}
@@ -147,7 +147,7 @@ export function BudgetBuilder({ workOrderId, deviceModelId, deviceLabel, onCreat
                           {...register(`items.${index}.unitPrice` as const)}
                         />
                       ) : (
-                        <span className="text-xs text-slate-600">{formatBoB(partsById.get((items[index] as { sparePartId?: string })?.sparePartId ?? '')?.workshopPrice)}</span>
+                        <span className="text-xs text-muted">{formatBoB(partsById.get((items[index] as { sparePartId?: string })?.sparePartId ?? '')?.workshopPrice)}</span>
                       )}
                     </td>
                     <td className="py-2">
@@ -155,7 +155,7 @@ export function BudgetBuilder({ workOrderId, deviceModelId, deviceLabel, onCreat
                         type="button"
                         onClick={() => remove(index)}
                         aria-label={`Quitar ítem ${index + 1}`}
-                        className="flex h-10 w-10 items-center justify-center rounded-lg text-slate-400 hover:bg-red-50 hover:text-red-600"
+                        className="flex h-10 w-10 items-center justify-center rounded-lg text-muted hover:bg-red-400/10 hover:text-red-300"
                       >
                         <Trash2 className="h-4 w-4" aria-hidden="true" />
                       </button>
@@ -168,18 +168,18 @@ export function BudgetBuilder({ workOrderId, deviceModelId, deviceLabel, onCreat
         </div>
       )}
 
-      {errors.items?.root?.message && <p role="alert" className="text-xs text-red-700">{errors.items.root.message}</p>}
-      {errors.items?.message && <p role="alert" className="text-xs text-red-700">{errors.items.message}</p>}
+      {errors.items?.root?.message && <p role="alert" className="text-xs text-red-300">{errors.items.root.message}</p>}
+      {errors.items?.message && <p role="alert" className="text-xs text-red-300">{errors.items.message}</p>}
       {Array.isArray(errors.items) && errors.items.some(Boolean) && (
-        <p role="alert" className="text-xs text-red-700">Revise los campos marcados en rojo.</p>
+        <p role="alert" className="text-xs text-red-300">Revise los campos marcados en rojo.</p>
       )}
       {create.error && (
-        <p role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+        <p role="alert" className="rounded-xl border border-red-400/25 bg-red-400/10 p-3 text-sm text-red-300">
           {toApiError(create.error)?.message}
         </p>
       )}
 
-      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line pt-3">
         <p className="text-sm">
           Total estimado: <strong data-testid="budget-preview-total">{formatBoB(centsToAmount(previewCents))}</strong>
         </p>

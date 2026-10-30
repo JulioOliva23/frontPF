@@ -17,18 +17,18 @@ export function LowStockPage() {
         <h1 className="flex items-center gap-2 text-2xl font-extrabold">
           <BellRing className="h-6 w-6 text-orange-500" aria-hidden="true" /> Stock bajo
         </h1>
-        <p className="text-sm text-slate-500">Repuestos con stock disponible igual o menor al mínimo.</p>
+        <p className="text-sm text-muted">Repuestos con stock disponible igual o menor al mínimo.</p>
       </header>
       {isLoading && <LoadingSkeleton />}
       {isError && <ErrorState message="No se pudieron cargar las alertas." onRetry={() => void refetch()} />}
       {data?.length === 0 && <EmptyState title="Todo en orden" description="Ningún repuesto está por debajo de su stock mínimo." />}
       <ul className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
         {data?.map((part) => (
-          <li key={part.id} className="rounded-2xl border border-orange-200 bg-white p-4">
+          <li key={part.id} className="rounded-2xl border border-orange-400/25 bg-surface p-4">
             <div className="flex items-start justify-between gap-2">
               <div>
                 <p className="font-semibold">{part.name}</p>
-                <p className="font-mono text-[11px] text-slate-500">
+                <p className="font-mono text-[11px] text-muted">
                   {part.sku} · {SPARE_PART_CATEGORY_LABELS[part.category]}
                 </p>
               </div>

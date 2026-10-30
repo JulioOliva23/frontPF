@@ -9,7 +9,7 @@ function CountPill({ count, label }: { count: number; label: string }) {
     <span
       aria-label={label}
       title={label}
-      className="ml-auto inline-flex min-w-[22px] items-center justify-center rounded-full bg-amber-500 px-1.5 py-0.5 text-[10px] font-extrabold leading-none text-white"
+      className="ml-auto inline-flex min-w-[22px] items-center justify-center rounded-full border border-amber-300/25 bg-amber-300/15 px-1.5 py-0.5 text-[10px] font-extrabold leading-none text-amber-200"
     >
       {count > MAX_SHOWN ? `${MAX_SHOWN}+` : count}
     </span>

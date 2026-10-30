@@ -24,7 +24,7 @@ export function CompatibilityModal({ part, canEdit, onClose }: CompatibilityModa
       <div className="grid gap-4">
         <DeviceModelPicker value={selected} onChange={setSelected} readOnly={!canEdit} />
         {update.error && (
-          <p role="alert" className="text-sm text-red-700">
+          <p role="alert" className="text-sm text-red-300">
             {toApiError(update.error)?.message}
           </p>
         )}

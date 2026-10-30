@@ -19,7 +19,7 @@ export function AssignTechnicianPanel({ order }: { order: WorkOrder }) {
   if (!ASSIGNABLE.includes(order.status)) return null;
 
   return (
-    <section aria-label="Asignación de técnico" className="rounded-2xl border border-slate-200 bg-white p-4">
+    <section aria-label="Asignación de técnico" className="rounded-2xl border border-line bg-surface p-4">
       <div className="flex flex-wrap items-end gap-3">
         <div className="min-w-[220px] flex-1">
           <Select
@@ -40,7 +40,7 @@ export function AssignTechnicianPanel({ order }: { order: WorkOrder }) {
         </Button>
       </div>
       {assign.error && (
-        <p role="alert" className="mt-2 text-xs text-red-700">
+        <p role="alert" className="mt-2 text-xs text-red-300">
           {toApiError(assign.error)?.message}
         </p>
       )}

@@ -12,7 +12,7 @@ export function StatusFilterChips({ value, onChange }: StatusFilterChipsProps) {
     ...ALL_WORK_ORDER_STATUSES.map((status) => ({ key: status, label: WORK_ORDER_STATUS_LABELS[status], status })),
   ];
   return (
-    <div role="radiogroup" aria-label="Filtrar por estado" className="flex flex-wrap gap-2">
+    <div role="radiogroup" aria-label="Filtrar por estado" className="flex gap-2 overflow-x-auto pb-2 lg:flex-wrap">
       {options.map((option) => {
         const selected = option.status === value;
         return (
@@ -22,8 +22,8 @@ export function StatusFilterChips({ value, onChange }: StatusFilterChipsProps) {
             role="radio"
             aria-checked={selected}
             onClick={() => onChange(option.status)}
-            className={`min-h-[40px] rounded-full border px-3 text-xs font-bold transition-all ${
-              selected ? 'border-cyan-500 bg-cyan-400 text-cyan-950' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+            className={`min-h-[44px] shrink-0 rounded-full border px-4 text-xs font-bold transition-all ${
+              selected ? 'border-lavender bg-lavender text-canvas' : 'border-line bg-surface/40 text-muted hover:border-lavender/50'
             }`}
           >
             {option.label}

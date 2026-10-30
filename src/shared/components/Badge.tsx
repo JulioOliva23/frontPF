@@ -11,23 +11,23 @@ export interface BadgeProps {
 }
 
 const variantStyles: Record<BadgeVariant, string> = {
-  slate: 'bg-slate-100 text-slate-700 border-slate-200',
-  info: 'bg-sky-50 text-sky-700 border-sky-200',
-  amber: 'bg-amber-50 text-amber-800 border-amber-200',
-  success: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-  purple: 'bg-violet-50 text-violet-700 border-violet-200',
-  danger: 'bg-red-50 text-red-700 border-red-200',
-  warning: 'bg-orange-50 text-orange-700 border-orange-200',
+  slate: 'bg-surface-raised text-ink-soft border-line',
+  info: 'bg-sky-400/10 text-mint border-sky-400/25',
+  amber: 'bg-amber-400/10 text-amber-300 border-amber-400/25',
+  success: 'bg-emerald-400/10 text-emerald-300 border-emerald-400/25',
+  purple: 'bg-violet-400/10 text-violet-300 border-violet-400/25',
+  danger: 'bg-red-400/10 text-red-300 border-red-400/25',
+  warning: 'bg-orange-400/10 text-orange-300 border-orange-400/25',
 };
 
 const dotStyles: Record<BadgeVariant, string> = {
   slate: 'bg-slate-400',
-  info: 'bg-sky-500',
-  amber: 'bg-amber-500',
-  success: 'bg-emerald-500',
-  purple: 'bg-violet-500',
-  danger: 'bg-red-500',
-  warning: 'bg-orange-500',
+  info: 'bg-sky-400',
+  amber: 'bg-amber-400',
+  success: 'bg-emerald-400',
+  purple: 'bg-violet-400',
+  danger: 'bg-red-400',
+  warning: 'bg-orange-400',
 };
 
 // FE-07: domain-agnostic; features map their own statuses to a variant.

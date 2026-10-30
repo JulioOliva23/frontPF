@@ -46,10 +46,10 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   };
 
   const styles: Record<ToastType, string> = {
-    success: 'bg-[#16191F] border-[#22C55E40] text-[#E0E2E6]',
-    warning: 'bg-[#16191F] border-[#F59E0B40] text-[#E0E2E6]',
-    danger: 'bg-[#16191F] border-[#EF444440] text-[#E0E2E6]',
-    info: 'bg-[#16191F] border-[#3B82F640] text-[#E0E2E6]',
+    success: 'bg-[#201B30] border-[#22C55E40] text-[#F0EDF8]',
+    warning: 'bg-[#201B30] border-[#F59E0B40] text-[#F0EDF8]',
+    danger: 'bg-[#201B30] border-[#EF444440] text-[#F0EDF8]',
+    info: 'bg-[#201B30] border-[#3B82F640] text-[#F0EDF8]',
   };
 
   return (
@@ -66,7 +66,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
               <div>
                 <h4 className="text-sm font-bold text-white">{toast.title}</h4>
                 {toast.description && (
-                  <p className="text-xs text-[#8E949F] mt-0.5 leading-relaxed">{toast.description}</p>
+                  <p className="text-xs text-[#B6B0C7] mt-0.5 leading-relaxed">{toast.description}</p>
                 )}
               </div>
             </div>
@@ -74,7 +74,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
               type="button"
               onClick={() => removeToast(toast.id)}
               aria-label="Cerrar notificación"
-              className="p-1 rounded-lg text-[#8E949F] hover:text-white transition-colors"
+              className="p-1 rounded-lg text-[#B6B0C7] hover:text-white transition-colors"
             >
               <X className="w-4 h-4" />
             </button>

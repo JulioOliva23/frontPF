@@ -2,12 +2,12 @@ import { forwardRef, type InputHTMLAttributes, type TextareaHTMLAttributes } fro
 
 const fieldBaseClasses = [
   'w-full',
-  'border border-slate-200 rounded-[11px]',
-  'outline-none bg-white text-slate-900',
+  'border border-line rounded-[11px]',
+  'outline-none bg-surface text-ink',
   'transition-[border-color,box-shadow] duration-150',
-  'focus:border-cyan-600 focus:ring-[3px] focus:ring-cyan-600/15',
+  'focus:border-mint focus:ring-[3px] focus:ring-lavender/15',
   'aria-[invalid=true]:border-red-500',
-  'placeholder:text-slate-400',
+  'placeholder:text-muted',
 ].join(' ');
 
 type FieldProps = InputHTMLAttributes<HTMLInputElement> & {
@@ -24,7 +24,7 @@ function describedBy(id: string | undefined, hint?: string, error?: string): str
 // forwardRef so react-hook-form's register() can attach (FE-11).
 export const FormField = forwardRef<HTMLInputElement, FieldProps>(({ label, error, hint, id, className, ...props }, ref) => (
   <div className="grid gap-[7px]">
-    <label htmlFor={id} className="text-xs font-bold text-slate-700">
+    <label htmlFor={id} className="text-xs font-bold text-ink-soft">
       {label}
     </label>
     <input
@@ -36,12 +36,12 @@ export const FormField = forwardRef<HTMLInputElement, FieldProps>(({ label, erro
       {...props}
     />
     {hint && (
-      <span className="text-[0.7rem] text-slate-500" id={`${id}-hint`}>
+      <span className="text-[0.7rem] text-muted" id={`${id}-hint`}>
         {hint}
       </span>
     )}
     {error && (
-      <span className="text-[0.7rem] text-red-700" id={`${id}-error`} role="alert">
+      <span className="text-[0.7rem] text-red-300" id={`${id}-error`} role="alert">
         {error}
       </span>
     )}
@@ -57,7 +57,7 @@ type TextAreaFieldProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
 
 export const TextAreaField = forwardRef<HTMLTextAreaElement, TextAreaFieldProps>(({ label, error, hint, id, className, ...props }, ref) => (
   <div className="grid gap-[7px]">
-    <label htmlFor={id} className="text-xs font-bold text-slate-700">
+    <label htmlFor={id} className="text-xs font-bold text-ink-soft">
       {label}
     </label>
     <textarea
@@ -69,12 +69,12 @@ export const TextAreaField = forwardRef<HTMLTextAreaElement, TextAreaFieldProps>
       {...props}
     />
     {hint && (
-      <span className="text-[0.7rem] text-slate-500" id={`${id}-hint`}>
+      <span className="text-[0.7rem] text-muted" id={`${id}-hint`}>
         {hint}
       </span>
     )}
     {error && (
-      <span className="text-[0.7rem] text-red-700" id={`${id}-error`} role="alert">
+      <span className="text-[0.7rem] text-red-300" id={`${id}-error`} role="alert">
         {error}
       </span>
     )}

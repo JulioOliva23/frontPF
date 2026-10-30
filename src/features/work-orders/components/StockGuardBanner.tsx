@@ -12,7 +12,7 @@ export function StockGuardBanner({ sparePartIds }: { sparePartIds: string[] }) {
   });
 
   return (
-    <div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800">
+    <div role="alert" className="rounded-xl border border-red-400/25 bg-red-400/10 p-4 text-sm text-red-300">
       <p className="flex items-center gap-2 font-bold">
         <PackageX className="h-5 w-5" aria-hidden="true" /> No hay stock suficiente para iniciar la reparación
       </p>

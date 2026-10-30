@@ -39,7 +39,7 @@ function EntryForm({ part, onClose }: { part: SparePart; onClose: () => void }) 
     >
       <FormField id="entry-quantity" label="Unidades recibidas" type="number" min={1} error={formState.errors.quantity?.message} {...register('quantity', { valueAsNumber: true })} />
       <FormField id="entry-reason" label="Referencia (factura / proveedor)" error={formState.errors.reason?.message} {...register('reason')} />
-      {entry.error && <p role="alert" className="text-sm text-red-700">{toApiError(entry.error)?.message}</p>}
+      {entry.error && <p role="alert" className="text-sm text-red-300">{toApiError(entry.error)?.message}</p>}
       <div className="flex justify-end gap-2">
         <Button type="button" variant="ghost-light" onClick={onClose}>Cancelar</Button>
         <Button type="submit" isLoading={formState.isSubmitting}>Registrar entrada</Button>
@@ -69,19 +69,19 @@ function AdjustmentForm({ part, onClose }: { part: SparePart; onClose: () => voi
       })}
     >
       <fieldset className="flex gap-2">
-        <legend className="mb-2 text-xs font-bold text-slate-700">Tipo de movimiento</legend>
-        <label className="flex min-h-[40px] items-center gap-2 rounded-lg border border-slate-200 px-3 text-sm">
+        <legend className="mb-2 text-xs font-bold text-ink-soft">Tipo de movimiento</legend>
+        <label className="flex min-h-[40px] items-center gap-2 rounded-lg border border-line px-3 text-sm">
           <input type="radio" value="OUT" {...register('direction')} /> Salida / merma
         </label>
-        <label className="flex min-h-[40px] items-center gap-2 rounded-lg border border-slate-200 px-3 text-sm">
+        <label className="flex min-h-[40px] items-center gap-2 rounded-lg border border-line px-3 text-sm">
           <input type="radio" value="IN" {...register('direction')} /> Corrección positiva
         </label>
       </fieldset>
       <FormField id="adjust-quantity" label="Unidades" type="number" min={1} error={formState.errors.quantity?.message} {...register('quantity', { valueAsNumber: true })} />
       <FormField id="adjust-reason" label="Motivo" error={formState.errors.reason?.message} {...register('reason')} />
-      <p className="text-xs text-slate-500">Las unidades reservadas para órdenes ({part.reservedStock}) no pueden darse de baja.</p>
+      <p className="text-xs text-muted">Las unidades reservadas para órdenes ({part.reservedStock}) no pueden darse de baja.</p>
       {error && (
-        <p role="alert" className="text-sm text-red-700">
+        <p role="alert" className="text-sm text-red-300">
           {error.statusCode === 422 ? `Solo hay ${part.availableStock} unidad(es) disponibles sin reservar.` : error.message}
         </p>
       )}

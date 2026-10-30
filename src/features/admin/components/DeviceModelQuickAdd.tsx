@@ -48,7 +48,7 @@ export function DeviceModelQuickAdd({ catalog }: { catalog: readonly DeviceModel
       onSubmit={handleSubmit(onSubmit)}
       noValidate
       aria-label="Agregar modelo"
-      className="grid items-start gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:grid-cols-[1fr_1fr_auto]"
+      className="grid items-start gap-3 rounded-2xl border border-line bg-surface p-4 shadow-sm sm:grid-cols-[1fr_1fr_auto]"
     >
       <FormField id="model-brand" label="Marca" list="model-brand-options" autoComplete="off" placeholder="Ej. Samsung" error={errors.brand?.message} {...register('brand')} />
       <datalist id="model-brand-options">

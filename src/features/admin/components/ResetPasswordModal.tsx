@@ -66,9 +66,9 @@ export function ResetPasswordModal({ user, onClose }: ResetPasswordModalProps) {
           error={errors.confirmPassword?.message}
           {...register('confirmPassword')}
         />
-        <p className="rounded-xl bg-amber-50 p-3 text-xs text-amber-800">Las sesiones abiertas de este usuario dejarán de funcionar en los próximos minutos.</p>
+        <p className="rounded-xl bg-amber-400/10 p-3 text-xs text-amber-300">Las sesiones abiertas de este usuario dejarán de funcionar en los próximos minutos.</p>
         {resetPassword.error && (
-          <p role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+          <p role="alert" className="rounded-xl border border-red-400/25 bg-red-400/10 p-3 text-sm text-red-300">
             {toApiError(resetPassword.error)?.message ?? 'No se pudo restablecer la contraseña'}
           </p>
         )}

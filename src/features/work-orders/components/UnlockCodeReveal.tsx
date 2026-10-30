@@ -69,8 +69,8 @@ export function UnlockCodeReveal({ workOrderId, lockType, canReveal }: UnlockCod
   };
 
   return (
-    <section aria-labelledby="unlock-title" className="rounded-2xl border border-slate-200 bg-white p-4">
-      <h2 id="unlock-title" className="text-sm font-bold uppercase tracking-wide text-slate-500">
+    <section aria-labelledby="unlock-title" className="rounded-2xl border border-line bg-surface p-4">
+      <h2 id="unlock-title" className="text-sm font-bold uppercase tracking-wide text-muted">
         Código de desbloqueo · {LOCK_LABELS[lockType]}
       </h2>
       <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
@@ -89,16 +89,16 @@ export function UnlockCodeReveal({ workOrderId, lockType, canReveal }: UnlockCod
           )
         )}
       </div>
-      {!canReveal && <p className="mt-2 text-xs text-slate-500">Solo el técnico asignado o un administrador pueden revelarlo.</p>}
+      {!canReveal && <p className="mt-2 text-xs text-muted">Solo el técnico asignado o un administrador pueden revelarlo.</p>}
       {error && (
-        <p role="alert" className="mt-2 text-xs font-semibold text-red-700">
+        <p role="alert" className="mt-2 text-xs font-semibold text-red-300">
           {error}
         </p>
       )}
 
       <Modal isOpen={confirming} onClose={() => setConfirming(false)} title="Revelar código de desbloqueo" maxWidth="md">
         <div className="grid gap-4">
-          <p className="flex items-start gap-2 rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
+          <p className="flex items-start gap-2 rounded-xl border border-amber-400/25 bg-amber-400/10 p-3 text-sm text-amber-300">
             <ShieldAlert className="mt-0.5 h-5 w-5 shrink-0" aria-hidden="true" />
             Este acceso quedará registrado con tu usuario y la hora. El código se ocultará solo en {REVEAL_DURATION_SECONDS} segundos.
           </p>

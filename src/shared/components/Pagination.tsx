@@ -17,8 +17,8 @@ export function Pagination({ page, pageSize, total, onPageChange }: PaginationPr
   const to = Math.min(page * pageSize, total);
 
   return (
-    <div className="flex items-center justify-between gap-4 border-t border-slate-200 pt-4">
-      <p className="text-xs font-semibold text-slate-600">
+    <div className="flex items-center justify-between gap-4 border-t border-line pt-4">
+      <p className="text-xs font-semibold text-muted">
         Mostrando {from}–{to} de {total} {total === 1 ? 'resultado' : 'resultados'}
       </p>
       <div className="flex items-center gap-2">
@@ -26,7 +26,7 @@ export function Pagination({ page, pageSize, total, onPageChange }: PaginationPr
           type="button"
           onClick={() => onPageChange(Math.max(1, page - 1))}
           disabled={page <= 1}
-          className="flex min-h-[44px] items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs font-bold text-slate-700 hover:bg-slate-100 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-40"
+          className="flex min-h-[44px] items-center gap-1.5 rounded-xl border border-line bg-surface px-3.5 py-2 text-xs font-bold text-ink-soft hover:bg-surface-raised hover:text-ink disabled:cursor-not-allowed disabled:opacity-40"
         >
           <ArrowLeft className="h-4 w-4" aria-hidden="true" />
           Anterior
@@ -35,7 +35,7 @@ export function Pagination({ page, pageSize, total, onPageChange }: PaginationPr
           type="button"
           onClick={() => onPageChange(Math.min(totalPages, page + 1))}
           disabled={page >= totalPages}
-          className="flex min-h-[44px] items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs font-bold text-slate-700 hover:bg-slate-100 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-40"
+          className="flex min-h-[44px] items-center gap-1.5 rounded-xl border border-line bg-surface px-3.5 py-2 text-xs font-bold text-ink-soft hover:bg-surface-raised hover:text-ink disabled:cursor-not-allowed disabled:opacity-40"
         >
           Siguiente
           <ArrowRight className="h-4 w-4" aria-hidden="true" />

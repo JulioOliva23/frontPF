@@ -1,5 +1,5 @@
 export function LoadingSkeleton({ rows = 4, tone = 'light', className = '' }: { rows?: number; tone?: 'dark' | 'light'; className?: string }) {
-  const bar = tone === 'light' ? 'bg-slate-200' : 'bg-[#2D3139]';
+  const bar = tone === 'light' ? 'bg-surface-raised' : 'bg-[#453D59]';
 
   return (
     <div className={`w-full animate-pulse space-y-3 ${className}`}>

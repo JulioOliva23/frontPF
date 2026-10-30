@@ -60,21 +60,21 @@ export function EditUserModal({ user, isSelf, onClose }: EditUserModalProps) {
         ) : (
           user && (
             <div className="grid gap-1">
-              <span className="text-xs font-bold text-slate-700">Rol</span>
-              <p className="text-sm text-slate-900">{ROLE_LABELS[user.role]}</p>
-              <p className="text-xs text-slate-500">
+              <span className="text-xs font-bold text-ink-soft">Rol</span>
+              <p className="text-sm text-ink">{ROLE_LABELS[user.role]}</p>
+              <p className="text-xs text-muted">
                 {isSelf ? 'No puedes cambiar tu propio rol.' : 'Las cuentas de cliente mantienen su rol: están vinculadas a un cliente.'}
               </p>
             </div>
           )
         )}
-        <p className="rounded-xl bg-slate-50 p-3 text-xs text-slate-600">
+        <p className="rounded-xl bg-surface-soft p-3 text-xs text-muted">
           {isSelf
             ? 'Al guardar, tendrás que volver a iniciar sesión en los próximos minutos.'
             : 'Al guardar, este usuario tendrá que volver a iniciar sesión en los próximos minutos.'}
         </p>
         {update.error && (
-          <p role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+          <p role="alert" className="rounded-xl border border-red-400/25 bg-red-400/10 p-3 text-sm text-red-300">
             {toApiError(update.error)?.message ?? 'No se pudo guardar'}
           </p>
         )}

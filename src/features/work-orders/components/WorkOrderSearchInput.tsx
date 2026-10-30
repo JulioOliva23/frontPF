@@ -44,7 +44,7 @@ export function WorkOrderSearchInput({ value, onChange }: WorkOrderSearchInputPr
       <label htmlFor="work-order-search" className="sr-only">
         Buscar órdenes
       </label>
-      <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+      <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" aria-hidden="true" />
       <input
         id="work-order-search"
         type="search"
@@ -62,14 +62,14 @@ export function WorkOrderSearchInput({ value, onChange }: WorkOrderSearchInputPr
           debounced.cancel();
           commit(text);
         }}
-        className="min-h-[44px] w-full rounded-xl border border-slate-200 bg-white pl-10 pr-10 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus:border-lime-600 focus:ring-[3px] focus:ring-lime-600/15 [&::-webkit-search-cancel-button]:hidden"
+        className="min-h-[44px] w-full rounded-xl border border-line bg-surface pl-10 pr-10 text-sm text-ink outline-none placeholder:text-muted focus:border-mint focus:ring-[3px] focus:ring-lavender/15 [&::-webkit-search-cancel-button]:hidden"
       />
       {text && (
         <button
           type="button"
           onClick={clear}
           aria-label="Limpiar búsqueda"
-          className="absolute right-1 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-700"
+          className="absolute right-1 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-lg text-muted hover:bg-surface-raised hover:text-ink-soft"
         >
           <X className="h-4 w-4" aria-hidden="true" />
         </button>

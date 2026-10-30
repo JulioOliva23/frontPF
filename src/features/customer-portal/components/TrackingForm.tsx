@@ -46,7 +46,7 @@ export function TrackingForm({ onFound }: { onFound: (order: CustomerWorkOrderSt
     });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className="grid gap-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+    <form onSubmit={handleSubmit(onSubmit)} noValidate className="glass-card grid gap-5 p-6 sm:p-8">
       <FormField id="tracking-number" label="Número de orden" placeholder="OT-000123" autoComplete="off" error={errors.number?.message} {...register('number')} />
       <FormField
         id="tracking-code"
@@ -60,7 +60,7 @@ export function TrackingForm({ onFound }: { onFound: (order: CustomerWorkOrderSt
         {...register('trackingCode')}
       />
       {message && (
-        <p role="alert" className={`rounded-xl border p-3 text-sm ${error?.isRateLimited ? 'border-orange-200 bg-orange-50 text-orange-800' : 'border-red-200 bg-red-50 text-red-700'}`}>
+        <p role="alert" className={`rounded-xl border p-3 text-sm ${error?.isRateLimited ? 'border-orange-400/25 bg-orange-400/10 text-orange-300' : 'border-red-400/25 bg-red-400/10 text-red-300'}`}>
           {message}
         </p>
       )}
