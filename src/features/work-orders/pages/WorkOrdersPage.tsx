@@ -90,7 +90,7 @@ export function WorkOrdersPage() {
                 role="radio"
                 aria-checked={view === option.id}
                 onClick={() => setView(option.id)}
-                className={`flex min-h-[36px] items-center gap-1.5 rounded-lg px-3 text-xs font-bold ${view === option.id ? 'bg-surface-soft text-white' : 'text-muted'}`}
+                className={`flex min-h-[44px] items-center gap-1.5 rounded-lg px-3 text-xs font-bold ${view === option.id ? 'bg-surface-soft text-white' : 'text-muted'}`}
               >
                 {option.icon}
                 {option.label}

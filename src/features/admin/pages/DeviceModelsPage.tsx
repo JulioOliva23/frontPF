@@ -110,7 +110,7 @@ export function DeviceModelsPage() {
                       onClick={() => void toggle(entry)}
                       disabled={pendingId === entry.id}
                       aria-label={`${entry.isActive ? 'Desactivar' : 'Reactivar'} ${entry.brand} ${entry.model}`}
-                      className="min-h-[36px] rounded-lg px-2.5 text-xs font-bold text-muted hover:bg-surface-raised hover:text-ink disabled:opacity-40"
+                      className="min-h-[44px] rounded-lg px-2.5 text-xs font-bold text-muted hover:bg-surface-raised hover:text-ink disabled:opacity-40"
                     >
                       {entry.isActive ? 'Desactivar' : 'Reactivar'}
                     </button>
