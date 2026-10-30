@@ -5,12 +5,12 @@ import { LoadingSpinner } from '../../../shared/components/LoadingSpinner';
 import { LOGIN_ROUTE, ROLE_DEFAULT_ROUTE } from '../config/role-routes';
 import { useAuth } from '../hooks/useAuth';
 
-interface ProtectedRouteProps {
+interface RoleGuardProps {
   allowedRoles: readonly UserRole[];
 }
 
 // FE-08: cosmetic guard. The backend still enforces every permission.
-export function ProtectedRoute({ allowedRoles }: ProtectedRouteProps) {
+export function RoleGuard({ allowedRoles }: RoleGuardProps) {
   const { user, isLoading } = useAuth();
   const location = useLocation();
 

@@ -15,6 +15,13 @@ describe('navigation RBAC (FE-07 / FE-08)', () => {
     }
   });
 
+  it('shows the Administración section to ADMIN only (US-F14)', () => {
+    expect(labels('ADMIN')).toEqual(expect.arrayContaining(['/administracion/usuarios', '/administracion/modelos']));
+    for (const role of ['RECEPTIONIST', 'TECHNICIAN', 'CUSTOMER'] as const) {
+      expect(labels(role).some((to) => to.startsWith('/administracion'))).toBe(false);
+    }
+  });
+
   it('gives customers no staff links', () => {
     expect(labels('CUSTOMER')).toEqual([]);
   });

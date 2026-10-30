@@ -1,7 +1,7 @@
 import type { ReactElement, ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render } from '@testing-library/react';
-import { MemoryRouter, Route, Routes } from 'react-router';
+import { createMemoryRouter, MemoryRouter, Route, RouterProvider, Routes, type RouteObject } from 'react-router';
 
 import { env } from '../shared/config/env';
 import type { UserRole } from '../shared/api/types';
@@ -32,10 +32,37 @@ interface Options {
   auth?: Partial<AuthContextValue>;
 }
 
+function testQueryClient() {
+  return new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: 0 }, mutations: { retry: false } } });
+}
+
+// Data router version: returns the router so a test can read the location
+// (pathname, query params, state) after navigations.
+export function renderRoutes(
+  routeObjects: RouteObject[],
+  {
+    role = null,
+    userId,
+    at,
+    auth,
+  }: { role?: UserRole | null; userId?: string; at: string | { pathname: string; search?: string; state?: unknown }; auth?: Partial<AuthContextValue> },
+) {
+  const router = createMemoryRouter(routeObjects, { initialEntries: [at] });
+  render(
+    <QueryClientProvider client={testQueryClient()}>
+      <AuthContext.Provider value={{ ...fakeAuth(role, userId), ...auth }}>
+        <ToastProvider>
+          <RouterProvider router={router} />
+        </ToastProvider>
+      </AuthContext.Provider>
+    </QueryClientProvider>,
+  );
+  return router;
+}
+
 export function renderWithProviders(ui: ReactElement, { role = 'RECEPTIONIST', userId, route = '/', path = '/', extraRoutes, auth }: Options = {}) {
-  const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: 0 }, mutations: { retry: false } } });
   return render(
-    <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={testQueryClient()}>
       <AuthContext.Provider value={{ ...fakeAuth(role, userId), ...auth }}>
         <ToastProvider>
           <MemoryRouter initialEntries={[route]}>

@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest';
 import type { UserRole } from '../../../shared/api/types';
 import { renderWithProviders } from '../../../test/render';
 import { FRONT_DESK_ROLES } from '../config/role-routes';
-import { ProtectedRoute } from './ProtectedRoute';
+import { RoleGuard } from './RoleGuard';
 
 const extra = (
   <>
@@ -16,7 +16,7 @@ const extra = (
 );
 
 function renderGuard(role: UserRole | null) {
-  return renderWithProviders(<ProtectedRoute allowedRoles={FRONT_DESK_ROLES} />, {
+  return renderWithProviders(<RoleGuard allowedRoles={FRONT_DESK_ROLES} />, {
     role,
     route: '/presupuestos',
     path: '/presupuestos',
@@ -24,7 +24,7 @@ function renderGuard(role: UserRole | null) {
   });
 }
 
-describe('ProtectedRoute (FE-08)', () => {
+describe('RoleGuard (FE-08)', () => {
   it('sends technicians away from budgets to their orders (RN-07)', () => {
     renderGuard('TECHNICIAN');
     expect(screen.getByText('orders page')).toBeInTheDocument();
