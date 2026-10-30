@@ -117,6 +117,13 @@ export function setAuthToken(token: string | null): void {
   currentToken = token;
 }
 
+// For transports axios cannot handle, such as the agent actions SSE stream
+// (fetch + ReadableStream). Waits for a running refresh first.
+export async function getAuthToken(): Promise<string | null> {
+  if (pendingRefresh) await pendingRefresh;
+  return currentToken;
+}
+
 // Registered by AuthProvider: refreshes the session or reports failure.
 type RefreshHandler = () => Promise<boolean>;
 let refreshHandler: RefreshHandler | null = null;
@@ -158,6 +165,11 @@ function refreshOnce(): Promise<boolean> {
     pendingRefresh = null;
   });
   return pendingRefresh;
+}
+
+// Same shared refresh, for the SSE stream when it gets a 401.
+export function refreshAuthSession(): Promise<boolean> {
+  return refreshOnce();
 }
 
 // Requests issued while a refresh is running wait for it (the queue) instead

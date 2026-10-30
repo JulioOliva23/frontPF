@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { BellRing, ClipboardList, ClipboardPlus, FileText, Globe, LayoutDashboard, Package, Smartphone, UsersRound } from 'lucide-react';
+import { BellRing, Bot, ClipboardList, ClipboardPlus, FileText, Globe, LayoutDashboard, Package, Smartphone, UsersRound } from 'lucide-react';
 
 import type { UserRole } from '../shared/api/types';
 import { ADMIN_ONLY, FRONT_DESK_ROLES, STAFF_ROLES } from '../features/auth/config/role-routes';
@@ -16,13 +16,15 @@ export interface NavItem {
   badge?: NavBadge;
 }
 
-export type NavBadge = 'low-stock';
+export type NavBadge = 'low-stock' | 'agent-actions';
 
 // FE-07 / FE-08: same role groups as the router, so a link is visible only
 // when its route lets the role in.
 export const NAV_ITEMS: readonly NavItem[] = [
   { to: '/', label: 'Panel', icon: <LayoutDashboard className="h-4 w-4" />, roles: FRONT_DESK_ROLES, section: 'operacion' },
   { to: '/ordenes', label: 'Órdenes de trabajo', icon: <ClipboardList className="h-4 w-4" />, roles: STAFF_ROLES, section: 'operacion' },
+  // AG-01: AI agent proposals waiting for a person.
+  { to: '/aprobaciones', label: 'Aprobaciones IA', icon: <Bot className="h-4 w-4" />, roles: STAFF_ROLES, section: 'operacion', badge: 'agent-actions' },
   { to: '/ordenes/nueva', label: 'Recepción de equipo', icon: <ClipboardPlus className="h-4 w-4" />, roles: FRONT_DESK_ROLES, section: 'operacion' },
   { to: '/presupuestos', label: 'Presupuestos', icon: <FileText className="h-4 w-4" />, roles: FRONT_DESK_ROLES, section: 'gestion' },
   // US-F13 / RN-11: parts at or below their minimum stock.
