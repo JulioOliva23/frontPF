@@ -32,4 +32,8 @@ export const queryKeys = {
     detail: (id: string) => ['spare-parts', 'detail', id] as const,
     lowStock: ['spare-parts', 'low-stock'] as const,
   },
+  agentActions: {
+    root: ['agent-actions'] as const,
+    list: (status: string) => ['agent-actions', 'list', status] as const,
+  },
 } as const;

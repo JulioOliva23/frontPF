@@ -39,6 +39,8 @@ export const routes: RouteObject[] = [
                 children: [
                   { path: 'ordenes', lazy: async () => ({ Component: (await import('../features/work-orders/pages/WorkOrdersPage')).WorkOrdersPage }) },
                   { path: 'ordenes/:id', lazy: async () => ({ Component: (await import('../features/work-orders/pages/WorkOrderDetailPage')).WorkOrderDetailPage }) },
+                  // AG-01: proposals from the AI agent; the API filters what each role sees.
+                  { path: 'aprobaciones', lazy: async () => ({ Component: (await import('../features/agent-actions/pages/AgentApprovalsPage')).AgentApprovalsPage }) },
                 ],
               },
               {

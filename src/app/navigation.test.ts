@@ -6,7 +6,7 @@ const labels = (role: Parameters<typeof navItemsForRole>[0]) => navItemsForRole(
 
 describe('navigation RBAC (FE-07 / FE-08)', () => {
   it('hides budgets and inventory from technicians (RN-07)', () => {
-    expect(labels('TECHNICIAN')).toEqual(['/ordenes']);
+    expect(labels('TECHNICIAN')).toEqual(['/ordenes', '/aprobaciones']);
   });
 
   it('shows the full front desk menu to reception and admin', () => {

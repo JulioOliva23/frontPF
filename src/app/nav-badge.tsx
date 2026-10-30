@@ -1,3 +1,4 @@
+import { usePendingAgentActionsCount } from '../features/agent-actions/hooks/use-agent-actions';
 import { useLowStockCount } from '../features/inventory/hooks/use-spare-parts';
 import type { NavBadge as NavBadgeKind } from './navigation';
 
@@ -25,9 +26,18 @@ function LowStockBadge() {
   return <CountPill count={count} label={count === 1 ? '1 repuesto con stock bajo' : `${count} repuestos con stock bajo`} />;
 }
 
+// AG-01: kept live by the SSE stream (AgentActionsLive), no polling.
+function AgentActionsBadge() {
+  const { data: count } = usePendingAgentActionsCount();
+  if (!count) return null;
+  return <CountPill count={count} label={count === 1 ? '1 propuesta del agente pendiente' : `${count} propuestas del agente pendientes`} />;
+}
+
 export function NavBadge({ kind }: { kind: NavBadgeKind }) {
   switch (kind) {
     case 'low-stock':
       return <LowStockBadge />;
+    case 'agent-actions':
+      return <AgentActionsBadge />;
   }
 }

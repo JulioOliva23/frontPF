@@ -3,6 +3,7 @@ import { NavLink, Outlet, useLocation, useNavigate } from 'react-router';
 import { Menu, MoreHorizontal, X } from 'lucide-react';
 
 import { LOGIN_ROUTE, ROLE_DEFAULT_ROUTE, ROLE_LABELS } from '../features/auth/config/role-routes';
+import { AgentActionsLive } from '../features/agent-actions/components/AgentActionsLive';
 import { useAuth } from '../features/auth/hooks/useAuth';
 import { Mascot } from '../shared/components/Mascot';
 import { AppSidebar } from './app-sidebar';
@@ -54,6 +55,7 @@ export function AppLayout() {
   }, [drawerOpen]);
 
   return (
+    <AgentActionsLive>
     <div className="app-background min-h-dvh text-ink">
       <a href="#main-content" className="sr-only fixed left-4 top-4 z-[70] rounded-xl bg-mint px-4 py-3 font-bold text-mint-deep focus:not-sr-only">Saltar al contenido</a>
       <header inert={drawerOpen} className="app-header sticky top-0 z-40 print:hidden">
@@ -89,5 +91,6 @@ export function AppLayout() {
         </div>
       </div>}
     </div>
+    </AgentActionsLive>
   );
 }

@@ -1,4 +1,4 @@
-import type { Budget, CustomerWorkOrderStatus, SparePart, UserResponse, WorkOrder } from '../shared/api/types';
+import type { AgentAction, Budget, CustomerWorkOrderStatus, SparePart, UserResponse, WorkOrder } from '../shared/api/types';
 
 export function workOrderFixture(overrides: Partial<WorkOrder> = {}): WorkOrder {
   return {
@@ -95,4 +95,21 @@ export function technicianFixture(overrides: Partial<UserResponse> = {}): UserRe
 
 export function paginatedWorkOrders(orders: WorkOrder[], page = 1, pageSize = 20) {
   return pageOf(orders, page, pageSize);
+}
+
+export function agentActionFixture(overrides: Partial<AgentAction> = {}): AgentAction {
+  return {
+    id: 'aaaaaaaa-1111-4111-8111-111111111111',
+    workOrderId: '11111111-1111-4111-8111-111111111111',
+    workOrderNumber: 123,
+    from: 'APPROVED',
+    to: 'IN_REPAIR',
+    reason: 'Presupuesto aprobado y repuestos disponibles',
+    approverRoles: ['TECHNICIAN', 'ADMIN'],
+    status: 'PENDING',
+    requestedBy: { id: 'agent-user', role: 'RECEPTIONIST' },
+    createdAt: '2026-10-30T12:00:00.000Z',
+    expiresAt: '2099-01-01T00:00:00.000Z',
+    ...overrides,
+  };
 }

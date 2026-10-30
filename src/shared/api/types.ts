@@ -44,6 +44,11 @@ export type UpdateSparePartPayload = Schemas['UpdateSparePartDto'];
 export type StockEntryPayload = Schemas['StockEntryDto'];
 export type StockAdjustmentPayload = Schemas['StockAdjustmentDto'];
 
+// AG-01: proposals filed by the AI agent (MCP server) for a person to decide.
+export type AgentAction = Schemas['AgentActionResponseDto'];
+export type AgentActionStatus = AgentAction['status'];
+export type DecideAgentActionPayload = Schemas['DecideAgentActionDto'];
+
 // Budget statuses are a plain string in the DTO; the backend vocabulary is
 // fixed (AI_CONTEXT §6.4).
 export type BudgetStatus = 'DRAFT' | 'SENT' | 'APPROVED' | 'REJECTED' | 'EXPIRED' | 'SUPERSEDED';

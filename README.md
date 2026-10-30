@@ -30,6 +30,7 @@ React 19 · Vite 8 · TypeScript 6 (`strict`) · Tailwind CSS 4 · React Router 
 | `/presupuestos` · `/presupuestos/:workOrderId` | Editor de presupuesto versionado, envío y decisión del cliente | Admin, Recepción |
 | `/inventario` · `/inventario/alertas` | Catálogo de repuestos, compatibilidad por modelo, ingresos/ajustes de stock, alertas de stock bajo | Admin, Recepción |
 | `/portal-cliente` | Seguimiento del equipo por código, sin login | Público y Cliente |
+| `/aprobaciones` | Propuestas del agente IA (servidor MCP del back) en vivo por SSE; aprobar exige confirmación explícita y, si es irreversible, escribir el número de OT (AG-01, AG-04) | Admin, Recepción, Técnico (solo sus OTs) |
 
 El RBAC de la UI es solo visual: el backend valida cada acción y la UI traduce sus errores (`403`, `409`, `422`) a mensajes en español.
 

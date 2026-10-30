@@ -556,6 +556,125 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/agent-actions/state-machine": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Tabla de transiciones y roles (RN-04), publicada como recurso MCP */
+        get: operations["AgentActionsController_stateMachine"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/agent-actions/preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Simular una transición sin ejecutarla (dry run) */
+        post: operations["AgentActionsController_preview"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/agent-actions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Listar propuestas visibles para el usuario */
+        get: operations["AgentActionsController_list"];
+        put?: never;
+        /** Proponer un cambio de estado; queda pendiente de aprobación humana (AG-01) */
+        post: operations["AgentActionsController_propose"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/agent-actions/stream": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Eventos en vivo de propuestas (SSE): created / updated / ping */
+        get: operations["AgentActionsController_stream"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/agent-actions/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AgentActionsController_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/agent-actions/{id}/approve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Aprobar y ejecutar la propuesta como el usuario actual (AG-04, RN-04) */
+        post: operations["AgentActionsController_approve"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/agent-actions/{id}/reject": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Rechazar la propuesta */
+        post: operations["AgentActionsController_reject"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -1032,6 +1151,70 @@ export interface components {
             channel: "IN_PERSON" | "PHONE" | "WHATSAPP" | "EMAIL";
             /** @example El cliente considera que el costo supera el valor del equipo */
             reason: string;
+        };
+        PreviewTransitionDto: {
+            /** Format: uuid */
+            workOrderId: string;
+            /** @enum {string} */
+            to: "RECEIVED" | "IN_DIAGNOSIS" | "BUDGETED" | "APPROVED" | "IN_REPAIR" | "QUALITY_CONTROL" | "READY_FOR_DELIVERY" | "DELIVERED" | "CANCELLED";
+        };
+        TransitionPreviewDto: {
+            /** Format: uuid */
+            workOrderId: string;
+            workOrderNumber: number;
+            /** @enum {string} */
+            from: "RECEIVED" | "IN_DIAGNOSIS" | "BUDGETED" | "APPROVED" | "IN_REPAIR" | "QUALITY_CONTROL" | "READY_FOR_DELIVERY" | "DELIVERED" | "CANCELLED";
+            /** @enum {string} */
+            to: "RECEIVED" | "IN_DIAGNOSIS" | "BUDGETED" | "APPROVED" | "IN_REPAIR" | "QUALITY_CONTROL" | "READY_FOR_DELIVERY" | "DELIVERED" | "CANCELLED";
+            /** @description La máquina de estados acepta from → to (RN-04) */
+            legal: boolean;
+            /** @description Roles que pueden aprobarla */
+            approverRoles: ("ADMIN" | "RECEPTIONIST" | "TECHNICIAN" | "CUSTOMER")[];
+            legalNextStatuses: ("RECEIVED" | "IN_DIAGNOSIS" | "BUDGETED" | "APPROVED" | "IN_REPAIR" | "QUALITY_CONTROL" | "READY_FOR_DELIVERY" | "DELIVERED" | "CANCELLED")[];
+            /** @description Precondiciones que se verificarán al ejecutar (RN-05, RN-06, RN-09) */
+            checksOnExecution: string[];
+        };
+        ProposeTransitionDto: {
+            /** Format: uuid */
+            workOrderId: string;
+            /** @enum {string} */
+            to: "RECEIVED" | "IN_DIAGNOSIS" | "BUDGETED" | "APPROVED" | "IN_REPAIR" | "QUALITY_CONTROL" | "READY_FOR_DELIVERY" | "DELIVERED" | "CANCELLED";
+            /** @description Justificación que verá la persona que aprueba (AG-03) */
+            reason: string;
+        };
+        AgentActorDto: {
+            /** Format: uuid */
+            id: string;
+            /** @enum {string} */
+            role: "ADMIN" | "RECEPTIONIST" | "TECHNICIAN" | "CUSTOMER";
+        };
+        AgentActionResponseDto: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            workOrderId: string;
+            workOrderNumber: number;
+            /** @enum {string} */
+            from: "RECEIVED" | "IN_DIAGNOSIS" | "BUDGETED" | "APPROVED" | "IN_REPAIR" | "QUALITY_CONTROL" | "READY_FOR_DELIVERY" | "DELIVERED" | "CANCELLED";
+            /** @enum {string} */
+            to: "RECEIVED" | "IN_DIAGNOSIS" | "BUDGETED" | "APPROVED" | "IN_REPAIR" | "QUALITY_CONTROL" | "READY_FOR_DELIVERY" | "DELIVERED" | "CANCELLED";
+            reason: string;
+            approverRoles: ("ADMIN" | "RECEPTIONIST" | "TECHNICIAN" | "CUSTOMER")[];
+            /** @enum {string} */
+            status: "PENDING" | "EXECUTED" | "REJECTED" | "EXPIRED";
+            requestedBy: components["schemas"]["AgentActorDto"];
+            decidedBy?: components["schemas"]["AgentActorDto"];
+            decisionNote?: string;
+            lastError?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            expiresAt: string;
+            /** Format: date-time */
+            decidedAt?: string;
+        };
+        DecideAgentActionDto: {
+            note?: string;
         };
     };
     responses: never;
@@ -2145,6 +2328,206 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["BudgetResponseDto"];
+                };
+            };
+        };
+    };
+    AgentActionsController_stateMachine: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AgentActionsController_preview: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PreviewTransitionDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TransitionPreviewDto"];
+                };
+            };
+        };
+    };
+    AgentActionsController_list: {
+        parameters: {
+            query?: {
+                status?: "PENDING" | "EXECUTED" | "REJECTED" | "EXPIRED";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentActionResponseDto"][];
+                };
+            };
+        };
+    };
+    AgentActionsController_propose: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ProposeTransitionDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentActionResponseDto"];
+                };
+            };
+            /** @description Transición ilegal desde el estado actual */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AgentActionsController_stream: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AgentActionsController_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentActionResponseDto"];
+                };
+            };
+        };
+    };
+    AgentActionsController_approve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DecideAgentActionDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentActionResponseDto"];
+                };
+            };
+            /** @description Quien propuso no puede aprobar, o el rol/OT no corresponde */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Ya decidida, vencida o la OT cambió de estado */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Precondición no cumplida o stock insuficiente */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AgentActionsController_reject: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DecideAgentActionDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AgentActionResponseDto"];
                 };
             };
         };
