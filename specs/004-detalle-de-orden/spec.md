@@ -101,8 +101,8 @@ Subir fotos, chat con el cliente, imprimir la orden de trabajo, editar los datos
 ## 8. Criterios de finalización
 
 - [x] RF-1 a RF-10 tienen tests que pasan.
-- [ ] RF-11 tiene un test de los enlaces según el estado.
-- [ ] RF-2.3 y RF-2.6 tienen tests específicos.
+- [x] RF-11 tiene un test de los enlaces según el estado.
+- [x] RF-2.3 y RF-2.6 tienen tests específicos.
 
 ## 9. Dudas abiertas
 

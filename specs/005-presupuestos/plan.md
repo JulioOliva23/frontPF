@@ -86,6 +86,6 @@ decisión:                                                        # RF-4
 | `BudgetsPage.test.tsx` | reparte las órdenes en "por presupuestar" y "esperando respuesta" | RF-1.1 |
 | `BudgetEditorPage.test.tsx` | error al cargar · orden que ya no admite presupuestos · borrador con mano de obra y repuesto compatible sin precio de repuesto · líneas inválidas, quitar y errores del servidor · envío · motivo del fallo de envío · aprobación con canal · rechazo con motivo y errores en el modal · cerrar el modal sin llamar · marcas de vencido y rechazado | RF-2 a RF-6 |
 | `budget-status.test.ts` | totales en centavos sin deriva · enviado vencido se muestra expirado | RNF-1, RF-5.2 |
-| Pendiente | Días restantes de un presupuesto vigente | RF-5.3 |
-| Pendiente | Estado vacío "Nada pendiente" | RF-1.3 |
-| Pendiente | Rechazo exige motivo de 3 caracteres | RF-4.3 |
+| `BudgetEditorPage.test.tsx` | "Vence en 3 día(s)" con una fecha controlada | RF-5.3 |
+| `BudgetsPage.test.tsx` | "Nada pendiente" en una cola vacía | RF-1.3 |
+| `BudgetEditorPage.test.tsx` | con 2 caracteres el botón está desactivado y con 3 se activa | RF-4.3 |

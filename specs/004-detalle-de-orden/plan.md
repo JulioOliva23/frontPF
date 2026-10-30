@@ -97,6 +97,6 @@ UnlockCodeReveal:                                               # RF-8
 | `WorkOrderDetailPage.test.tsx` | datos, avance y auditoría a recepción · orden cancelada interrumpida y sin acciones · técnico guarda diagnóstico · errores de diagnóstico · reasigna técnico y reporta fallas · repone el código tras confirmar · ejecuta transición y reporta estado · avisa del cambio simultáneo · nombra los repuestos faltantes · cancela con motivo · cerrar el diálogo sin cambios · historial no disponible | RF-1, RF-3, RF-4, RF-5, RF-6, RF-7, RF-9, RF-10 |
 | `TransitionActions.test.tsx` | solo transiciones permitidas, sin pasos de presupuesto · muestra faltantes del Stock Guard · no renderiza sin transiciones | RF-2, RF-3.1, RF-2.7 |
 | `UnlockCodeReveal.test.tsx` | enmascarado y revelado tras confirmar · se oculta a los 30 s · sin botón para quien no puede | RF-8 |
-| Pendiente | Enlaces a presupuestos según estado y rol | RF-11 |
-| Pendiente | Cancelar oculto en Presupuestada | RF-2.3 |
-| Pendiente | Botones bloqueados mientras hay una transición en curso | RF-2.6 |
+| `WorkOrderDetailPage.test.tsx` | enlace según estado para recepción/administración y ninguno para el técnico | RF-11 |
+| `WorkOrderDetailPage.test.tsx` | sin "Cancelar orden" ni "Marcar aprobado" en una orden Presupuestada | RF-2.3 |
+| `WorkOrderDetailPage.test.tsx` | el otro botón queda deshabilitado mientras corre la transición | RF-2.6 |

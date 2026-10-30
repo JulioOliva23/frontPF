@@ -16,17 +16,20 @@ Leyenda: `[x]` hecha · `[~]` parcial · `[ ]` pendiente.
   Hecho cuando: pasa "masks the PIN by default and shows the ticket with the tracking code after creating the order (SUP-05)".
 - [x] **T7 · Ticket con número y código de seguimiento imprimible** — RF-5
   Hecho cuando: el mismo test muestra el ticket tras crear la orden; el *layout* oculta navegación al imprimir (`print:hidden`).
-- [~] **T8 · Panel de historial del equipo** — RF-2
+- [x] **T8 · Panel de historial del equipo** — RF-2
   Hecho cuando: un test escribe un IMEI conocido y aparecen las reparaciones previas tras la pausa de tecleo.
-  *Parcial:* el componente y la consulta existen; no hay test de la pantalla con historial.
-- [~] **T9 · Errores del servidor y doble envío** — RF-6
+  *Evidencia: `CheckInPage.test` "shows the earlier repairs of a known IMEI [002/RF-2.1]".*
+- [x] **T9 · Errores del servidor y doble envío** — RF-6
   Hecho cuando: un test provoca un 409 y comprueba que se muestra el motivo y se conserva lo escrito.
-  *Parcial:* implementado, sin test.
+  *Evidencia: `CheckInPage.test` "shows the reason and keeps what was typed… [002/RF-6.1]" y "sends a single request while the first one is still in flight [002/RF-6.2]".*
 - [x] **T10 · Acceso solo para administración y recepción** — RF-7
   Hecho cuando: la ruta está bajo `RoleGuard` de recepción (revisión del router) y el test del técnico fuera de rutas de recepción en `router.test.tsx` pasa.
-- [ ] **T11 · Test del historial al ingresar un IMEI conocido y de 404 sin error** — RF-2
+- [x] **T11 · Test del historial al ingresar un IMEI conocido y de 404 sin error** — RF-2
   Hecho cuando: ambos casos tienen un test con MSW.
-- [ ] **T12 · Test del error del servidor y del botón deshabilitado** — RF-6
+  *Evidencia: `CheckInPage.test` [002/RF-2.1] y "treats an unregistered IMEI as a new device, not as an error [002/RF-2.2]".*
+- [x] **T12 · Test del error del servidor y del botón deshabilitado** — RF-6
   Hecho cuando: un 409 muestra el motivo y el botón no permite un segundo envío.
-- [ ] **T13 · Altura mínima de 44 px en el interruptor de mostrar código** — constitución C7.2
+  *Evidencia: `CheckInPage.test` [002/RF-6.1] y [002/RF-6.2].*
+- [x] **T13 · Altura mínima de 44 px en el interruptor de mostrar código** — constitución C7.2
   Hecho cuando: el control mide al menos 44 px (hoy 36 px). Se resuelve junto con las demás excepciones en la tarea T6 de la spec 010.
+  *Evidencia: regla de diseño `design-rules.test` "gives every pressable control at least 44 px of height [010/RF-4.1]" (el interruptor ahora mide 44 px).*

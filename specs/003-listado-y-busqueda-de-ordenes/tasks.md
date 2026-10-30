@@ -18,11 +18,14 @@ Leyenda: `[x]` hecha · `[~]` parcial · `[ ]` pendiente.
   Hecho cuando: pasan "explains the empty search and resets every filter", "keeps the plain empty state…" y "shows an error state with retry".
 - [x] **T8 · Paginación** — RF-8
   Hecho cuando: pasan los 4 tests de `Pagination.test.tsx`.
-- [ ] **T9 · Test del estado de carga** — RF-7.3
+- [x] **T9 · Test del estado de carga** — RF-7.3
   Hecho cuando: mientras la consulta está pendiente se ve el *skeleton*.
-- [ ] **T10 · Test: teclear no agrega entradas al historial** — RF-5.3
+  *Evidencia: `WorkOrdersPage.test` "shows a loading skeleton while the list is on its way [003/RF-7.3]".*
+- [x] **T10 · Test: teclear no agrega entradas al historial** — RF-5.3
   Hecho cuando: tras escribir una búsqueda, `history.length` no aumenta.
-- [ ] **T11 · Test de paginación integrada en la pantalla** — RF-8
+  *Evidencia: `WorkOrdersPage.test` "replaces the history entry instead of adding one per keystroke [003/RF-5.3]".*
+- [x] **T11 · Test de paginación integrada en la pantalla** — RF-8
   Hecho cuando: con más de 20 órdenes se muestra el rango y "Siguiente" pide la página 2.
+  *Evidencia: `WorkOrdersPage.test` "asks the server for the next page when the person presses 'Siguiente' [003/RF-8.1]".*
 - [ ] **T12 · Definir columnas de la tabla** — dudas abiertas
   Hecho cuando: el cliente decide las columnas y quedan escritas como RF.

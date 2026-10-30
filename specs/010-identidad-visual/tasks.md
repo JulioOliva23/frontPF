@@ -14,10 +14,12 @@ Leyenda: `[x]` hecha · `[~]` parcial · `[ ]` pendiente.
   Hecho cuando: cabecera y menú llevan `print:hidden` y el ticket usa borde sólido al imprimir.
 - [x] **T6a · Controles base de 44 px** — RF-4.1
   Hecho cuando: `Button` y los campos nativos tienen `min-height: 44px`.
-- [ ] **T6 · Subir a 44 px los 5 controles de 36 px** — RF-4.1
+- [x] **T6 · Subir a 44 px los 5 controles de 36 px** — RF-4.1
   Hecho cuando: `grep -rn "min-h-\[3" src` devuelve vacío. Controles: interruptor de mostrar código (`UnlockCodeField`), chips de estado (`WorkOrdersPage`), selector de modelos (`DeviceModelPicker`), chips de mano de obra (`BudgetBuilder`) y acción de modelos (`DeviceModelsPage`).
-- [ ] **T7 · Verificación automática contra el color lima** — RF-3.1
+  *Evidencia: `design-rules.test` "gives every pressable control at least 44 px of height [010/RF-4.1]"; los 5 controles ahora miden 44 px.*
+- [x] **T7 · Verificación automática contra el color lima** — RF-3.1
   Hecho cuando: un test (o regla de lint) falla si algún archivo de `src` contiene `lime-`.
+  *Evidencia: `design-rules.test` "never uses the old lime green anywhere [010/RF-1.2]".*
 - [ ] **T8 · Revisión visual en celular real** — RF-4.2
   Hecho cuando: las pantallas de inicio de sesión, panel, órdenes, detalle y portal se revisaron a 320 px sin desplazamiento horizontal.
 - [ ] **T9 · Auditoría de contraste (WCAG AA)** — RNF-3

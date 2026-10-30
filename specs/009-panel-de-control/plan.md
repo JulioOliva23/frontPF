@@ -75,6 +75,6 @@ si summary falla: <ErrorState onRetry/> pero se siguen mostrando los demás indi
 | "lists every status with a link to its queue" | RF-3 |
 | "offers a retry when the summary fails, keeping the stock counter" | RF-4 |
 | `router.test.tsx` "opens the dashboard at /" y redirección del técnico a sus órdenes | RF-6 |
-| Pendiente: marcador de carga y guion en error | RF-1.2 |
-| Pendiente: resaltado de retrasadas / avisos | RF-1.3 |
-| Pendiente: saludo y fecha | RF-5.1 |
+| `DashboardPage.test.tsx` | `…` mientras carga y `—` si falla | RF-1.2 |
+| `DashboardPage.test.tsx` | retrasadas en rojo; pendientes y stock bajo en ámbar; sin resaltar si no hay nada | RF-1.3 |
+| `DashboardPage.test.tsx` | primer nombre y fecha en español con reloj controlado | RF-5.1 |

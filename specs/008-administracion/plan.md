@@ -85,5 +85,5 @@ alta de modelo: POST ; 409 → error en el campo modelo ; éxito: conservar marc
 | `DeviceModelsPage.test.tsx` | agrupa por marca ordenado · inactivos a pedido · filtra en el navegador · desactiva con aviso · exige marca y modelo · rechaza duplicado ignorando mayúsculas y espacios · acepta el nombre bajo otra marca · agrega conservando marca y refresca · reutiliza la escritura de la marca · muestra el 409 en el campo | RF-5, RF-6 |
 | `admin-schemas.test.ts` | usuario a minúsculas · rechaza espacios y símbolos · nunca ofrece CUSTOMER · confirma contraseña · edición sin rol · agrupa sin distinguir mayúsculas y orden natural · duplicado también contra inactivos · búsqueda por marca y modelo | RF-2, RF-5, RF-6 |
 | `router.test.tsx` | anónimo al login desde `/administracion/*` · el admin entra · `/administracion` abre usuarios · pantalla desconocida da 404 | RF-7 |
-| Pendiente | Editar nombre/rol de otra persona | RF-3.1 |
-| Pendiente | Reactivar una cuenta | RF-4.3 |
+| `UsersPage.test.tsx` | edita nombre y rol de otra persona y envía el cambio | RF-3.1 |
+| `UsersPage.test.tsx` | reactiva tras confirmar | RF-4.3 |

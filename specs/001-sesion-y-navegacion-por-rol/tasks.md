@@ -22,10 +22,11 @@ Leyenda: `[x]` hecha · `[~]` parcial · `[ ]` pendiente.
   Hecho cuando: pasan los tests de 404, de "crashed page" y de "chunk" de `router.test.tsx`.
 - [x] **T10 · Cajón de menú móvil** — RF-8
   Hecho cuando: pasa "opens the mobile drawer and highlights only the exact menu item".
-- [~] **T11 · Cierre de sesión** — RF-6.1
+- [x] **T11 · Cierre de sesión** — RF-6.1
   Hecho cuando: un test comprueba que cerrar sesión llama al servidor, borra el almacenamiento y navega al login.
-  *Parcial:* `router.test.tsx` ejercita "logs out" en el flujo del técnico, pero no verifica la llamada ni el borrado.
-- [ ] **T12 · Test del indicador y de la protección contra doble envío** — RF-1.5
+  *Evidencia: `AuthProvider.test` "closes the session on the server, clears the stored one and ends anonymous [001/RF-6.1]" y `router.test` (navega al login).*
+- [x] **T12 · Test del indicador y de la protección contra doble envío** — RF-1.5
   Hecho cuando: un test pulsa dos veces "Ingresar" y solo se envía una petición.
+  *Evidencia: `LoginPage.test` "shows progress and sends a single request even if the button is pressed again [001/RF-1.5]".*
 - [ ] **T13 · Responder dudas abiertas (recuperar contraseña, aviso previo)** — dudas abiertas
   Hecho cuando: el cliente decide y las reglas quedan escritas como RF.

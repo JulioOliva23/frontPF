@@ -20,12 +20,14 @@ Leyenda: `[x]` hecha · `[~]` parcial · `[ ]` pendiente.
   Hecho cuando: pasa "marks expired and rejected versions (SUP-04)".
 - [x] **T9 · Aviso de orden que ya no admite presupuestos y error de carga** — RF-2.1, RF-6.2
   Hecho cuando: pasan "tells the user when the order no longer accepts budgets and has none" y "shows an error state when the order cannot be loaded".
-- [~] **T10 · Días restantes del presupuesto vigente** — RF-5.3
+- [x] **T10 · Días restantes del presupuesto vigente** — RF-5.3
   Hecho cuando: un test muestra "Vence en N día(s)" con una fecha controlada.
-  *Parcial:* el componente lo muestra; sin test directo.
-- [ ] **T11 · Test del estado vacío de las colas** — RF-1.3
+  *Evidencia: `BudgetEditorPage.test` "tells how many days a sent budget has left before it expires [005/RF-5.3]".*
+- [x] **T11 · Test del estado vacío de las colas** — RF-1.3
   Hecho cuando: sin órdenes se ve "Nada pendiente" en ambas colas.
-- [ ] **T12 · Test del motivo mínimo del rechazo** — RF-4.3
+  *Evidencia: `BudgetsPage.test` (etiquetado [005/RF-1.3]: ambas colas muestran "Nada pendiente").*
+- [x] **T12 · Test del motivo mínimo del rechazo** — RF-4.3
   Hecho cuando: con 2 caracteres el botón de confirmar está desactivado y con 3 se activa.
+  *Evidencia: `BudgetEditorPage.test` "asks for a reason of at least three characters before a rejection can be confirmed [005/RF-4.3]".*
 - [ ] **T13 · Alinear con el vencimiento automático del backend (spec 010)** — RF-5.2
   Hecho cuando: el servidor devuelve el estado efectivo y la función local queda como respaldo.

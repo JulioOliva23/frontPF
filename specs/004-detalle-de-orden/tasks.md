@@ -22,14 +22,17 @@ Leyenda: `[x]` hecha · `[~]` parcial · `[ ]` pendiente.
   Hecho cuando: pasa "regenerates the tracking code after confirming (SUP-05)".
 - [x] **T10 · Historial de auditoría y su fallo** — RF-10
   Hecho cuando: pasan "shows the order data, progress and audit history…" y "reports when the audit history cannot be loaded".
-- [~] **T11 · Acceso al flujo de presupuestos** — RF-11
+- [x] **T11 · Acceso al flujo de presupuestos** — RF-11
   Hecho cuando: un test comprueba el enlace "Armar presupuesto" en Diagnóstico y "Registrar respuesta del cliente" en Presupuestada.
-  *Parcial:* implementado, sin test directo.
-- [ ] **T11b · Test: el código se oculta al pasar la pestaña a segundo plano** — RF-8.3
+  *Evidencia: `WorkOrderDetailPage.test` "offers the front desk the budget screen that fits the state, and the technician none [004/RF-11.1]".*
+- [x] **T11b · Test: el código se oculta al pasar la pestaña a segundo plano** — RF-8.3
   Hecho cuando: un test dispara `visibilitychange` con la pestaña oculta y el código desaparece.
-- [ ] **T12 · Test: cancelar oculto en Presupuestada** — RF-2.3
+  *Evidencia: `UnlockCodeReveal.test` "hides the code as soon as the tab is no longer visible [004/RF-8.3]".*
+- [x] **T12 · Test: cancelar oculto en Presupuestada** — RF-2.3
   Hecho cuando: con la orden Presupuestada no aparece "Cancelar".
-- [ ] **T13 · Test: botones bloqueados durante la transición** — RF-2.6
+  *Evidencia: `WorkOrderDetailPage.test` "does not offer to cancel a budgeted order… [004/RF-2.3]".*
+- [x] **T13 · Test: botones bloqueados durante la transición** — RF-2.6
   Hecho cuando: mientras la mutación está pendiente, los demás botones están deshabilitados.
+  *Evidencia: `WorkOrderDetailPage.test` "blocks the other buttons while a transition is running [004/RF-2.6]".*
 - [ ] **T14 · Responder dudas abiertas (cancelación tras aprobar, presupuesto en la orden)** — dudas abiertas
   Hecho cuando: el cliente decide y las reglas quedan escritas como RF.

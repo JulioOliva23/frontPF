@@ -84,7 +84,7 @@ página:
 | --- | --- | --- |
 | `TrackingForm.test.tsx` | envía número y código normalizados y devuelve el estado · un solo mensaje ante 404 · explica el límite y desactiva el botón (429) · rechaza un código de 4 dígitos antes de llamar | RF-1, RF-2.2, RF-3.1, RF-3.2 |
 | `CustomerPortalPage.test.tsx` | consulta anónima y "consultar otra" · lista las órdenes del cliente incluidas las canceladas · cliente sin órdenes y cierre de sesión · el personal ve el formulario sin enlaces de cuenta | RF-1.3, RF-5, RF-6.2 |
-| Pendiente | Mensaje de red caída | RF-3.3 |
-| Pendiente | Orden cancelada muestra el aviso de retiro | RF-4.2 |
-| Pendiente | Enlace "Ingresar con mi cuenta" solo para anónimos | RF-6.1 |
-| Pendiente | La vista no muestra campos internos aunque el servidor los enviara | RF-4.3 |
+| `TrackingForm.test.tsx` | una caída de red muestra el mensaje de intento posterior | RF-3.3 |
+| `CustomerPortalPage.test.tsx` | la orden cancelada indica que puede retirarse | RF-4.2 |
+| `CustomerPortalPage.test.tsx` | el enlace aparece para el visitante anónimo | RF-6.1 |
+| `CustomerPortalPage.test.tsx` | aunque el objeto traiga código, costo, hash, notas y diagnóstico, nada de eso se dibuja | RF-4.3 |

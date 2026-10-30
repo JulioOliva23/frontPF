@@ -78,8 +78,8 @@ Descuentos, impuestos, impresión del presupuesto, firma del cliente, envío aut
 ## 8. Criterios de finalización
 
 - [x] RF-1 a RF-6 tienen tests que pasan.
-- [ ] RF-1.1 está cubierto de forma completa (el test actual solo comprueba el reparto en dos colas).
-- [ ] RF-2.6 y RF-5.3 tienen tests de la vista previa y de los días restantes.
+- [x] RF-1.1 a RF-1.3 están cubiertos (reparto en dos colas, enlace a la orden y "Nada pendiente").
+- [x] RF-2.6 y RF-5.3 tienen tests de la vista previa y de los días restantes.
 
 ## 9. Dudas abiertas
 

@@ -22,12 +22,14 @@ Leyenda: `[x]` hecha · `[~]` parcial · `[ ]` pendiente.
   Hecho cuando: pasa "deactivates a model and shows the feedback".
 - [x] **T10 · Rutas protegidas para administradores** — RF-7
   Hecho cuando: pasan los 4 tests de administración de `router.test.tsx`.
-- [~] **T11 · Reactivar usuarios** — RF-4.3
+- [x] **T11 · Reactivar usuarios** — RF-4.3
   Hecho cuando: un test reactiva una cuenta inactiva tras confirmar.
-  *Parcial:* implementado en la interfaz; sin test.
-- [ ] **T12 · Test de edición de nombre y rol de otra persona** — RF-3.1
+  *Evidencia: `UsersPage.test` "reactivates an inactive account after confirming [008/RF-4.3]".*
+- [x] **T12 · Test de edición de nombre y rol de otra persona** — RF-3.1
   Hecho cuando: se cambia el rol de un técnico a recepción y la lista se actualiza.
-- [ ] **T13 · Test de acceso por rol a la sección** — RF-7.1
+  *Evidencia: `UsersPage.test` "changes the name and the role of another staff member [008/RF-3.1]".*
+- [x] **T13 · Test de acceso por rol a la sección** — RF-7.1
   Hecho cuando: recepción y técnico no ven "Administración" ni acceden a la ruta.
+  *Evidencia: `router.test` "keeps reception out of the admin section and sends it to its own landing page [008/RF-7.1]" y `navigation.test` (la sección solo se ofrece al administrador).*
 - [ ] **T14 · Responder dudas abiertas (editar marca/modelo, último administrador)** — dudas abiertas
   Hecho cuando: el cliente decide y las reglas quedan escritas como RF.
